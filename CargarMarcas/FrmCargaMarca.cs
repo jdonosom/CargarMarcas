@@ -46,29 +46,36 @@ namespace CargarMarcas
 
         private void PreProcesar(string file)
         {
-            // lstArchivos.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
             int NroRegistros = 0;
             NroRegistros = CuentaNroRegistros(file);
-
             ListViewItem item = new ListViewItem();
-
             item.Text = Path.GetFileName(file);
+
+            //
+            // Validar estructura del archivo
+            //
             var nombrearchivo = item.Text.Split('_');
+            // Validar el nombre del archivo
+            //
             DateTime fecha;
             if (!nombrearchivo[0].ToLower().Equals("marcas"))
                 throw new Exception("Error en nombre de archivo");
 
+            // Validar la fecha del archivo
+            //
             if (!DateTime.TryParseExact($"{nombrearchivo[1].Split('.')[0]}", "yyyyMMdd",
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None, out fecha))
                 throw new Exception("La fecha del archivo no es valida");
 
+            // Agregar al list View
+            //
             item.SubItems.Add(NroRegistros.ToString());
             lstArchivos.Items.Add(item);
-
             lstArchivos.Columns[0].Width = item.Text.Length * 8;
 
+            // Habilitar Botos si hay registros para almacenar
+            //
             btnCargar.Enabled = lstArchivos.Items.Count > 0 ? true : false;
 
         }

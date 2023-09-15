@@ -1,11 +1,20 @@
-﻿using System.Data;
+﻿using DataLayer;
+using System.Data;
+using System.Data.Common;
 using System.Globalization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Reflection;
 
 namespace CargarMarcas
 {
     public partial class FrmCargaMarca : Form
     {
+
+
+        private int Id = 0;
+        private DateTime? Fecha;
+        private string Time = null;
+        private int Tipo = -1;
+
         public FrmCargaMarca()
         {
             InitializeComponent();
@@ -71,6 +80,7 @@ namespace CargarMarcas
             // Agregar al list View
             //
             item.SubItems.Add(NroRegistros.ToString());
+            item.Tag = file;
             lstArchivos.Items.Add(item);
             lstArchivos.Columns[0].Width = item.Text.Length * 8;
 
@@ -107,12 +117,237 @@ namespace CargarMarcas
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            txtBuffer.Text = "";
             lstArchivos.Items.Clear();
         }
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
+            GrabarMarcas();
+        }
 
+        private void GrabarMarcas()
+        {
+
+            BaseDatos DB = new BaseDatos();
+
+            List<Node> nodes = new List<Node>();
+            txtBuffer.Text = "";
+            foreach (ListViewItem item in lstArchivos.Items)
+            {
+                string filecsv = (string)item.Tag;
+                string path = Path.GetDirectoryName(filecsv);
+                string pathFileFuncionarioInexistente = path + @"\FuncionarioInexistente.txt";
+                string pathFileFuncionarioSinHorario = path + @"\FuncionarioSinHorario.txt";
+
+                File.Delete(pathFileFuncionarioInexistente);
+                File.Delete(pathFileFuncionarioSinHorario);
+
+                IEnumerable<string> lines =
+                    File.ReadAllLines(filecsv);
+
+                txtBuffer.Text = txtBuffer.Text + $"{Environment.NewLine}Procesando archivo {item.Text}{Environment.NewLine}";
+                foreach (string line in lines)
+                {
+
+                    // Limpiar Datos
+                    //
+                    var datos = line.Split(',');
+                    try
+                    {
+
+                        Id = int.Parse(datos[0]);
+                        Fecha = Convert.ToDateTime(datos[1]);
+                        Time = Convert.ToDateTime(datos[2]).ToString("HHmm");
+                        Tipo = datos[3].Contains("Salida") ? 0 : 1;
+
+                        if (!ExisteFuncionario(Id))
+                        {
+                            txtBuffer.Text = txtBuffer.Text + $"Error Id Empleado:{Id}, No existe en la tabla de Funcionarios.{Environment.NewLine}";
+                            File.AppendAllText(pathFileFuncionarioInexistente, Id + Environment.NewLine);
+                            continue;
+                        }
+
+                        var tmpFecha = DateTime.ParseExact($"{((DateTime)Fecha).ToString("yyyyMMdd")} {Time}", "yyyyMMdd HHmm", CultureInfo.InvariantCulture);
+                        if (ObtenerHorario(Id, ((DateTime)Fecha).ToString("yyyyMMdd"), tmpFecha.DayOfWeek) is null)
+                        {
+                            txtBuffer.Text = txtBuffer.Text + $"Error Id Empleado:{Id}, No tiene horario asignado.{Environment.NewLine}";
+                            File.AppendAllText(pathFileFuncionarioSinHorario, Id + Environment.NewLine);
+                            continue;
+                        }
+                        txtBuffer.Text = txtBuffer.Text + $"Id : {Id} procesado correctamente!{Environment.NewLine}";
+
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                    //  
+                    //
+                    nodes.Add(new Node
+                    {
+                        Id = Id,
+                        Fecha = ((DateTime)Fecha).ToString("yyyyMMdd"),
+                        Hora = Time,
+                        TipoMarca = Tipo
+                    });
+
+                    DB.Conectar();
+                    DB.CrearComando($"INSERT INTO SGM..Registro(Id, Fecha, Hora, TipoMarca) VALUES({Id}, '{((DateTime)Fecha).ToString("yyyyMMdd")}', {Time}, {Tipo})");
+                    DB.EjecutarComando();
+
+                }
+            }
+        }
+
+        private bool ExisteFuncionario(int id)
+        {
+            bool lRet = false;
+            BaseDatos DB = new();
+
+            DB.Conectar();
+            DB.CrearComando($"SELECT 1 FROM SGM..Funcionario WHERE IdEmpleado = {id}");
+            DbDataReader dr = DB.EjecutarConsulta();
+
+            DataTable dt = new DataTable();
+            dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+            dt.Load(dr);
+
+            DataTableReader reader = new DataTableReader(dt);
+            if (reader == null)
+            {
+                lRet = false;
+
+            }
+            if (reader.Read())
+            {
+                lRet = true;
+            }
+            return lRet;
+        }
+
+        private static HorarioDia ObtenerHorario(int Id, string fecha, DayOfWeek dayOfWeek)
+        {
+            BaseDatos DB = new BaseDatos();
+
+            var result = GetAbrebiacionDia(dayOfWeek);
+            string Dia = result.Item2;
+            string AbDia = result.Item1;
+
+            string sql = $"select " +
+                $"H.IdHorario, " +
+                $"H.Descripcion, " +
+                $"H.Desde, " +
+                $"H.Hasta, " +
+                $"H.{Dia}, " +
+                $"H.{AbDia}_EntradaMañana, " +
+                $"H.{AbDia}_SalidaMañana, " +
+                $"H.{AbDia}_EntradaTarde, " +
+                $"H.{AbDia}_SalidaTarde, " +
+                $"H.{AbDia}_ToleranciaEntrada, " +
+                $"H.{AbDia}_ToleranciaSalida, " +
+                $"H.TotalHorasSemanales " +
+                $"from SGM..Funcionario F " +
+                $"LEFT JOIN SGM..HorarioFuncionario HF ON F.IdEmpleado = HF.IdEmpleado " +
+                $"LEFT JOIN SGM..Horario H ON H.IdHorario = HF.IdHorario " +
+                $"WHERE F.IdEmpleado = {Id} ";//+
+                                              //$"AND '{fecha}' >= Convert(char(8), Desde, 112) AND '{fecha}' <= Convert(char(8), Hasta, 112) " +
+                                              //$"AND {Id} = F.IdEmpleado";
+
+            DB.Conectar();
+            DB.CrearComando(sql);
+            DbDataReader dr = DB.EjecutarConsulta();
+
+            DataTable dt = new DataTable();
+            dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+            dt.Load(dr);
+
+            DataTableReader reader = new DataTableReader(dt);
+            if (reader == null)
+            {
+                return null;
+            }
+            if (reader.Read())
+            {
+                try
+                {
+                    var EMañana = $"{AbDia}_EntradaMañana";
+                    var SMañana = $"{AbDia}_SalidaMañana";
+                    var ETarde = $"{AbDia}_EntradaTarde";
+                    var STarde = $"{AbDia}_SalidaTarde";
+                    var TEntrada = $"{AbDia}_ToleranciaEntrada";
+                    var TSalida = $"{AbDia}_ToleranciaSalida";
+                    //                    var tmpFecha = DateTime.ParseExact( (fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(EMañana))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss",CultureInfo.InvariantCulture);
+                    HorarioDia e = new HorarioDia()
+                    {
+                        DiaSemana = AbDia,
+                        Fecha = fecha,
+                        HoraEntradaMañana = reader.IsDBNull(reader.GetOrdinal(EMañana)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(EMañana))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraSalidaMañana = reader.IsDBNull(reader.GetOrdinal(SMañana)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(SMañana))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraEntradaTarde = reader.IsDBNull(reader.GetOrdinal(ETarde)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(ETarde))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraSalidaTarde = reader.IsDBNull(reader.GetOrdinal(STarde)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(STarde))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        ToleranciaEntradaMañana = reader.IsDBNull(reader.GetOrdinal(TEntrada)) ? 0 : reader.GetInt32(reader.GetOrdinal(TEntrada)),
+                        ToleranciaSalidaMañana = reader.IsDBNull(reader.GetOrdinal(TSalida)) ? 0 : reader.GetInt32(reader.GetOrdinal(TSalida)),
+                        TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal($"TotalHorasSemanales")) ? 0 : reader.GetInt32(reader.GetOrdinal($"TotalHorasSemanales")),
+                    };
+                    return e;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return null;
+        }
+
+        private static (string, string) GetAbrebiacionDia(DayOfWeek dayOfWeek)
+        {
+            switch (dayOfWeek)
+            {
+                case DayOfWeek.Sunday:
+                    return ("D", "Domingo");
+                    break;
+                case DayOfWeek.Monday:
+                    return ("L", "Lunes");
+                    break;
+                case DayOfWeek.Tuesday:
+                    return ("M", "Martes");
+                    break;
+                case DayOfWeek.Wednesday:
+                    return ("X", "Miercoles");
+                    break;
+                case DayOfWeek.Thursday:
+                    return ("J", "Jueves");
+                    break;
+                case DayOfWeek.Friday:
+                    return ("V", "Viernes");
+                    break;
+                case DayOfWeek.Saturday:
+                    return ("S", "Sabado");
+                    break;
+            }
+            return (null, null);
+        }
+
+
+        void Limpiar()
+        {
+            Id = 0;
+            Fecha = null;
+            Time = null;
+            Tipo = -1;
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MenuReports.Visible = true;
+            MenuReports.Show(Cursor.Position.X, Cursor.Position.Y);
         }
     }
 }

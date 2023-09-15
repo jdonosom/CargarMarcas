@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCargaMarca));
             lstArchivos = new ListView();
             columnHeader1 = new ColumnHeader();
@@ -37,8 +38,14 @@
             pictureBox1 = new PictureBox();
             btnLimpiar = new Button();
             btnCargar = new Button();
+            txtBuffer = new TextBox();
+            button1 = new Button();
+            MenuReports = new ContextMenuStrip(components);
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            MenuReports.SuspendLayout();
             SuspendLayout();
             // 
             // lstArchivos
@@ -112,24 +119,66 @@
             btnCargar.UseVisualStyleBackColor = true;
             btnCargar.Click += btnCargar_Click;
             // 
+            // txtBuffer
+            // 
+            txtBuffer.Location = new Point(287, 114);
+            txtBuffer.Multiline = true;
+            txtBuffer.Name = "txtBuffer";
+            txtBuffer.ScrollBars = ScrollBars.Vertical;
+            txtBuffer.Size = new Size(501, 434);
+            txtBuffer.TabIndex = 8;
+            // 
+            // button1
+            // 
+            button1.ContextMenuStrip = MenuReports;
+            button1.Location = new Point(646, 83);
+            button1.Name = "button1";
+            button1.Size = new Size(142, 23);
+            button1.TabIndex = 9;
+            button1.Text = "Reportes";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // MenuReports
+            // 
+            MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2 });
+            MenuReports.Name = "contextMenuStrip1";
+            MenuReports.Size = new Size(241, 48);
+            MenuReports.Opening += contextMenuStrip1_Opening;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(240, 22);
+            toolStripMenuItem1.Text = "Funcionario sin marca entrada";
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(240, 22);
+            toolStripMenuItem2.Text = "Funcionario sin marca de salida";
+            // 
             // FrmCargaMarca
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 560);
+            Controls.Add(button1);
+            Controls.Add(txtBuffer);
             Controls.Add(btnCargar);
             Controls.Add(btnLimpiar);
             Controls.Add(lstArchivos);
             Controls.Add(panel1);
             Name = "FrmCargaMarca";
-            Text = "FrmCargaMarca";
             DragDrop += FrmCargaMarca_DragDrop;
             DragEnter += FrmCargaMarca_DragEnter;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            MenuReports.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -143,5 +192,10 @@
         private PictureBox pictureBox2;
         private Button btnLimpiar;
         private Button btnCargar;
+        private TextBox txtBuffer;
+        private Button button1;
+        private ContextMenuStrip MenuReports;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }

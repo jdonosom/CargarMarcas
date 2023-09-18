@@ -2,6 +2,9 @@ using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CSUST.Data
 {
@@ -145,9 +148,6 @@ namespace CSUST.Data
         
         private char m_decimalSeparator = '.';
         private char m_negativeSign = '-';
-        // JDM
-        private decimal m_maxvalue = 0;
-        private decimal m_minvalue = 20000;
 
         #endregion
 
@@ -339,24 +339,6 @@ namespace CSUST.Data
                     m_allowNegative = value;
                 }
             }
-        }
-
-        [Category("Custom")]
-        [Description("Valor Maximo que puede tomar la propiedad Value.")]
-        [DefaultValue(0)]
-        public decimal MaxValue
-        {
-            set { m_maxvalue = value; }
-            get { return m_maxvalue; }
-        }
-
-        [Category("Custom")]
-        [Description("Valor Minimo que puede tomar la propiedad Value.")]
-        [DefaultValue(0)]
-        public decimal MinValue
-        {
-            set { m_minvalue = value; }
-            get { return m_minvalue; }
         }
 
         #endregion

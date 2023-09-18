@@ -1,20 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace CargarMarcas
 {
     public partial class FrmHorario : Form
     {
+
+        // private readonly BL bl;
+        // private readonly Credencial credencial;
+
         public FrmHorario()
         {
             InitializeComponent();
+            // this.bl = bl;
+
+            #region ToolTips
+            ToolTip tool = new ToolTip();
+            tool.SetToolTip(this.btnTurno, "Configurar Turno");
+            #endregion
+        }
+
+        private void FrmHorario_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRut_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite solo numeros
+            if (!(char.IsNumber(e.KeyChar) || (char)Keys.Back == e.KeyChar || (char)Keys.K == e.KeyChar))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txtRut_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            txt.Text = txt.Text.Replace("-", "");
+            string sRut = txt.Text;
+            string sDig = string.Empty;
+
+            int nLen = txt.Text.Length;
+            if (nLen > 1)
+            {
+                sRut = SauroClases.StringExtensions.Left(txt.Text, nLen - 1);
+                // sRut = txt.Text.Substring(0, nLen - 1);
+                sDig = SauroClases.StringExtensions.Right(txt.Text, 1);
+                // sDig = txt.Text.Left(nLen - 1);
+                txt.Text = string.Format("{0}-{1}", sRut, sDig);
+                // SendKeys.Send("{END}");
+                // txtRut.Focus();
+            }
+            txtRut.Select(txtRut.Text.Length, 0);
+            /// Console.WriteLine("KeyUP");
         }
     }
 }

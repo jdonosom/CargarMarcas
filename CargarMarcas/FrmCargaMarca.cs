@@ -349,5 +349,11 @@ namespace CargarMarcas
             MenuReports.Visible = true;
             MenuReports.Show(Cursor.Position.X, Cursor.Position.Y);
         }
+
+        private void adignaciónHorariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmHorario frm = new();
+            frm.ShowDialog();
+        }
     }
 }

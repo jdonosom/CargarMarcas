@@ -1,17 +1,11 @@
 ﻿using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SGFBussinesLayer.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SGFBussinesLayer.Infraestructura
+namespace BLSGM.Infraestructura
 {
     public static class ContainerBuild
     {
@@ -31,7 +25,7 @@ namespace SGFBussinesLayer.Infraestructura
                 {
                     // Aqui las clases
                     _ = services.AddTransient<BusinessRequest>();
-                    //_ = services.AddTransient<Utiles>();
+                    _ = services.AddTransient<Utiles>();
                     //_ = services.AddTransient<HelperDTE>();
                 });
             return host;

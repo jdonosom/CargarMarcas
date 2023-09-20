@@ -2,7 +2,7 @@
 using Interfaces;
 using Models;
 
-namespace SGFBussinesLayer.Infraestructura
+namespace BLSGM.Infraestructura
 {
     public class BusinessRequest
     {
@@ -56,7 +56,7 @@ namespace SGFBussinesLayer.Infraestructura
         public IRegistroDiario RegistroDiario { get; }
         public ITipoContrato TipoContrato { get; }
         public ITipoMarca TipoMarca { get; }
-        public IUnidad  Unidad { get; }
+        public IUnidad Unidad { get; }
         #endregion
     }
 }

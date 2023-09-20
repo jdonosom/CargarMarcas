@@ -1,10 +1,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
-using Models;
 using Autofac;
-using Interfaces;
 using Microsoft.Extensions.Hosting;
-using System.Net;
+using BLSGM.infraestructura;
 
 namespace CargarMarcas
 {
@@ -26,8 +24,7 @@ namespace CargarMarcas
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-
-
+            ServiceProvider = CreateHostBuilder().Build().Services;
             Application.Run(new FrmCargaMarca());
         }
 
@@ -39,9 +36,7 @@ namespace CargarMarcas
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<IFormFactory, FormFactory>();
-                    services.AddSingleton<ICredenciales, Credenciales>();
-                    // services.AddScoped<IBusinessRequest, BusinessRequest>();
-                    // services.AddTransient<BussinesRequest>();
+                    // services.AddSingleton<ICredenciales, Credenciales>();
 
                     // Add all forms
                     //

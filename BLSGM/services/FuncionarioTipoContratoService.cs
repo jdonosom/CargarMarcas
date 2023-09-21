@@ -7,14 +7,16 @@ using System.Reflection;
 
 using Models;
 using BL;
-using DataLayer;
+using SGFDataLayer;
+using BLSGM.interfaces;
 
 namespace BL
 {
 #nullable disable
-    public partial class FuncionarioTipoContratoService: FuncionarioTipoContrato
+    public partial class FuncionarioTipoContratoService: FuncionarioTipoContrato, IFuncionarioTipoContrato
 	{
 		 readonly BaseDatos DB = new BaseDatos();
+
 		 #region Propiedades;
 		 string toxml;
 		 int count;
@@ -51,7 +53,61 @@ namespace BL
 			 this.IdCargo = 0;
 		 }
 
-		 public List<FuncionarioTipoContrato> Get(System.Int32 TipoContrato, System.Int32 IdEmpleado)
+        public FuncionarioTipoContrato Get(System.Int32 TipoContrato, System.Int32 IdEmpleado, int IdCargo)
+        {
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("FuncionarioTipoContratoSelProc @TipoContrato, @IdEmpleado");
+                DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
+                DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                if (reader.Read())
+                {
+					FuncionarioTipoContrato e = new FuncionarioTipoContrato()
+					{
+						TipoContrato = reader.IsDBNull(reader.GetOrdinal("TipoContrato")) ? 0 : reader.GetInt32(reader.GetOrdinal("TipoContrato")),
+						IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+						IdCargo = reader.IsDBNull(reader.GetOrdinal("IdCargo")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdCargo")),
+					};
+					return e;
+   
+				}
+                reader.Close();
+                return null;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+        public List<FuncionarioTipoContrato> GetAll(System.Int32 TipoContrato)
 		 {
 			 var oLst = new List<FuncionarioTipoContrato>();
 			 DB.Conectar();
@@ -59,7 +115,7 @@ namespace BL
 			 {
 				 DB.CrearComando("FuncionarioTipoContratoSelProc @TipoContrato, @IdEmpleado");
 				 DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroEntero("@IdEmpleado", 0);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -84,26 +140,14 @@ namespace BL
 				 }
 				 while (reader.Read())
 				 {
-					 try
-					 {
-						 FuncionarioTipoContrato e = new FuncionarioTipoContrato()
-						 {
-							 TipoContrato = reader.IsDBNull(reader.GetOrdinal("TipoContrato")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoContrato")),
-							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
-							 IdCargo = reader.IsDBNull(reader.GetOrdinal("IdCargo")) ? 0: reader.GetInt32(reader.GetOrdinal("IdCargo")),
-						 };
-						 oLst.Add( e );
-					 }
-					 catch (Exception)
-					 {
-						 throw;
-					 }
-				 }
-				 if (oLst.Count == 1)
-				 {
-					 this.TipoContrato = oLst[0].TipoContrato;
-					 this.IdEmpleado = oLst[0].IdEmpleado;
-					 this.IdCargo = oLst[0].IdCargo;
+					FuncionarioTipoContrato e = new FuncionarioTipoContrato()
+					{
+						TipoContrato = reader.IsDBNull(reader.GetOrdinal("TipoContrato")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoContrato")),
+						IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+						IdCargo = reader.IsDBNull(reader.GetOrdinal("IdCargo")) ? 0: reader.GetInt32(reader.GetOrdinal("IdCargo")),
+					};
+					oLst.Add( e );
+
 				 }
 				 reader.Close();
 				 return oLst;
@@ -118,11 +162,11 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 TipoContrato, System.Int32 IdEmpleado)
+		 public Boolean Delete(int TipoContrato, int IdEmpleado, int IdCargo)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(TipoContrato, IdEmpleado))
+			 if (this.Exists(TipoContrato, IdEmpleado, IdCargo))
 			 {
 				 try
 				 {
@@ -193,7 +237,7 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 TipoContrato, System.Int32 IdEmpleado)
+		 private Boolean Exists(System.Int32 TipoContrato, System.Int32 IdEmpleado, int IdCargo)
 		 {
 			 Boolean lRet = false;
 			 try

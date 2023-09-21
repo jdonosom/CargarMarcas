@@ -12,19 +12,22 @@ namespace CargarMarcas
     {
 
         private readonly BusinessRequest Bl;
-        private readonly IFormFactory formFactory;
+        private readonly IFormFactory forms;
 
         private int Id = 0;
         private DateTime? Fecha;
         private string Time = null;
         private int Tipo = -1;
 
-        public FrmCargaMarca( 
-              IFormFactory formFactory
-            , BusinessRequest bl
+        public FrmCargaMarca(
+              IFormFactory frm
+            , BusinessRequest Bl
             )
         {
             InitializeComponent();
+
+            this.forms = frm;
+            this.Bl    = Bl;
 
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
 
@@ -360,7 +363,7 @@ namespace CargarMarcas
         private void adignaciónHorariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            var frm = formFactory.Create<FrmHorario>();
+            var frm = forms.Create<FrmHorario>();
             frm.ShowDialog();
 
             //FormFactory frm = new FormFactory();

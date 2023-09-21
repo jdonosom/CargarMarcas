@@ -3,8 +3,8 @@ using System.Data.Common;
 using System.Reflection;
 
 using Models;
-using DataLayer;
-using interfaces;
+using SGFDataLayer;
+using BLSGM.interfaces;
 
 namespace BL
 {
@@ -31,14 +31,6 @@ namespace BL
 		private string usuario;
 		private string host;
 		private string mac;
-
-		string ICargo.Usuario => usuario;
-
-		string ICargo.Mac
-		{
-			get { return mac; }
-			set { mac = value; }
-		}
 
         string ICargo.Host { get => host; set => host = value; }
 
@@ -117,7 +109,65 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdCargo)
+        public Cargo Get(int IdCargo)
+        {
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("CargoSelProc @IdCargo");
+                DB.AsignarParametroEntero("@IdCargo", IdCargo);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                if (reader.Read())
+                {
+                    try
+                    {
+                        Cargo e = new Cargo()
+                        {
+                            IdCargo = reader.IsDBNull(reader.GetOrdinal("IdCargo")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdCargo")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString(reader.GetOrdinal("Descripcion")),
+                        };
+                        return e;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                reader.Close();
+                return null;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+        public Boolean Delete(System.Int32 IdCargo)
 		 {
 			 Boolean lRet = false;
 

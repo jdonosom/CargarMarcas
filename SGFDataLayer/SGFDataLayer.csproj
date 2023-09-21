@@ -5,20 +5,20 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>SGFDatalayer.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <PropertyGroup />
   <PropertyGroup>
-    <DelaySign>false</DelaySign>
-    <AssemblyTitle>DataLayer</AssemblyTitle>
-    <Product>DataLayer</Product>
+    <DelaySign>False</DelaySign>
+    <AssemblyTitle>SGFDataLayer</AssemblyTitle>
+    <Product>SGFDataLayer</Product>
     <Copyright>Copyright ©  2015</Copyright>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 </Project>

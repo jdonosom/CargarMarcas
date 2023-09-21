@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using BLSGM.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Reflection;
+using BLSGM.Tools;
+using BLSGM.DependencyResolvers.Autofac;
 
 namespace BLSGM.infraestructura
 {
@@ -24,28 +24,25 @@ namespace BLSGM.infraestructura
                 (config, services) =>
                 {
                     // Aqui las clases
-                    _ = services.AddTransient<BusinessRequest>();
                     _ = services.AddTransient<Utiles>();
-                    // _ = services.AddTransient<HelperDTE>();
+                    _ = services.AddTransient<BusinessRequest>();
+                 // _ = services.AddTransient<HelperDTE>();
+
                 });
             return host;
         }
 
         internal sealed class Container : Autofac.Module
         {
-            // Registra todos los elementos del assembly cuyos nombres terminan en Services
-            //
             protected override void Load(ContainerBuilder builder)
             {
-
-                Assembly? assembly = Assembly.GetExecutingAssembly();
-
-                // Aqui los servicios
+                System.Reflection.Assembly? assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                // Registra todos los elementos del assembly cuyos nombres terminan en Services
+                //
                 _ = builder
                     .RegisterAssemblyTypes(assembly)
                     .Where(t => t.Name.EndsWith("Service"))
                     .AsImplementedInterfaces();
-
             }
         }
 

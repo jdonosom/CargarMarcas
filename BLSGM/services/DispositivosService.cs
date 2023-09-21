@@ -7,14 +7,16 @@ using System.Reflection;
 
 using Models;
 using BL;
-using DataLayer;
+using SGFDataLayer;
+using BLSGM.interfaces;
 
 namespace BL
 {
 #nullable disable
-    public partial class DispositivosService: Dispositivos
+    public partial class DispositivosService: Dispositivos, IDispositivos
 	{
 		 readonly BaseDatos DB = new BaseDatos();
+
 		 #region Propiedades;
 		 string toxml;
 		 int count;
@@ -54,9 +56,81 @@ namespace BL
 			 this.Ubicacion = "";
 		 }
 
-		 public List<Dispositivos> Get(System.Int32 IdDispositivo)
+        public List<Dispositivos> GetAll()
+        {
+            var oLst = new List<Dispositivos>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("DispositivosSelProc @IdDispositivo");
+                DB.AsignarParametroEntero("@IdDispositivo", 0);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+                    try
+                    {
+                        Dispositivos e = new Dispositivos()
+                        {
+                            IdDispositivo = reader.IsDBNull(reader.GetOrdinal("IdDispositivo")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdDispositivo")),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString(reader.GetOrdinal("Descripcion")),
+                            IP = reader.IsDBNull(reader.GetOrdinal("IP")) ? "" : reader.GetString(reader.GetOrdinal("IP")),
+                            Serie = reader.IsDBNull(reader.GetOrdinal("Serie")) ? "" : reader.GetString(reader.GetOrdinal("Serie")),
+                            Mac = reader.IsDBNull(reader.GetOrdinal("Mac")) ? "" : reader.GetString(reader.GetOrdinal("Mac")),
+                            Ubicacion = reader.IsDBNull(reader.GetOrdinal("Ubicacion")) ? "" : reader.GetString(reader.GetOrdinal("Ubicacion")),
+                        };
+                        oLst.Add(e);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+                if (oLst.Count == 1)
+                {
+                    this.IdDispositivo = oLst[0].IdDispositivo;
+                    this.Descripcion = oLst[0].Descripcion;
+                    this.IP = oLst[0].IP;
+                    this.Serie = oLst[0].Serie;
+                    this.Mac = oLst[0].Mac;
+                    this.Ubicacion = oLst[0].Ubicacion;
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
+        public Dispositivos Get(System.Int32 IdDispositivo)
 		 {
-			 var oLst = new List<Dispositivos>();
 			 DB.Conectar();
 			 try
 			 {
@@ -84,7 +158,7 @@ namespace BL
 					 this.count = 0;
 					 return null;
 				 }
-				 while (reader.Read())
+				 if (reader.Read())
 				 {
 					 try
 					 {
@@ -97,24 +171,15 @@ namespace BL
 							 Mac = reader.IsDBNull(reader.GetOrdinal("Mac")) ? "": reader.GetString(reader.GetOrdinal("Mac")),
 							 Ubicacion = reader.IsDBNull(reader.GetOrdinal("Ubicacion")) ? "": reader.GetString(reader.GetOrdinal("Ubicacion")),
 						 };
-						 oLst.Add( e );
+						 return e;
 					 }
 					 catch (Exception)
 					 {
 						 throw;
 					 }
 				 }
-				 if (oLst.Count == 1)
-				 {
-					 this.IdDispositivo = oLst[0].IdDispositivo;
-					 this.Descripcion = oLst[0].Descripcion;
-					 this.IP = oLst[0].IP;
-					 this.Serie = oLst[0].Serie;
-					 this.Mac = oLst[0].Mac;
-					 this.Ubicacion = oLst[0].Ubicacion;
-				 }
 				 reader.Close();
-				 return oLst;
+				 return null;
 			 }
 			 catch (BaseDatosException ex)
 			 {

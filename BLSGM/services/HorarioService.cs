@@ -7,16 +7,21 @@ using System.Reflection;
 
 using Models;
 using BL;
-using DataLayer;
+using SGFDataLayer;
+using BLSGM.interfaces;
 
 namespace BL
 {
 #nullable disable
-    public partial class HorarioService: Horario
+    public partial class HorarioService: Horario, IHorario
 	{
-		 readonly BaseDatos DB = new BaseDatos();
-		 #region Propiedades;
-		 string toxml;
+readonly BaseDatos DB = new BaseDatos();
+
+		private Horario current;
+        public Horario Current { get; }
+
+        #region Propiedades;
+        string toxml;
 		 int count;
 		 public int Count
 		 {
@@ -102,173 +107,273 @@ namespace BL
 			 this.Hasta = Convert.ToDateTime("01/01/2000");
 		 }
 
-		 public List<Horario> Get(System.Int32 IdHorario)
-		 {
-			 var oLst = new List<Horario>();
-			 DB.Conectar();
-			 try
-			 {
-				 DB.CrearComando("HorarioSelProc @IdHorario");
-				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
+        public List<Horario> GetAll()
+        {
+            var oLst = new List<Horario>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("HorarioSelProc @IdHorario");
+                DB.AsignarParametroEntero("@IdHorario", 0);
 
-				 DbDataReader dr = DB.EjecutarConsulta();
+                DbDataReader dr = DB.EjecutarConsulta();
 
-				 DataTable dt = new DataTable();
-				 dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
-				 dt.Load(dr);
-				 this.count = dt.Rows.Count;
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
 
-				 if (this.count > 0)
-				 {
-					 System.IO.StringWriter writer = new System.IO.StringWriter();
-					 dt.WriteXml(writer, XmlWriteMode.WriteSchema);
-					 this.toxml = writer.ToString();
-				 }
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
 
-				 DataTableReader reader = new DataTableReader(dt);
+                DataTableReader reader = new DataTableReader(dt);
 
-				 if (reader == null)
-				 {
-					 this.count = 0;
-					 return null;
-				 }
-				 while (reader.Read())
-				 {
-					 try
-					 {
-						 Horario e = new Horario()
-						 {
-							 IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0: reader.GetInt32(reader.GetOrdinal("IdHorario")),
-							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
-							 Lunes = reader.IsDBNull(reader.GetOrdinal("Lunes")) ? "": reader.GetString(reader.GetOrdinal("Lunes")),
-							 L_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("L_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("L_EntradaMañana")),
-							 L_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("L_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("L_SalidaMañana")),
-							 L_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("L_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("L_EntradaTarde")),
-							 L_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("L_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("L_SalidaTarde")),
-							 L_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("L_ToleranciaEntrada")),
-							 L_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("L_ToleranciaSalida")),
-							 Martes = reader.IsDBNull(reader.GetOrdinal("Martes")) ? "": reader.GetString(reader.GetOrdinal("Martes")),
-							 M_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("M_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("M_EntradaMañana")),
-							 M_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("M_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("M_SalidaMañana")),
-							 M_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("M_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("M_EntradaTarde")),
-							 M_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("M_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("M_SalidaTarde")),
-							 M_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("M_ToleranciaEntrada")),
-							 M_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("M_ToleranciaSalida")),
-							 Miercoles = reader.IsDBNull(reader.GetOrdinal("Miercoles")) ? "": reader.GetString(reader.GetOrdinal("Miercoles")),
-							 X_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("X_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("X_EntradaMañana")),
-							 X_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("X_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("X_SalidaMañana")),
-							 X_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("X_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("X_EntradaTarde")),
-							 X_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("X_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("X_SalidaTarde")),
-							 X_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("X_ToleranciaEntrada")),
-							 X_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("X_ToleranciaSalida")),
-							 Jueves = reader.IsDBNull(reader.GetOrdinal("Jueves")) ? "": reader.GetString(reader.GetOrdinal("Jueves")),
-							 J_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("J_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("J_EntradaMañana")),
-							 J_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("J_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("J_SalidaMañana")),
-							 J_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("J_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("J_EntradaTarde")),
-							 J_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("J_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("J_SalidaTarde")),
-							 J_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("J_ToleranciaEntrada")),
-							 J_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("J_ToleranciaSalida")),
-							 Viernes = reader.IsDBNull(reader.GetOrdinal("Viernes")) ? "": reader.GetString(reader.GetOrdinal("Viernes")),
-							 V_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("V_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("V_EntradaMañana")),
-							 V_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("V_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("V_SalidaMañana")),
-							 V_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("V_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("V_EntradaTarde")),
-							 V_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("V_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("V_SalidaTarde")),
-							 V_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("V_ToleranciaEntrada")),
-							 V_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("V_ToleranciaSalida")),
-							 Sabado = reader.IsDBNull(reader.GetOrdinal("Sabado")) ? "": reader.GetString(reader.GetOrdinal("Sabado")),
-							 S_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("S_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("S_EntradaMañana")),
-							 S_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("S_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("S_SalidaMañana")),
-							 S_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("S_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("S_EntradaTarde")),
-							 S_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("S_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("S_SalidaTarde")),
-							 S_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("S_ToleranciaEntrada")),
-							 S_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("S_ToleranciaSalida")),
-							 Domingo = reader.IsDBNull(reader.GetOrdinal("Domingo")) ? "": reader.GetString(reader.GetOrdinal("Domingo")),
-							 D_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("D_EntradaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("D_EntradaMañana")),
-							 D_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("D_SalidaMañana")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("D_SalidaMañana")),
-							 D_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("D_EntradaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("D_EntradaTarde")),
-							 D_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("D_SalidaTarde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("D_SalidaTarde")),
-							 D_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaEntrada")) ? 0: reader.GetInt32(reader.GetOrdinal("D_ToleranciaEntrada")),
-							 D_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaSalida")) ? 0: reader.GetInt32(reader.GetOrdinal("D_ToleranciaSalida")),
-							 TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal("TotalHorasSemanales")) ? 0: reader.GetInt32(reader.GetOrdinal("TotalHorasSemanales")),
-							 Desde = reader.IsDBNull(reader.GetOrdinal("Desde")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Desde")),
-							 Hasta = reader.IsDBNull(reader.GetOrdinal("Hasta")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Hasta")),
-						 };
-						 oLst.Add( e );
-					 }
-					 catch (Exception)
-					 {
-						 throw;
-					 }
-				 }
-				 if (oLst.Count == 1)
-				 {
-					 this.IdHorario = oLst[0].IdHorario;
-					 this.Descripcion = oLst[0].Descripcion;
-					 this.Lunes = oLst[0].Lunes;
-					 this.L_EntradaMañana = oLst[0].L_EntradaMañana;
-					 this.L_SalidaMañana = oLst[0].L_SalidaMañana;
-					 this.L_EntradaTarde = oLst[0].L_EntradaTarde;
-					 this.L_SalidaTarde = oLst[0].L_SalidaTarde;
-					 this.L_ToleranciaEntrada = oLst[0].L_ToleranciaEntrada;
-					 this.L_ToleranciaSalida = oLst[0].L_ToleranciaSalida;
-					 this.Martes = oLst[0].Martes;
-					 this.M_EntradaMañana = oLst[0].M_EntradaMañana;
-					 this.M_SalidaMañana = oLst[0].M_SalidaMañana;
-					 this.M_EntradaTarde = oLst[0].M_EntradaTarde;
-					 this.M_SalidaTarde = oLst[0].M_SalidaTarde;
-					 this.M_ToleranciaEntrada = oLst[0].M_ToleranciaEntrada;
-					 this.M_ToleranciaSalida = oLst[0].M_ToleranciaSalida;
-					 this.Miercoles = oLst[0].Miercoles;
-					 this.X_EntradaMañana = oLst[0].X_EntradaMañana;
-					 this.X_SalidaMañana = oLst[0].X_SalidaMañana;
-					 this.X_EntradaTarde = oLst[0].X_EntradaTarde;
-					 this.X_SalidaTarde = oLst[0].X_SalidaTarde;
-					 this.X_ToleranciaEntrada = oLst[0].X_ToleranciaEntrada;
-					 this.X_ToleranciaSalida = oLst[0].X_ToleranciaSalida;
-					 this.Jueves = oLst[0].Jueves;
-					 this.J_EntradaMañana = oLst[0].J_EntradaMañana;
-					 this.J_SalidaMañana = oLst[0].J_SalidaMañana;
-					 this.J_EntradaTarde = oLst[0].J_EntradaTarde;
-					 this.J_SalidaTarde = oLst[0].J_SalidaTarde;
-					 this.J_ToleranciaEntrada = oLst[0].J_ToleranciaEntrada;
-					 this.J_ToleranciaSalida = oLst[0].J_ToleranciaSalida;
-					 this.Viernes = oLst[0].Viernes;
-					 this.V_EntradaMañana = oLst[0].V_EntradaMañana;
-					 this.V_SalidaMañana = oLst[0].V_SalidaMañana;
-					 this.V_EntradaTarde = oLst[0].V_EntradaTarde;
-					 this.V_SalidaTarde = oLst[0].V_SalidaTarde;
-					 this.V_ToleranciaEntrada = oLst[0].V_ToleranciaEntrada;
-					 this.V_ToleranciaSalida = oLst[0].V_ToleranciaSalida;
-					 this.Sabado = oLst[0].Sabado;
-					 this.S_EntradaMañana = oLst[0].S_EntradaMañana;
-					 this.S_SalidaMañana = oLst[0].S_SalidaMañana;
-					 this.S_EntradaTarde = oLst[0].S_EntradaTarde;
-					 this.S_SalidaTarde = oLst[0].S_SalidaTarde;
-					 this.S_ToleranciaEntrada = oLst[0].S_ToleranciaEntrada;
-					 this.S_ToleranciaSalida = oLst[0].S_ToleranciaSalida;
-					 this.Domingo = oLst[0].Domingo;
-					 this.D_EntradaMañana = oLst[0].D_EntradaMañana;
-					 this.D_SalidaMañana = oLst[0].D_SalidaMañana;
-					 this.D_EntradaTarde = oLst[0].D_EntradaTarde;
-					 this.D_SalidaTarde = oLst[0].D_SalidaTarde;
-					 this.D_ToleranciaEntrada = oLst[0].D_ToleranciaEntrada;
-					 this.D_ToleranciaSalida = oLst[0].D_ToleranciaSalida;
-					 this.TotalHorasSemanales = oLst[0].TotalHorasSemanales;
-					 this.Desde = oLst[0].Desde;
-					 this.Hasta = oLst[0].Hasta;
-				 }
-				 reader.Close();
-				 return oLst;
-			 }
-			 catch (BaseDatosException ex)
-			 {
-				 throw new ReglasNegocioException(ex.Message.ToString());
-			 }
-			 finally
-			 {
-				 DB.Desconectar();
-			 }
-		 }
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+					current = new Horario()
+					{
+						IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdHorario")),
+						Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString(reader.GetOrdinal("Descripcion")),
+						Lunes = reader.IsDBNull(reader.GetOrdinal("Lunes")) ? "" : reader.GetString(reader.GetOrdinal("Lunes")),
+						L_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("L_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_EntradaMañana")),
+						L_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("L_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_SalidaMañana")),
+						L_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("L_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_EntradaTarde")),
+						L_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("L_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_SalidaTarde")),
+						L_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaEntrada")),
+						L_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaSalida")),
+						Martes = reader.IsDBNull(reader.GetOrdinal("Martes")) ? "" : reader.GetString(reader.GetOrdinal("Martes")),
+						M_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("M_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_EntradaMañana")),
+						M_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("M_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_SalidaMañana")),
+						M_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("M_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_EntradaTarde")),
+						M_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("M_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_SalidaTarde")),
+						M_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaEntrada")),
+						M_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaSalida")),
+						Miercoles = reader.IsDBNull(reader.GetOrdinal("Miercoles")) ? "" : reader.GetString(reader.GetOrdinal("Miercoles")),
+						X_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("X_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_EntradaMañana")),
+						X_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("X_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_SalidaMañana")),
+						X_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("X_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_EntradaTarde")),
+						X_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("X_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_SalidaTarde")),
+						X_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaEntrada")),
+						X_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaSalida")),
+						Jueves = reader.IsDBNull(reader.GetOrdinal("Jueves")) ? "" : reader.GetString(reader.GetOrdinal("Jueves")),
+						J_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("J_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_EntradaMañana")),
+						J_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("J_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_SalidaMañana")),
+						J_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("J_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_EntradaTarde")),
+						J_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("J_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_SalidaTarde")),
+						J_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaEntrada")),
+						J_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaSalida")),
+						Viernes = reader.IsDBNull(reader.GetOrdinal("Viernes")) ? "" : reader.GetString(reader.GetOrdinal("Viernes")),
+						V_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("V_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_EntradaMañana")),
+						V_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("V_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_SalidaMañana")),
+						V_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("V_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_EntradaTarde")),
+						V_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("V_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_SalidaTarde")),
+						V_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaEntrada")),
+						V_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaSalida")),
+						Sabado = reader.IsDBNull(reader.GetOrdinal("Sabado")) ? "" : reader.GetString(reader.GetOrdinal("Sabado")),
+						S_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("S_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_EntradaMañana")),
+						S_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("S_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_SalidaMañana")),
+						S_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("S_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_EntradaTarde")),
+						S_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("S_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_SalidaTarde")),
+						S_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaEntrada")),
+						S_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaSalida")),
+						Domingo = reader.IsDBNull(reader.GetOrdinal("Domingo")) ? "" : reader.GetString(reader.GetOrdinal("Domingo")),
+						D_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("D_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_EntradaMañana")),
+						D_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("D_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_SalidaMañana")),
+						D_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("D_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_EntradaTarde")),
+						D_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("D_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_SalidaTarde")),
+						D_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaEntrada")),
+						D_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaSalida")),
+						TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal("TotalHorasSemanales")) ? 0 : reader.GetInt32(reader.GetOrdinal("TotalHorasSemanales")),
+						Desde = reader.IsDBNull(reader.GetOrdinal("Desde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("Desde")),
+						Hasta = reader.IsDBNull(reader.GetOrdinal("Hasta")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("Hasta")),
+					};
+					oLst.Add(current);
+
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
+		public Horario Get(System.Int32 IdHorario)
+		{
+			var oLst = new List<Horario>();
+			DB.Conectar();
+			try
+			{
+				DB.CrearComando("HorarioSelProc @IdHorario");
+				DB.AsignarParametroEntero("@IdHorario", IdHorario);
+
+				DbDataReader dr = DB.EjecutarConsulta();
+
+				DataTable dt = new DataTable();
+				dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+				dt.Load(dr);
+				this.count = dt.Rows.Count;
+
+				if (this.count > 0)
+				{
+					System.IO.StringWriter writer = new System.IO.StringWriter();
+					dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+					this.toxml = writer.ToString();
+				}
+
+				DataTableReader reader = new DataTableReader(dt);
+
+				if (reader == null)
+				{
+					this.count = 0;
+					return null;
+				}
+				if (reader.Read())
+				{
+					current = new Horario()
+					{
+						IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdHorario")),
+						Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString(reader.GetOrdinal("Descripcion")),
+						Lunes = reader.IsDBNull(reader.GetOrdinal("Lunes")) ? "" : reader.GetString(reader.GetOrdinal("Lunes")),
+						L_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("L_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_EntradaMañana")),
+						L_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("L_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_SalidaMañana")),
+						L_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("L_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_EntradaTarde")),
+						L_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("L_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("L_SalidaTarde")),
+						L_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaEntrada")),
+						L_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaSalida")),
+						Martes = reader.IsDBNull(reader.GetOrdinal("Martes")) ? "" : reader.GetString(reader.GetOrdinal("Martes")),
+						M_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("M_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_EntradaMañana")),
+						M_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("M_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_SalidaMañana")),
+						M_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("M_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_EntradaTarde")),
+						M_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("M_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("M_SalidaTarde")),
+						M_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaEntrada")),
+						M_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaSalida")),
+						Miercoles = reader.IsDBNull(reader.GetOrdinal("Miercoles")) ? "" : reader.GetString(reader.GetOrdinal("Miercoles")),
+						X_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("X_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_EntradaMañana")),
+						X_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("X_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_SalidaMañana")),
+						X_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("X_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_EntradaTarde")),
+						X_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("X_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("X_SalidaTarde")),
+						X_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaEntrada")),
+						X_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaSalida")),
+						Jueves = reader.IsDBNull(reader.GetOrdinal("Jueves")) ? "" : reader.GetString(reader.GetOrdinal("Jueves")),
+						J_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("J_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_EntradaMañana")),
+						J_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("J_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_SalidaMañana")),
+						J_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("J_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_EntradaTarde")),
+						J_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("J_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("J_SalidaTarde")),
+						J_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaEntrada")),
+						J_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaSalida")),
+						Viernes = reader.IsDBNull(reader.GetOrdinal("Viernes")) ? "" : reader.GetString(reader.GetOrdinal("Viernes")),
+						V_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("V_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_EntradaMañana")),
+						V_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("V_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_SalidaMañana")),
+						V_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("V_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_EntradaTarde")),
+						V_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("V_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("V_SalidaTarde")),
+						V_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaEntrada")),
+						V_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaSalida")),
+						Sabado = reader.IsDBNull(reader.GetOrdinal("Sabado")) ? "" : reader.GetString(reader.GetOrdinal("Sabado")),
+						S_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("S_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_EntradaMañana")),
+						S_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("S_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_SalidaMañana")),
+						S_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("S_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_EntradaTarde")),
+						S_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("S_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("S_SalidaTarde")),
+						S_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaEntrada")),
+						S_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaSalida")),
+						Domingo = reader.IsDBNull(reader.GetOrdinal("Domingo")) ? "" : reader.GetString(reader.GetOrdinal("Domingo")),
+						D_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("D_EntradaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_EntradaMañana")),
+						D_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("D_SalidaMañana")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_SalidaMañana")),
+						D_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("D_EntradaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_EntradaTarde")),
+						D_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("D_SalidaTarde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("D_SalidaTarde")),
+						D_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaEntrada")),
+						D_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaSalida")),
+						TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal("TotalHorasSemanales")) ? 0 : reader.GetInt32(reader.GetOrdinal("TotalHorasSemanales")),
+						Desde = reader.IsDBNull(reader.GetOrdinal("Desde")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("Desde")),
+						Hasta = reader.IsDBNull(reader.GetOrdinal("Hasta")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("Hasta")),
+					};
+
+                    #region Asignacion de propiedades
+                    this.IdHorario = current.IdHorario;
+					this.Descripcion = current.Descripcion;
+					this.Lunes = current.Lunes;
+					this.L_EntradaMañana = current.L_EntradaMañana;
+					this.L_SalidaMañana = current.L_SalidaMañana;
+					this.L_EntradaTarde = current.L_EntradaTarde;
+					this.L_SalidaTarde = current.L_SalidaTarde;
+					this.L_ToleranciaEntrada = current.L_ToleranciaEntrada;
+					this.L_ToleranciaSalida = current.L_ToleranciaSalida;
+					this.Martes = current.Martes;
+					this.M_EntradaMañana = current.M_EntradaMañana;
+					this.M_SalidaMañana = current.M_SalidaMañana;
+					this.M_EntradaTarde = current.M_EntradaTarde;
+					this.M_SalidaTarde = current.M_SalidaTarde;
+					this.M_ToleranciaEntrada = current.M_ToleranciaEntrada;
+					this.M_ToleranciaSalida = current.M_ToleranciaSalida;
+					this.Miercoles = current.Miercoles;
+					this.X_EntradaMañana = current.X_EntradaMañana;
+					this.X_SalidaMañana = current.X_SalidaMañana;
+					this.X_EntradaTarde = current.X_EntradaTarde;
+					this.X_SalidaTarde = current.X_SalidaTarde;
+					this.X_ToleranciaEntrada = current.X_ToleranciaEntrada;
+					this.X_ToleranciaSalida = current.X_ToleranciaSalida;
+					this.Jueves = current.Jueves;
+					this.J_EntradaMañana = current.J_EntradaMañana;
+					this.J_SalidaMañana = current.J_SalidaMañana;
+					this.J_EntradaTarde = current.J_EntradaTarde;
+					this.J_SalidaTarde = current.J_SalidaTarde;
+					this.J_ToleranciaEntrada = current.J_ToleranciaEntrada;
+					this.J_ToleranciaSalida = current.J_ToleranciaSalida;
+					this.Viernes = current.Viernes;
+					this.V_EntradaMañana = current.V_EntradaMañana;
+					this.V_SalidaMañana = current.V_SalidaMañana;
+					this.V_EntradaTarde = current.V_EntradaTarde;
+					this.V_SalidaTarde = current.V_SalidaTarde;
+					this.V_ToleranciaEntrada = current.V_ToleranciaEntrada;
+					this.V_ToleranciaSalida = current.V_ToleranciaSalida;
+					this.Sabado = current.Sabado;
+					this.S_EntradaMañana = current.S_EntradaMañana;
+					this.S_SalidaMañana = current.S_SalidaMañana;
+					this.S_EntradaTarde = current.S_EntradaTarde;
+					this.S_SalidaTarde = current.S_SalidaTarde;
+					this.S_ToleranciaEntrada = current.S_ToleranciaEntrada;
+					this.S_ToleranciaSalida = current.S_ToleranciaSalida;
+					this.Domingo = current.Domingo;
+					this.D_EntradaMañana = current.D_EntradaMañana;
+					this.D_SalidaMañana = current.D_SalidaMañana;
+					this.D_EntradaTarde = current.D_EntradaTarde;
+					this.D_SalidaTarde = current.D_SalidaTarde;
+					this.D_ToleranciaEntrada = current.D_ToleranciaEntrada;
+					this.D_ToleranciaSalida = current.D_ToleranciaSalida;
+					this.TotalHorasSemanales = current.TotalHorasSemanales;
+					this.Desde = current.Desde;
+					this.Hasta = current.Hasta;
+                    #endregion
+
+                    return current;
+				}
+				reader.Close();
+				return null;
+			}
+			catch (BaseDatosException ex)
+			{
+				throw new ReglasNegocioException(ex.Message.ToString());
+			}
+			finally
+			{
+				DB.Desconectar();
+			}
+		}
 
 		 public Boolean Delete(System.Int32 IdHorario)
 		 {

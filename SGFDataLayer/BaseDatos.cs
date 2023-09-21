@@ -5,22 +5,24 @@ using System.Data.Common;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Data.SqlClient;
 
-namespace DataLayer
+namespace SGFDataLayer
 {
     public class BaseDatos
     {
-        string passPhrase      = "Pa55pr@se";  // can be any string
-        string saltValue       = "s@1tV@lue";  // can be any string
-        string hashAlgorithm   = "SHA1";       // can be "MD5"
+        string passPhrase = "Pa55pr@se";  // can be any string
+        string saltValue = "s@1tV@lue";  // can be any string
+        string hashAlgorithm = "SHA1";       // can be "MD5"
         int passwordIterations = 2;            // can be any number
-        string initVector      = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
-        int keySize            = 256; // can be 192 or 128
+        string initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
+        int keySize = 256; // can be 192 or 128
 
         private DbConnection conexion = null;
         private DbCommand comando = null;
         private DbTransaction transaccion = null;
         private string cadenaConexion;
+
         private static DbProviderFactory factory = null;
 
         /// <summary>
@@ -32,56 +34,42 @@ namespace DataLayer
         }
 
         /// <summary>
-        /// Crea una instancia del acceso a la base de datos.
-        /// </summary>
-        public BaseDatos(string server, string database, string user, string password, string proveedor)
-        {
-            
-            var userdb = Encriptacion.Decrypt(user, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
-            var passdb = Encriptacion.Decrypt(password, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
-
-            Configurar(server, database, userdb, passdb, proveedor);
-        }
-
-        #region Configuración
-        private void Configurar(string server, string database, string user, string password, string proveedor)
-        {
-            try
-            {
-                this.cadenaConexion = String.Format("Server={0};Database={1};Uid={2};Pwd={3};", server, database, user, password);
-                BaseDatos.factory = DbProviderFactories.GetFactory(proveedor);
-            }
-            catch (ConfigurationException ex)
-            {
-                throw new BaseDatosException("Error al cargar la configuración del acceso a datos.", ex);
-            }
-        }
-
-        /// <summary>
         /// Configura el acceso a la base de datos para su utilización.
         /// </summary>
         /// <exception cref="BaseDatosException">Si existe un error al cargar la configuración.</exception>
         private void Configurar()
-       {
+        {
             try
             {
-                string dns = ConfigurationManager.AppSettings.Get("DNS");
+                // string server = Encriptacion.Decrypt(ConfigurationManager.AppSettings.Get("SERVER"), passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+                string server = ConfigurationManager.AppSettings.Get("SERVER");
+                string user = Encriptacion.Decrypt(ConfigurationManager.AppSettings.Get("USERNAME"), passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+                string password = Encriptacion.Decrypt(ConfigurationManager.AppSettings.Get("PASSWORD"), passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+                // string port = Encriptacion.Decrypt(ConfigurationManager.AppSettings.Get("PORT"), passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+                string database = Encriptacion.Decrypt(ConfigurationManager.AppSettings.Get("DATABASE"), passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+
                 string proveedor = ConfigurationManager.AppSettings.Get("PROVEEDOR_ADONET");
+                // this.cadenaConexion = ConfigurationManager.AppSettings.Get("CADENA_CONEXION");
+                this.cadenaConexion = String.Format("Server={0};Database={1};Uid={2};Pwd={3};", server, database, user, password);
 
-                this.cadenaConexion = String.Format($"DNS={dns}");
                 BaseDatos.factory = DbProviderFactories.GetFactory(proveedor);
-
-
-
+                //BaseDatos.factory = GetFactory();
             }
             catch (ConfigurationException ex)
             {
                 throw new BaseDatosException("Error al cargar la configuración del acceso a datos.", ex);
             }
         }
-        #endregion
 
-        #region Conección
+        private static DbProviderFactory GetFactory()
+        {
+            // register SqlClientFactory in provider factories
+            //DbProviderFactories.RegisterFactory("Microsoft.Data.SqlClient", SqlClientFactory.Instance);
+
+            return DbProviderFactories.GetFactory("Microsoft.Data.SqlClient");
+        }
+
+
         /// <summary>
         /// Permite desconectarse de la base de datos.
         /// </summary>
@@ -90,7 +78,8 @@ namespace DataLayer
             if (this.conexion.State.Equals(ConnectionState.Open))
             {
                 this.conexion.Close();
-                // this.conexion = null;
+                this.conexion = null;
+                //this.conexion.Dispose();
             }
         }
 
@@ -103,14 +92,13 @@ namespace DataLayer
             if (this.conexion != null && !this.conexion.State.Equals(ConnectionState.Closed))
             {
                 return;
-                throw new BaseDatosException("La conexión ya se encuentra abierta.");
+                // throw new BaseDatosException("La conexión ya se encuentra abierta.");
             }
             try
             {
                 if (this.conexion == null)
                 {
                     this.conexion = factory.CreateConnection();
-
                     this.conexion.ConnectionString = cadenaConexion;
                 }
                 this.conexion.Open();
@@ -124,44 +112,24 @@ namespace DataLayer
                 throw new BaseDatosException("Error al conectarse a la base de datos.", ex);
             }
         }
-        #endregion
-
-        #region Parametros
-        /// <summary>
-        /// Asigna un parámetro de tipo cadena al comando creado.
-        /// </summary>
-        /// <param name="nombre">El nombre del parámetro.</param>
-        /// <param name="valor">El valor del parámetro.</param>
-        public void AsignarParametroBinario(string nombre, Byte[] valor)
-        {
-            DbParameter param = comando.CreateParameter();
-            param.DbType = System.Data.DbType.Binary;
-            param.Direction = ParameterDirection.Input;
-            param.ParameterName = nombre;
-            param.Size = valor.Length;
-            param.Value = valor;
-
-            comando.Parameters.Add(param);
-        }
-
 
         /// <summary>
-        /// Asigna un parámetro de tipo cadena al comando creado.
+        /// Crea un comando en base a una sentencia SQL.
+        /// Ejemplo:
+        /// <code>SELECT * FROM Tabla WHERE campo1=@campo1, campo2=@campo2</code>
+        /// Guarda el comando para el seteo de parámetros y la posterior ejecución.
         /// </summary>
-        /// <param name="nombre">El nombre del parámetro.</param>
-        /// <param name="valor">El valor del parámetro.</param>
-        public void AsignarParametroXml(string nombre, string valor)
+        /// <param name="sentenciaSQL">La sentencia SQL con el formato: SENTENCIA [param = @param,]</param>
+        public void CrearComando(string sentenciaSQL)
         {
-            DbParameter param = comando.CreateParameter();
-            param.DbType = System.Data.DbType.Xml;
-            param.Direction = ParameterDirection.Input;
-            param.ParameterName = nombre;
-            param.Size = valor.Length;
-            param.Value = valor;
-
-            comando.Parameters.Add(param);
-
-            // AsignarParametro(nombre, "'", valor);
+            this.comando = factory.CreateCommand();
+            this.comando.Connection = this.conexion;
+            this.comando.CommandType = CommandType.Text;
+            this.comando.CommandText = sentenciaSQL;
+            if (this.transaccion != null)
+            {
+                this.comando.Transaction = this.transaccion;
+            }
         }
 
         /// <summary>
@@ -291,11 +259,7 @@ namespace DataLayer
         }
 
 
-        /// <summary>
-        /// Asigna un parámetro de tipo Image al comando creado.
-        /// </summary>
-        /// <param name="nombre">El nombre del parámetro.</param>
-        /// <param name="valor">El valor del parámetro.</param>
+        //public void AsignarParametroImage(string nombre, System.IO.MemoryStream valor = null )
         public void AsignarParametroImage(string nombre, byte[] valor = null)
         {
             DbParameter param = comando.CreateParameter();
@@ -305,6 +269,9 @@ namespace DataLayer
             param.Value = valor;
 
             comando.Parameters.Add(param);
+
+            // this.comando.Parameters.Add(SqlDbType.Image);
+            //this.comando.Parameters[nombre].Value = valor.GetBuffer();
         }
 
         /// <summary>
@@ -326,7 +293,7 @@ namespace DataLayer
         /// </summary>
         /// <param name="nombre">El nombre del parámetro.</param>
         /// <param name="valor">El valor del parámetro.</param>
-        public void AsignarParametroFecha(string nombre, DateTime valor)
+        public void AsignarParametroFecha(string nombre, DateTime? valor)
         {
             DbParameter param = comando.CreateParameter(); ;
             param.DbType = System.Data.DbType.DateTime;
@@ -335,29 +302,9 @@ namespace DataLayer
             param.Value = valor;
 
             comando.Parameters.Add(param);
-        }
-        #endregion
 
-        #region Comandos
-        /// <summary>
-        /// Crea un comando en base a una sentencia SQL.
-        /// Ejemplo:
-        /// <code>SELECT * FROM Tabla WHERE campo1=@campo1, campo2=@campo2</code>
-        /// Guarda el comando para el seteo de parámetros y la posterior ejecución.
-        /// </summary>
-        /// <param name="sentenciaSQL">La sentencia SQL con el formato: SENTENCIA [param = @param,]</param>
-        public void CrearComando(string sentenciaSQL)
-        {
-            this.comando = factory.CreateCommand();
-            this.comando.Connection = this.conexion;
-            this.comando.CommandType = CommandType.Text;
-            this.comando.CommandText = sentenciaSQL;
-            if (this.transaccion != null)
-            {
-                this.comando.Transaction = this.transaccion;
-            }
+            // AsignarParametro(nombre, "'", valor.ToString());
         }
-
 
         /// <summary>
         /// Ejecuta el comando creado y retorna el resultado de la consulta.
@@ -379,12 +326,21 @@ namespace DataLayer
             float escalar = 0;
             try
             {
+                var result = this.comando.ExecuteScalar();
+
                 // this.comando.CommandType = CommandType.StoredProcedure;
-                escalar = float.Parse( this.comando.ExecuteScalar().ToString() );
+                if (result != null)
+                {
+                    escalar = float.Parse(result.ToString());
+                }
             }
             catch (InvalidCastException ex)
             {
                 throw new BaseDatosException("Error al ejecutar un escalar.", ex);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
             finally
             {
@@ -438,9 +394,7 @@ namespace DataLayer
                 this.transaccion.Commit();
             }
         }
-        #endregion
 
-        #region Encriptación
         public string EncryptString(string inputString, int dwKeySize, string xmlString)
         {
             RSACryptoServiceProvider rsaCryptoServiceProvider = new RSACryptoServiceProvider(dwKeySize);
@@ -483,7 +437,7 @@ namespace DataLayer
             }
             return Encoding.UTF32.GetString(arrayList.ToArray(Type.GetType("System.Byte")) as byte[]);
         }
-        #endregion
+
 
     }
 }

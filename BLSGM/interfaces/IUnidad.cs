@@ -1,13 +1,13 @@
 ﻿using Models;
 
-namespace interfaces
+namespace BLSGM.interfaces
 {
     public interface IUnidad
     {
         int Count { get; }
-        string Usuario { get; }
+        //string Usuario { get; }
         string Host { get; set; }
-        string Mac { get; set; }
+        //string Mac { get; set; }
         void Clear();
         Unidad Get(int Id);
         List<Unidad> GetAll();

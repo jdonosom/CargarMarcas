@@ -3,7 +3,8 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace DataLayer
+
+namespace SGFDataLayer
 {
     public class Encriptacion
     {

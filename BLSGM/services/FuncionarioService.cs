@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
 using System.Reflection;
 
 using Models;
-using BL;
-using DataLayer;
+using BLSGM.interfaces;
+using SGFDataLayer;
 
 namespace BL
 {
 #nullable disable
-    public partial class FuncionarioService: Funcionario
+    public partial class FuncionarioService: Funcionario, IFuncionario
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -55,79 +52,119 @@ namespace BL
 			 this.Email = "";
 		 }
 
-		 public List<Funcionario> Get(System.Int32 IdEmpleado)
-		 {
-			 var oLst = new List<Funcionario>();
-			 DB.Conectar();
-			 try
-			 {
-				 DB.CrearComando("FuncionarioSelProc @IdEmpleado");
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+        public Funcionario Get(System.Int32 IdEmpleado)
+        {
+            
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("FuncionarioSelProc @IdEmpleado");
+                DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
-				 DbDataReader dr = DB.EjecutarConsulta();
+                DbDataReader dr = DB.EjecutarConsulta();
 
-				 DataTable dt = new DataTable();
-				 dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
-				 dt.Load(dr);
-				 this.count = dt.Rows.Count;
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
 
-				 if (this.count > 0)
-				 {
-					 System.IO.StringWriter writer = new System.IO.StringWriter();
-					 dt.WriteXml(writer, XmlWriteMode.WriteSchema);
-					 this.toxml = writer.ToString();
-				 }
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
 
-				 DataTableReader reader = new DataTableReader(dt);
+                DataTableReader reader = new DataTableReader(dt);
 
-				 if (reader == null)
-				 {
-					 this.count = 0;
-					 return null;
-				 }
-				 while (reader.Read())
-				 {
-					 try
-					 {
-						 Funcionario e = new Funcionario()
-						 {
-							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
-							 Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "": reader.GetString(reader.GetOrdinal("Rut")),
-							 Nombres = reader.IsDBNull(reader.GetOrdinal("Nombres")) ? "": reader.GetString(reader.GetOrdinal("Nombres")),
-							 ApellidoPaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoPaterno")) ? "": reader.GetString(reader.GetOrdinal("ApellidoPaterno")),
-							 ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoMaterno")) ? "": reader.GetString(reader.GetOrdinal("ApellidoMaterno")),
-							 Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { }: reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
-							 Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "": reader.GetString(reader.GetOrdinal("Email")),
-						 };
-						 oLst.Add( e );
-					 }
-					 catch (Exception)
-					 {
-						 throw;
-					 }
-				 }
-				 if (oLst.Count == 1)
-				 {
-					 this.IdEmpleado = oLst[0].IdEmpleado;
-					 this.Rut = oLst[0].Rut;
-					 this.Nombres = oLst[0].Nombres;
-					 this.ApellidoPaterno = oLst[0].ApellidoPaterno;
-					 this.ApellidoMaterno = oLst[0].ApellidoMaterno;
-					 this.Foto = oLst[0].Foto;
-					 this.Email = oLst[0].Email;
-				 }
-				 reader.Close();
-				 return oLst;
-			 }
-			 catch (BaseDatosException ex)
-			 {
-				 throw new ReglasNegocioException(ex.Message.ToString());
-			 }
-			 finally
-			 {
-				 DB.Desconectar();
-			 }
-		 }
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                if (reader.Read())
+                {
+                    Funcionario e = new Funcionario()
+                    {
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                        Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "" : reader.GetString(reader.GetOrdinal("Rut")),
+                        Nombres = reader.IsDBNull(reader.GetOrdinal("Nombres")) ? "" : reader.GetString(reader.GetOrdinal("Nombres")),
+                        ApellidoPaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoPaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoPaterno")),
+                        ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoMaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoMaterno")),
+                        Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { } : reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
+                        Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "" : reader.GetString(reader.GetOrdinal("Email")),
+                    };
+                    return e;
+                }
+                reader.Close();
+                return null;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+		public List<Funcionario> GetAll()
+		{
+			var oLst = new List<Funcionario>();
+			DB.Conectar();
+			try
+			{
+				DB.CrearComando("FuncionarioSelProc @IdEmpleado");
+				DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+
+				DbDataReader dr = DB.EjecutarConsulta();
+
+				DataTable dt = new DataTable();
+				dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+				dt.Load(dr);
+				this.count = dt.Rows.Count;
+
+				if (this.count > 0)
+				{
+					System.IO.StringWriter writer = new System.IO.StringWriter();
+					dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+					this.toxml = writer.ToString();
+				}
+
+				DataTableReader reader = new DataTableReader(dt);
+
+				if (reader == null)
+				{
+					this.count = 0;
+					return null;
+				}
+				while (reader.Read())
+				{
+					Funcionario e = new Funcionario()
+					{
+						IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+						Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "" : reader.GetString(reader.GetOrdinal("Rut")),
+						Nombres = reader.IsDBNull(reader.GetOrdinal("Nombres")) ? "" : reader.GetString(reader.GetOrdinal("Nombres")),
+						ApellidoPaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoPaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoPaterno")),
+						ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoMaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoMaterno")),
+						Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { } : reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
+						Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "" : reader.GetString(reader.GetOrdinal("Email")),
+					};
+					oLst.Add(e);
+				}
+				reader.Close();
+				return oLst;
+			}
+			catch (BaseDatosException ex)
+			{
+				throw new ReglasNegocioException(ex.Message.ToString());
+			}
+			finally
+			{
+				DB.Desconectar();
+			}
+		}
 
 		 public Boolean Delete(System.Int32 IdEmpleado)
 		 {

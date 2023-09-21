@@ -1,22 +1,17 @@
 ﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace interfaces
+namespace BLSGM.interfaces
 {
     public interface IRegistro
     {
         int Count { get; }
-        string Usuario { get; }
+        //string Usuario { get; }
         string Host { get; set; }
-        string Mac { get; set; }
+        //string Mac { get; set; }
         void Clear();
-        Registro Get(int Id);
-        List<Registro> GetAll();
-        bool Delete(int Id);
+        Registro Get(int IdEmpleado, DateTime Fecha, DateTime Hora, string Serie);
+        List<Registro> GetAll(int IdEmpleado, DateTime Fecha);
+        //bool Delete(int IdDispositivo, System.Int32 IdEmpleado);
         bool Update();
     }
 }

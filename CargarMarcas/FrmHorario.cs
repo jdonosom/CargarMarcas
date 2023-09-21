@@ -63,8 +63,11 @@ namespace CargarMarcas
             {
                 return;
             }
+            var aRut = txtRut.Text.Split("-");
+            int nRut = int.Parse(aRut[0]);
+            string Dv = aRut[1];
 
-            var empleado = bl.Funcionario.Get(int.Parse(txtRut.Text));
+            var empleado = bl.Funcionario.Get( nRut );
 
             
             

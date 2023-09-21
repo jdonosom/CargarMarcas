@@ -1,22 +1,17 @@
 ﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace interfaces
+namespace BLSGM.interfaces
 {
     public interface IFuncionarioUnidad
     {
         int Count { get; }
-        string Usuario { get; }
+        //string Usuario { get; }
         string Host { get; set; }
-        string Mac { get; set; }
+        //string Mac { get; set; }
         void Clear();
         FuncionarioUnidad Get( int IdEmpleado, int IdUnidad);
-        List<FuncionarioUnidad> GetAll();
-        bool Delete(int Id);
+        List<FuncionarioUnidad> GetAll(System.Int32 IdEmpleado, System.Int32 IdUnidad);
+        bool Delete(System.Int32 IdEmpleado, System.Int32 IdUnidad);
         bool Update();
     }
 }

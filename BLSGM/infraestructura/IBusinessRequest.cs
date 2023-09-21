@@ -1,4 +1,4 @@
-﻿using interfaces;
+﻿using BLSGM.interfaces;
 namespace BLSGN.infraestructura
 {
     public interface IBusinessRequest

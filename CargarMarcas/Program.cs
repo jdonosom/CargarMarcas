@@ -1,6 +1,11 @@
 
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Forms;
 using Autofac;
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BLSGM.infraestructura;
 
@@ -18,16 +23,17 @@ namespace CargarMarcas
         static void Main()
         {
 
-            ServiceProvider = CreateHostBuilder().Build().Services;
+            // ServiceProvider = CreateHostBuilder().Build().Services;
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+
             ApplicationConfiguration.Initialize();
             ServiceProvider = CreateHostBuilder().Build().Services;
-
-            
-
             Application.Run(ServiceProvider.GetService<FrmCargaMarca>());
+
+
+
         }
 
 
@@ -38,9 +44,9 @@ namespace CargarMarcas
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<IFormFactory, FormFactory>();
-                    // services.AddSingleton<ICredenciales, Credenciales>();
+                 // services.AddSingleton<ICredenciales, Credenciales>();
 
-                    // Add all forms
+                    // Agregar todos los formularios al contenedor
                     //
                     var forms = typeof(Program).Assembly
                     .GetTypes()
@@ -51,6 +57,9 @@ namespace CargarMarcas
                     {
                         services.AddTransient(form);
                     });
+
+
+
                 });
         }
 

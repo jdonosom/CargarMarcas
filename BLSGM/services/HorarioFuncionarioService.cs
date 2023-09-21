@@ -7,50 +7,113 @@ using System.Reflection;
 
 using Models;
 using BL;
-using DataLayer;
+using SGFDataLayer;
+using BLSGM.interfaces;
 
 namespace BL
 {
 #nullable disable
-    public partial class HorarioFuncionarioService: HorarioFuncionario
+    public partial class HorarioFuncionarioService: HorarioFuncionario, IHorarioFuncionario
 	{
-		 readonly BaseDatos DB = new BaseDatos();
-		 #region Propiedades;
-		 string toxml;
-		 int count;
-		 public int Count
-		 {
-			 get { return count; }
-		 }
-		 #endregion
-		 
-		 #region Tipo Datos
-		 #endregion
-		 
-		 #region Metodos Publicos
-		 
-		 private string usuario;
-		 private string host;
-		 
-		 
-		 public string Host
-		 {
-			 get { return host; }
-			 set { host = value; }
-		 }
-		 
-		 public HorarioFuncionarioService()
-		 {
-			 //this.usuario = Credenciales.Usuario;
-			 //this.host = Credenciales.Host;
-		 }
-		 public void Clear()
-		 {
-			 this.IdHorario = 0;
-			 this.IdEmpleado = 0;
-		 }
+		readonly BaseDatos DB = new BaseDatos();
 
-		 public List<HorarioFuncionario> Get(System.Int32 IdHorario, System.Int32 IdEmpleado)
+		private HorarioFuncionario current;
+
+		public HorarioFuncionario Current { get { return current; } }
+
+		#region Propiedades;
+		string toxml;
+		int count;
+		public int Count
+		{
+			get { return count; }
+		}
+		#endregion
+		 
+		#region Tipo Datos
+		#endregion
+		 
+		#region Metodos Publicos
+		 
+		private string usuario;
+		private string host;
+		 
+		 
+		public string Host
+		{
+			get { return host; }
+			set { host = value; }
+		}
+		 
+		public HorarioFuncionarioService()
+		{
+			//this.usuario = Credenciales.Usuario;
+			//this.host = Credenciales.Host;
+		}
+		public void Clear()
+		{
+			this.IdHorario = 0;
+			this.IdEmpleado = 0;
+		}
+
+        public HorarioFuncionario Get(System.Int32 IdHorario, System.Int32 IdEmpleado)
+        {
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("HorarioFuncionarioSelProc @IdHorario, @IdEmpleado");
+                DB.AsignarParametroEntero("@IdHorario", IdHorario);
+                DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                if (reader.Read())
+                {
+                    current = new HorarioFuncionario()
+                    {
+                        IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdHorario")),
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                    };
+
+                    this.IdHorario = current.IdHorario;
+                    this.IdEmpleado = current.IdEmpleado;
+                    return current;
+                }
+                reader.Close();
+                return null;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
+
+        public List<HorarioFuncionario> GetAll(System.Int32 IdHorario)
 		 {
 			 var oLst = new List<HorarioFuncionario>();
 			 DB.Conectar();

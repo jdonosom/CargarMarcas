@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceHorarioFuncionario: HorarioFuncionario
+    public partial class TipoMarcaService: TipoMarca
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,26 +39,26 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceHorarioFuncionario()
+		 public TipoMarcaService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.IdHorario = 0;
-			 this.IdEmpleado = 0;
+			 this.IdTipoMarca = 0;
+			 this.Descripcion = "";
+			 this.Autorizacion = 0;
 		 }
 
-		 public List<HorarioFuncionario> Get(System.Int32 IdHorario, System.Int32 IdEmpleado)
+		 public List<TipoMarca> Get(System.Int32 TipoMarca)
 		 {
-			 var oLst = new List<HorarioFuncionario>();
+			 var oLst = new List<TipoMarca>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("HorarioFuncionarioSelProc @IdHorario, @IdEmpleado");
-				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.CrearComando("TipoMarcaSelProc @TipoMarca");
+				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -85,10 +85,11 @@ namespace BL
 				 {
 					 try
 					 {
-						 HorarioFuncionario e = new HorarioFuncionario()
+						 TipoMarca e = new TipoMarca()
 						 {
-							 IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0: reader.GetInt32(reader.GetOrdinal("IdHorario")),
-							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+							 IdTipoMarca = reader.IsDBNull(reader.GetOrdinal("TipoMarca")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoMarca")),
+							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
+							 Autorizacion = reader.IsDBNull(reader.GetOrdinal("Autorizacion")) ? 0: reader.GetInt32(reader.GetOrdinal("Autorizacion")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -99,8 +100,9 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.IdHorario = oLst[0].IdHorario;
-					 this.IdEmpleado = oLst[0].IdEmpleado;
+					 this.IdTipoMarca = oLst[0].IdTipoMarca;
+					 this.Descripcion = oLst[0].Descripcion;
+					 this.Autorizacion = oLst[0].Autorizacion;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -115,18 +117,17 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdHorario, System.Int32 IdEmpleado)
+		 public Boolean Delete(System.Int32 TipoMarca)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(IdHorario, IdEmpleado))
+			 if (this.Exists(TipoMarca))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("HorarioFuncionarioDelProc @IdHorario, @IdEmpleado");
-					 DB.AsignarParametroEntero("@IdHorario", IdHorario);
-					 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+					 DB.CrearComando("TipoMarcaDelProc @TipoMarca");
+					 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -156,10 +157,11 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("HorarioFuncionarioUpdProc @IdHorario, @IdEmpleado");
+				 DB.CrearComando("TipoMarcaUpdProc @TipoMarca, @Descripcion, @Autorizacion");
 
-				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroEntero("@TipoMarca", IdTipoMarca);
+				 DB.AsignarParametroCadena("@Descripcion", Descripcion);
+				 DB.AsignarParametroEntero("@Autorizacion", Autorizacion);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -189,16 +191,15 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 IdHorario, System.Int32 IdEmpleado)
+		 private Boolean Exists(System.Int32 TipoMarca)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (IdHorario, IdEmpleado <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (TipoMarca <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("HorarioFuncionarioSelProc @IdHorario, @IdEmpleado");
-				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.CrearComando("TipoMarcaSelProc @TipoMarca");
+				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

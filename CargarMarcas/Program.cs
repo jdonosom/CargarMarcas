@@ -11,9 +11,8 @@ namespace CargarMarcas
         public static IServiceProvider ServiceProvider { get; private set; }
         private static IContainer container { get; set; }
 
-
         /// <summary>
-        ///  The main entry point for the application.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
@@ -25,7 +24,10 @@ namespace CargarMarcas
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             ServiceProvider = CreateHostBuilder().Build().Services;
-            Application.Run(new FrmCargaMarca());
+
+            
+
+            Application.Run(ServiceProvider.GetService<FrmCargaMarca>());
         }
 
 

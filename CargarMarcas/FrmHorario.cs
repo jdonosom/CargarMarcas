@@ -1,17 +1,18 @@
-﻿using ToolTip = System.Windows.Forms.ToolTip;
+﻿using BLSGM.infraestructura;
+using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace CargarMarcas
 {
     public partial class FrmHorario : Form
     {
 
-        // private readonly BL bl;
+        private readonly BusinessRequest bl;
         // private readonly Credencial credencial;
 
-        public FrmHorario()
+        public FrmHorario( BusinessRequest bl)
         {
             InitializeComponent();
-            // this.bl = bl;
+            this.bl = bl;
 
             #region ToolTips
             ToolTip tool = new ToolTip();
@@ -54,6 +55,20 @@ namespace CargarMarcas
             }
             txtRut.Select(txtRut.Text.Length, 0);
             /// Console.WriteLine("KeyUP");
+        }
+
+        private void txtRut_Leave(object sender, EventArgs e)
+        {
+            if (txtRut.Text.Length == 0)
+            {
+                return;
+            }
+
+            var empleado = bl.Funcionario.Get(int.Parse(txtRut.Text));
+
+            
+            
+
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using BLSGM.interfaces;
-using Interfaces;
-using Models;
+﻿using interfaces;
 
-namespace BLSGM.Infraestructura
+namespace BLSGM.infraestructura
 {
     public class BusinessRequest
     {
@@ -42,7 +40,6 @@ namespace BLSGM.Infraestructura
         }
 
         #region Propiedades 
-        public ICredenciales Credenciales { get; }
         public ICargo Cargo { get; }
         public IDireccion Direccion { get; }
         public IDispositivos Dispositivos { get; }

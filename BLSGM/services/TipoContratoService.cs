@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceDispositivos: Dispositivos
+    public partial class TipoContratoService: TipoContrato
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,29 +39,25 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceDispositivos()
+		 public TipoContratoService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.IdDispositivo = 0;
+			 this.IdTipoContrato = 0;
 			 this.Descripcion = "";
-			 this.IP = "";
-			 this.Serie = "";
-			 this.Mac = "";
-			 this.Ubicacion = "";
 		 }
 
-		 public List<Dispositivos> Get(System.Int32 IdDispositivo)
+		 public List<TipoContrato> Get(System.Int32 TipoContrato)
 		 {
-			 var oLst = new List<Dispositivos>();
+			 var oLst = new List<TipoContrato>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("DispositivosSelProc @IdDispositivo");
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+				 DB.CrearComando("TipoContratoSelProc @TipoContrato");
+				 DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -88,14 +84,10 @@ namespace BL
 				 {
 					 try
 					 {
-						 Dispositivos e = new Dispositivos()
+						 TipoContrato e = new TipoContrato()
 						 {
-							 IdDispositivo = reader.IsDBNull(reader.GetOrdinal("IdDispositivo")) ? 0: reader.GetInt32(reader.GetOrdinal("IdDispositivo")),
+							 IdTipoContrato = reader.IsDBNull(reader.GetOrdinal("TipoContrato")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoContrato")),
 							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
-							 IP = reader.IsDBNull(reader.GetOrdinal("IP")) ? "": reader.GetString(reader.GetOrdinal("IP")),
-							 Serie = reader.IsDBNull(reader.GetOrdinal("Serie")) ? "": reader.GetString(reader.GetOrdinal("Serie")),
-							 Mac = reader.IsDBNull(reader.GetOrdinal("Mac")) ? "": reader.GetString(reader.GetOrdinal("Mac")),
-							 Ubicacion = reader.IsDBNull(reader.GetOrdinal("Ubicacion")) ? "": reader.GetString(reader.GetOrdinal("Ubicacion")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -106,12 +98,8 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.IdDispositivo = oLst[0].IdDispositivo;
+					 this.IdTipoContrato = oLst[0].IdTipoContrato;
 					 this.Descripcion = oLst[0].Descripcion;
-					 this.IP = oLst[0].IP;
-					 this.Serie = oLst[0].Serie;
-					 this.Mac = oLst[0].Mac;
-					 this.Ubicacion = oLst[0].Ubicacion;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -126,17 +114,17 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdDispositivo)
+		 public Boolean Delete(System.Int32 TipoContrato)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(IdDispositivo))
+			 if (this.Exists(TipoContrato))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("DispositivosDelProc @IdDispositivo");
-					 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+					 DB.CrearComando("TipoContratoDelProc @TipoContrato");
+					 DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -166,14 +154,10 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("DispositivosUpdProc @IdDispositivo, @Descripcion, @IP, @Serie, @Mac, @Ubicacion");
+				 DB.CrearComando("TipoContratoUpdProc @TipoContrato, @Descripcion");
 
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+				 DB.AsignarParametroEntero("@TipoContrato", IdTipoContrato);
 				 DB.AsignarParametroCadena("@Descripcion", Descripcion);
-				 DB.AsignarParametroCadena("@IP", IP);
-				 DB.AsignarParametroCadena("@Serie", Serie);
-				 DB.AsignarParametroCadena("@Mac", Mac);
-				 DB.AsignarParametroCadena("@Ubicacion", Ubicacion);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -203,15 +187,15 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 IdDispositivo)
+		 private Boolean Exists(System.Int32 TipoContrato)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (IdDispositivo <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (TipoContrato <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("DispositivosSelProc @IdDispositivo");
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+				 DB.CrearComando("TipoContratoSelProc @TipoContrato");
+				 DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

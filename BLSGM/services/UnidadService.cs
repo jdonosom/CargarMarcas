@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceRegistro: Registro
+    public partial class UnidadService: Unidad
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,28 +39,29 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceRegistro()
+		 public UnidadService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.Id = 0;
-			 this.Fecha = Convert.ToDateTime("01/01/2000");
-			 this.Hora = "";
-			 this.TipoMarca = 0;
-			 this.Serie = "";
+			 this.IdDireccion = 0;
+			 this.IdUnidad = 0;
+			 this.Descripcion = "";
+			 this.Ubicacion = "";
+			 this.Telefono = "";
+			 this.Email = "";
 		 }
 
-		 public List<Registro> Get(System.Int32 TipoMarca)
+		 public List<Unidad> Get(System.Int32 IdUnidad)
 		 {
-			 var oLst = new List<Registro>();
+			 var oLst = new List<Unidad>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("RegistroSelProc @TipoMarca");
-				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+				 DB.CrearComando("UnidadSelProc @IdUnidad");
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -87,13 +88,14 @@ namespace BL
 				 {
 					 try
 					 {
-						 Registro e = new Registro()
+						 Unidad e = new Unidad()
 						 {
-							 Id = reader.IsDBNull(reader.GetOrdinal("Id")) ? 0: reader.GetInt32(reader.GetOrdinal("Id")),
-							 Fecha = reader.IsDBNull(reader.GetOrdinal("Fecha")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Fecha")),
-							 Hora = reader.IsDBNull(reader.GetOrdinal("Hora")) ? "": reader.GetString(reader.GetOrdinal("Hora")),
-							 TipoMarca = reader.IsDBNull(reader.GetOrdinal("TipoMarca")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoMarca")),
-							 Serie = reader.IsDBNull(reader.GetOrdinal("Serie")) ? "": reader.GetString(reader.GetOrdinal("Serie")),
+							 IdDireccion = reader.IsDBNull(reader.GetOrdinal("IdDireccion")) ? 0: reader.GetInt32(reader.GetOrdinal("IdDireccion")),
+							 IdUnidad = reader.IsDBNull(reader.GetOrdinal("IdUnidad")) ? 0: reader.GetInt32(reader.GetOrdinal("IdUnidad")),
+							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
+							 Ubicacion = reader.IsDBNull(reader.GetOrdinal("Ubicacion")) ? "": reader.GetString(reader.GetOrdinal("Ubicacion")),
+							 Telefono = reader.IsDBNull(reader.GetOrdinal("Telefono")) ? "": reader.GetString(reader.GetOrdinal("Telefono")),
+							 Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "": reader.GetString(reader.GetOrdinal("Email")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -104,11 +106,12 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.Id = oLst[0].Id;
-					 this.Fecha = oLst[0].Fecha;
-					 this.Hora = oLst[0].Hora;
-					 this.TipoMarca = oLst[0].TipoMarca;
-					 this.Serie = oLst[0].Serie;
+					 this.IdDireccion = oLst[0].IdDireccion;
+					 this.IdUnidad = oLst[0].IdUnidad;
+					 this.Descripcion = oLst[0].Descripcion;
+					 this.Ubicacion = oLst[0].Ubicacion;
+					 this.Telefono = oLst[0].Telefono;
+					 this.Email = oLst[0].Email;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -123,17 +126,17 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 TipoMarca)
+		 public Boolean Delete(System.Int32 IdUnidad)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(TipoMarca))
+			 if (this.Exists(IdUnidad))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("RegistroDelProc @TipoMarca");
-					 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+					 DB.CrearComando("UnidadDelProc @IdUnidad");
+					 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -163,13 +166,14 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("RegistroUpdProc @Id, @Fecha, @Hora, @TipoMarca, @Serie");
+				 DB.CrearComando("UnidadUpdProc @IdDireccion, @IdUnidad, @Descripcion, @Ubicacion, @Telefono, @Email");
 
-				 DB.AsignarParametroEntero("@Id", Id);
-				 DB.AsignarParametroFecha("@Fecha", Fecha);
-				 DB.AsignarParametroCadena("@Hora", Hora);
-				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
-				 DB.AsignarParametroCadena("@Serie", Serie);
+				 DB.AsignarParametroEntero("@IdDireccion", IdDireccion);
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
+				 DB.AsignarParametroCadena("@Descripcion", Descripcion);
+				 DB.AsignarParametroCadena("@Ubicacion", Ubicacion);
+				 DB.AsignarParametroCadena("@Telefono", Telefono);
+				 DB.AsignarParametroCadena("@Email", Email);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -199,15 +203,15 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 TipoMarca)
+		 private Boolean Exists(System.Int32 IdUnidad)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (TipoMarca <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (IdUnidad <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("RegistroSelProc @TipoMarca");
-				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+				 DB.CrearComando("UnidadSelProc @IdUnidad");
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

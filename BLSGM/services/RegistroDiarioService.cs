@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceTipoMarca: TipoMarca
+    public partial class RegistroDiarioService: RegistroDiario
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,26 +39,28 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceTipoMarca()
+		 public RegistroDiarioService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.IdTipoMarca = 0;
-			 this.Descripcion = "";
-			 this.Autorizacion = 0;
+			 this.IdEmpleado = 0;
+			 this.Fecha = Convert.ToDateTime("01/01/2000");
+			 this.Entrada = Convert.ToDateTime("01/01/2000");
+			 this.Salida = Convert.ToDateTime("01/01/2000");
+			 this.HorasTrabajadas = 0;
 		 }
 
-		 public List<TipoMarca> Get(System.Int32 TipoMarca)
+		 public List<RegistroDiario> Get(System.Int32 IdEmpleado)
 		 {
-			 var oLst = new List<TipoMarca>();
+			 var oLst = new List<RegistroDiario>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("TipoMarcaSelProc @TipoMarca");
-				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+				 DB.CrearComando("RegistroDiarioSelProc @IdEmpleado");
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -85,11 +87,13 @@ namespace BL
 				 {
 					 try
 					 {
-						 TipoMarca e = new TipoMarca()
+						 RegistroDiario e = new RegistroDiario()
 						 {
-							 IdTipoMarca = reader.IsDBNull(reader.GetOrdinal("TipoMarca")) ? 0: reader.GetInt32(reader.GetOrdinal("TipoMarca")),
-							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
-							 Autorizacion = reader.IsDBNull(reader.GetOrdinal("Autorizacion")) ? 0: reader.GetInt32(reader.GetOrdinal("Autorizacion")),
+							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+							 Fecha = reader.IsDBNull(reader.GetOrdinal("Fecha")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Fecha")),
+							 Entrada = reader.IsDBNull(reader.GetOrdinal("Entrada")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Entrada")),
+							 Salida = reader.IsDBNull(reader.GetOrdinal("Salida")) ? Convert.ToDateTime("01/01/2000"): reader.GetDateTime(reader.GetOrdinal("Salida")),
+							 HorasTrabajadas = reader.IsDBNull(reader.GetOrdinal("HorasTrabajadas")) ? 0: reader.GetFloat(reader.GetOrdinal("HorasTrabajadas")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -100,9 +104,11 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.IdTipoMarca = oLst[0].IdTipoMarca;
-					 this.Descripcion = oLst[0].Descripcion;
-					 this.Autorizacion = oLst[0].Autorizacion;
+					 this.IdEmpleado = oLst[0].IdEmpleado;
+					 this.Fecha = oLst[0].Fecha;
+					 this.Entrada = oLst[0].Entrada;
+					 this.Salida = oLst[0].Salida;
+					 this.HorasTrabajadas = oLst[0].HorasTrabajadas;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -117,17 +123,17 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 TipoMarca)
+		 public Boolean Delete(System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(TipoMarca))
+			 if (this.Exists(IdEmpleado))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("TipoMarcaDelProc @TipoMarca");
-					 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+					 DB.CrearComando("RegistroDiarioDelProc @IdEmpleado");
+					 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -157,11 +163,13 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("TipoMarcaUpdProc @TipoMarca, @Descripcion, @Autorizacion");
+				 DB.CrearComando("RegistroDiarioUpdProc @IdEmpleado, @Fecha, @Entrada, @Salida, @HorasTrabajadas");
 
-				 DB.AsignarParametroEntero("@TipoMarca", IdTipoMarca);
-				 DB.AsignarParametroCadena("@Descripcion", Descripcion);
-				 DB.AsignarParametroEntero("@Autorizacion", Autorizacion);
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroFecha("@Fecha", Fecha);
+				 DB.AsignarParametroFecha("@Entrada", Entrada);
+				 DB.AsignarParametroFecha("@Salida", Salida);
+				 DB.AsignarParametroFloat("@HorasTrabajadas", HorasTrabajadas);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -191,15 +199,15 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 TipoMarca)
+		 private Boolean Exists(System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (TipoMarca <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (IdEmpleado <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("TipoMarcaSelProc @TipoMarca");
-				 DB.AsignarParametroEntero("@TipoMarca", TipoMarca);
+				 DB.CrearComando("RegistroDiarioSelProc @IdEmpleado");
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

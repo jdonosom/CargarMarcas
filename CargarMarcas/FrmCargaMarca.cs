@@ -1,4 +1,6 @@
-﻿using DataLayer;
+﻿using BLSGM.infraestructura;
+using DataLayer;
+using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
@@ -9,13 +11,18 @@ namespace CargarMarcas
     public partial class FrmCargaMarca : Form
     {
 
+        private readonly BusinessRequest Bl;
+        private readonly IFormFactory formFactory;
 
         private int Id = 0;
         private DateTime? Fecha;
         private string Time = null;
         private int Tipo = -1;
 
-        public FrmCargaMarca()
+        public FrmCargaMarca( 
+              IFormFactory formFactory
+            , BusinessRequest bl
+            )
         {
             InitializeComponent();
 
@@ -352,8 +359,15 @@ namespace CargarMarcas
 
         private void adignaciónHorariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmHorario frm = new();
+
+            var frm = formFactory.Create<FrmHorario>();
             frm.ShowDialog();
+
+            //FormFactory frm = new FormFactory();
+            //frm.Create<FrmHorario>().ShowDialog();
+            
+            //FrmHorario frm = new();
+            //frm.ShowDialog();
         }
     }
 }

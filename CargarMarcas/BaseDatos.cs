@@ -82,7 +82,7 @@ namespace DataLayer
                 string proveedor = appConfig.AppSettings.Settings["PROVEEDOR_ADONET"].Value;
 
                 this.cadenaConexion = String.Format("Server={0};Database={1};Uid={2};Pwd={3};Encrypt=false;", server, database, user, password);
-                //BaseDatos.factory = DbProviderFactories.GetFactory(proveedor);
+                // BaseDatos.factory = DbProviderFactories.GetFactory(proveedor);
                 BaseDatos.factory = GetFactory();
 
             }

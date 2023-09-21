@@ -240,6 +240,7 @@
             txtRut.TabIndex = 6;
             txtRut.KeyPress += txtRut_KeyPress;
             txtRut.KeyUp += txtRut_KeyUp;
+            txtRut.Leave += txtRut_Leave;
             // 
             // textBox2
             // 

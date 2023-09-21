@@ -1,5 +1,8 @@
 ﻿using Autofac;
-using Interfaces;
+using BL;
+using BLSGM.infraestructura;
+using BLSGM.Tools;
+using interfaces;
 using Models;
 
 
@@ -9,38 +12,33 @@ namespace SGFBussinesLayer.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Direccion>().As<IDireccion>();
-            builder.RegisterType<Cargo>().As<ICargo>();
-            builder.RegisterType<Dispositivos>().As<IDispositivos>();
-            builder.RegisterType<DispositivosFuncionario>().As<IDispositivosFuncionario>();
-            builder.RegisterType<Funcionario>().As<IFuncionario>();
-            builder.RegisterType<FuncionarioTipoContrato>().As<IFuncionarioTipoContrato>();
-            builder.RegisterType<FuncionarioUnidad>().As<IFuncionarioUnidad>();
-            builder.RegisterType<Horario>().As<IHorario>();
-            builder.RegisterType<HorarioFuncionario>().As<IHorarioFuncionario>();
-            builder.RegisterType<Registro>().As<IRegistro>();
-            builder.RegisterType<RegistroDiario>().As<IRegistroDiario>();
-            builder.RegisterType<TipoContrato>().As<ITipoContrato>();
-            builder.RegisterType<TipoMarca>().As<ITipoMarca>();
-            builder.RegisterType<Unidad>().As<IUnidad>();
+            // builder.RegisterType<CargoService>().As<ICargo>();
+            // builder.RegisterType<DireccionService>().As<IDireccion>();
+            // builder.RegisterType<DispositivosFuncionarioService>().As<IDispositivosFuncionario>();
+            // builder.RegisterType<DispositivosService>().As<IDispositivos>();
+            // builder.RegisterType<FuncionarioService>().As<IFuncionario>();
+            // builder.RegisterType<FuncionarioTipoContratoService>().As<IFuncionarioTipoContrato>();
+            // builder.RegisterType<FuncionarioUnidadService>().As<IFuncionarioUnidad>();
+            // builder.RegisterType<HorarioFuncionarioService>().As<IHorarioFuncionario>();
+            // builder.RegisterType<HorarioService>().As<IHorario>();
+            // builder.RegisterType<RegistroDiarioService>().As<IRegistroDiario>();
+            // builder.RegisterType<RegistroService>().As<IRegistro>();
+            // builder.RegisterType<TipoContratoService>().As<ITipoContrato>();
+            // builder.RegisterType<TipoMarcaService>().As<ITipoMarca>();
+            // builder.RegisterType<UnidadService>().As<IUnidad>();
+
 
             //
             // Contiene todos las funcionalidades
             //
             builder.RegisterType<Utiles>();
-            builder.RegisterType<HelperDTE>();
+            //builder.RegisterType<HelperDTE>();
             builder.RegisterType<BusinessRequest>();
 
-            //builder.RegisterAssemblyTypes(Assembly.Load(nameof(TestDIRequest)))
-            //    .Where(t => t.Namespace.Contains("Interfacez"))
-            //    .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name));
-
-            //Assembly? assembly = Assembly.GetExecutingAssembly();
-            //builder
-            //    .RegisterAssemblyTypes(assembly)
-            //    .Where(t => t.Name.EndsWith("Interface"))
-            //    //.Where(t => t.Name.StartsWith("I"))
-            //    .AsImplementedInterfaces();
+            System.Reflection.Assembly? assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            builder.RegisterAssemblyTypes(assembly)
+                .Where(t => t.Name.EndsWith("Service"))
+                .AsImplementedInterfaces();
         }
     }
 }

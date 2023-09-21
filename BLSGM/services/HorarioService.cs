@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceHorario: Horario
+    public partial class HorarioService: Horario
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,7 +39,7 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceHorario()
+		 public HorarioService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;

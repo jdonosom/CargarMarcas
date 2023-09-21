@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace Interfaces
+namespace interfaces
 {
     public interface IUnidad
     {

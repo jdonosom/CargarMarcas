@@ -1,4 +1,4 @@
-﻿using BLSGM.Infraestructura;
+﻿using BLSGM.infraestructura;
 using Microsoft.Extensions.Configuration;
 
 namespace BLSGM.Tools

@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceFuncionarioUnidad: FuncionarioUnidad
+    public partial class FuncionarioService: Funcionario
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,7 +39,7 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceFuncionarioUnidad()
+		 public FuncionarioService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
@@ -47,18 +47,22 @@ namespace BL
 		 public void Clear()
 		 {
 			 this.IdEmpleado = 0;
-			 this.IdUnidad = 0;
+			 this.Rut = "";
+			 this.Nombres = "";
+			 this.ApellidoPaterno = "";
+			 this.ApellidoMaterno = "";
+			 this.Foto = new byte[0] { };
+			 this.Email = "";
 		 }
 
-		 public List<FuncionarioUnidad> Get(System.Int32 IdEmpleado, System.Int32 IdUnidad)
+		 public List<Funcionario> Get(System.Int32 IdEmpleado)
 		 {
-			 var oLst = new List<FuncionarioUnidad>();
+			 var oLst = new List<Funcionario>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("FuncionarioUnidadSelProc @IdEmpleado, @IdUnidad");
+				 DB.CrearComando("FuncionarioSelProc @IdEmpleado");
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -85,10 +89,15 @@ namespace BL
 				 {
 					 try
 					 {
-						 FuncionarioUnidad e = new FuncionarioUnidad()
+						 Funcionario e = new Funcionario()
 						 {
 							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
-							 IdUnidad = reader.IsDBNull(reader.GetOrdinal("IdUnidad")) ? 0: reader.GetInt32(reader.GetOrdinal("IdUnidad")),
+							 Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "": reader.GetString(reader.GetOrdinal("Rut")),
+							 Nombres = reader.IsDBNull(reader.GetOrdinal("Nombres")) ? "": reader.GetString(reader.GetOrdinal("Nombres")),
+							 ApellidoPaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoPaterno")) ? "": reader.GetString(reader.GetOrdinal("ApellidoPaterno")),
+							 ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoMaterno")) ? "": reader.GetString(reader.GetOrdinal("ApellidoMaterno")),
+							 Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { }: reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
+							 Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "": reader.GetString(reader.GetOrdinal("Email")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -100,7 +109,12 @@ namespace BL
 				 if (oLst.Count == 1)
 				 {
 					 this.IdEmpleado = oLst[0].IdEmpleado;
-					 this.IdUnidad = oLst[0].IdUnidad;
+					 this.Rut = oLst[0].Rut;
+					 this.Nombres = oLst[0].Nombres;
+					 this.ApellidoPaterno = oLst[0].ApellidoPaterno;
+					 this.ApellidoMaterno = oLst[0].ApellidoMaterno;
+					 this.Foto = oLst[0].Foto;
+					 this.Email = oLst[0].Email;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -115,18 +129,17 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdEmpleado, System.Int32 IdUnidad)
+		 public Boolean Delete(System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(IdEmpleado, IdUnidad))
+			 if (this.Exists(IdEmpleado))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("FuncionarioUnidadDelProc @IdEmpleado, @IdUnidad");
+					 DB.CrearComando("FuncionarioDelProc @IdEmpleado");
 					 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-					 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -156,10 +169,15 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("FuncionarioUnidadUpdProc @IdEmpleado, @IdUnidad");
+				 DB.CrearComando("FuncionarioUpdProc @IdEmpleado, @Rut, @Nombres, @ApellidoPaterno, @ApellidoMaterno, @Foto, @Email");
 
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
+				 DB.AsignarParametroCadena("@Rut", Rut);
+				 DB.AsignarParametroCadena("@Nombres", Nombres);
+				 DB.AsignarParametroCadena("@ApellidoPaterno", ApellidoPaterno);
+				 DB.AsignarParametroCadena("@ApellidoMaterno", ApellidoMaterno);
+				 DB.AsignarParametroImage("@Foto", Foto);
+				 DB.AsignarParametroCadena("@Email", Email);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -189,16 +207,15 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 IdEmpleado, System.Int32 IdUnidad)
+		 private Boolean Exists(System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (IdEmpleado, IdUnidad <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (IdEmpleado <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("FuncionarioUnidadSelProc @IdEmpleado, @IdUnidad");
+				 DB.CrearComando("FuncionarioSelProc @IdEmpleado");
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

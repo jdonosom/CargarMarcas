@@ -4,12 +4,12 @@ using System.Reflection;
 
 using Models;
 using DataLayer;
-using Interfaces;
+using interfaces;
 
 namespace BL
 {
 #nullable disable
-    public partial class ServiceCargo : Cargo, ICargo
+    public partial class CargoService : Cargo, ICargo
 	{
 		readonly BaseDatos DB = new BaseDatos();
 
@@ -42,7 +42,7 @@ namespace BL
 
         string ICargo.Host { get => host; set => host = value; }
 
-		public ServiceCargo()
+		public CargoService()
 		{
 			////this.usuario = Credenciales.Usuario;
 			////this.host = Credenciales.Host;

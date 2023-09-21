@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceDispositivosFuncionario: DispositivosFuncionario
+    public partial class FuncionarioUnidadService: FuncionarioUnidad
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,26 +39,26 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceDispositivosFuncionario()
+		 public FuncionarioUnidadService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.IdDispositivo = 0;
 			 this.IdEmpleado = 0;
+			 this.IdUnidad = 0;
 		 }
 
-		 public List<DispositivosFuncionario> Get(System.Int32 IdDispositivo, System.Int32 IdEmpleado)
+		 public List<FuncionarioUnidad> Get(System.Int32 IdEmpleado, System.Int32 IdUnidad)
 		 {
-			 var oLst = new List<DispositivosFuncionario>();
+			 var oLst = new List<FuncionarioUnidad>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("DispositivosFuncionarioSelProc @IdDispositivo, @IdEmpleado");
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+				 DB.CrearComando("FuncionarioUnidadSelProc @IdEmpleado, @IdUnidad");
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -85,10 +85,10 @@ namespace BL
 				 {
 					 try
 					 {
-						 DispositivosFuncionario e = new DispositivosFuncionario()
+						 FuncionarioUnidad e = new FuncionarioUnidad()
 						 {
-							 IdDispositivo = reader.IsDBNull(reader.GetOrdinal("IdDispositivo")) ? 0: reader.GetInt32(reader.GetOrdinal("IdDispositivo")),
 							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+							 IdUnidad = reader.IsDBNull(reader.GetOrdinal("IdUnidad")) ? 0: reader.GetInt32(reader.GetOrdinal("IdUnidad")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -99,8 +99,8 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.IdDispositivo = oLst[0].IdDispositivo;
 					 this.IdEmpleado = oLst[0].IdEmpleado;
+					 this.IdUnidad = oLst[0].IdUnidad;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -115,18 +115,18 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdDispositivo, System.Int32 IdEmpleado)
+		 public Boolean Delete(System.Int32 IdEmpleado, System.Int32 IdUnidad)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(IdDispositivo, IdEmpleado))
+			 if (this.Exists(IdEmpleado, IdUnidad))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("DispositivosFuncionarioDelProc @IdDispositivo, @IdEmpleado");
-					 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+					 DB.CrearComando("FuncionarioUnidadDelProc @IdEmpleado, @IdUnidad");
 					 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+					 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -156,10 +156,10 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("DispositivosFuncionarioUpdProc @IdDispositivo, @IdEmpleado");
+				 DB.CrearComando("FuncionarioUnidadUpdProc @IdEmpleado, @IdUnidad");
 
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -189,16 +189,16 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 IdDispositivo, System.Int32 IdEmpleado)
+		 private Boolean Exists(System.Int32 IdEmpleado, System.Int32 IdUnidad)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (IdDispositivo, IdEmpleado <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (IdEmpleado, IdUnidad <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("DispositivosFuncionarioSelProc @IdDispositivo, @IdEmpleado");
-				 DB.AsignarParametroEntero("@IdDispositivo", IdDispositivo);
+				 DB.CrearComando("FuncionarioUnidadSelProc @IdEmpleado, @IdUnidad");
 				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+				 DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

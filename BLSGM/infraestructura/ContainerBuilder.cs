@@ -1,12 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using BLSGM.Tools;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLSGM.infraestructura
 {
@@ -29,7 +26,7 @@ namespace BLSGM.infraestructura
                     // Aqui las clases
                     _ = services.AddTransient<BusinessRequest>();
                     _ = services.AddTransient<Utiles>();
-                    _ = services.AddTransient<HelperDTE>();
+                    // _ = services.AddTransient<HelperDTE>();
                 });
             return host;
         }
@@ -48,15 +45,6 @@ namespace BLSGM.infraestructura
                     .RegisterAssemblyTypes(assembly)
                     .Where(t => t.Name.EndsWith("Service"))
                     .AsImplementedInterfaces();
-
-                //_ = builder.RegisterAssemblyTypes(assembly)
-                //    .Where(t => t.Name == "BusinessRequest")
-                //    .AsImplementedInterfaces();
-
-                // _ = builder.RegisterAssemblyTypes(assembly)
-                //     .Where(t => t.Name == "Utiles")
-                //     .AsImplementedInterfaces();
-
 
             }
         }

@@ -12,7 +12,7 @@ using DataLayer;
 namespace BL
 {
 #nullable disable
-    public partial class ServiceDireccion: Direccion
+    public partial class HorarioFuncionarioService: HorarioFuncionario
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 		 #region Propiedades;
@@ -39,27 +39,26 @@ namespace BL
 			 set { host = value; }
 		 }
 		 
-		 public ServiceDireccion()
+		 public HorarioFuncionarioService()
 		 {
 			 //this.usuario = Credenciales.Usuario;
 			 //this.host = Credenciales.Host;
 		 }
 		 public void Clear()
 		 {
-			 this.IdDireccion = 0;
-			 this.Descripcion = "";
-			 this.Ubicacion = "";
-			 this.Telefono = "";
+			 this.IdHorario = 0;
+			 this.IdEmpleado = 0;
 		 }
 
-		 public List<Direccion> Get(System.Int32 IdDireccion)
+		 public List<HorarioFuncionario> Get(System.Int32 IdHorario, System.Int32 IdEmpleado)
 		 {
-			 var oLst = new List<Direccion>();
+			 var oLst = new List<HorarioFuncionario>();
 			 DB.Conectar();
 			 try
 			 {
-				 DB.CrearComando("DireccionSelProc @IdDireccion");
-				 DB.AsignarParametroEntero("@IdDireccion", IdDireccion);
+				 DB.CrearComando("HorarioFuncionarioSelProc @IdHorario, @IdEmpleado");
+				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 
@@ -86,12 +85,10 @@ namespace BL
 				 {
 					 try
 					 {
-						 Direccion e = new Direccion()
+						 HorarioFuncionario e = new HorarioFuncionario()
 						 {
-							 IdDireccion = reader.IsDBNull(reader.GetOrdinal("IdDireccion")) ? 0: reader.GetInt32(reader.GetOrdinal("IdDireccion")),
-							 Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "": reader.GetString(reader.GetOrdinal("Descripcion")),
-							 Ubicacion = reader.IsDBNull(reader.GetOrdinal("Ubicacion")) ? "": reader.GetString(reader.GetOrdinal("Ubicacion")),
-							 Telefono = reader.IsDBNull(reader.GetOrdinal("Telefono")) ? "": reader.GetString(reader.GetOrdinal("Telefono")),
+							 IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0: reader.GetInt32(reader.GetOrdinal("IdHorario")),
+							 IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0: reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
 						 };
 						 oLst.Add( e );
 					 }
@@ -102,10 +99,8 @@ namespace BL
 				 }
 				 if (oLst.Count == 1)
 				 {
-					 this.IdDireccion = oLst[0].IdDireccion;
-					 this.Descripcion = oLst[0].Descripcion;
-					 this.Ubicacion = oLst[0].Ubicacion;
-					 this.Telefono = oLst[0].Telefono;
+					 this.IdHorario = oLst[0].IdHorario;
+					 this.IdEmpleado = oLst[0].IdEmpleado;
 				 }
 				 reader.Close();
 				 return oLst;
@@ -120,17 +115,18 @@ namespace BL
 			 }
 		 }
 
-		 public Boolean Delete(System.Int32 IdDireccion)
+		 public Boolean Delete(System.Int32 IdHorario, System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 
-			 if (this.Exists(IdDireccion))
+			 if (this.Exists(IdHorario, IdEmpleado))
 			 {
 				 try
 				 {
 					 DB.Conectar();
-					 DB.CrearComando("DireccionDelProc @IdDireccion");
-					 DB.AsignarParametroEntero("@IdDireccion", IdDireccion);
+					 DB.CrearComando("HorarioFuncionarioDelProc @IdHorario, @IdEmpleado");
+					 DB.AsignarParametroEntero("@IdHorario", IdHorario);
+					 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 					 DB.EjecutarComando();
 					 lRet = true;
@@ -160,12 +156,10 @@ namespace BL
 			 try
 			 {
 				 DB.Conectar();
-				 DB.CrearComando("DireccionUpdProc @IdDireccion, @Descripcion, @Ubicacion, @Telefono");
+				 DB.CrearComando("HorarioFuncionarioUpdProc @IdHorario, @IdEmpleado");
 
-				 DB.AsignarParametroEntero("@IdDireccion", IdDireccion);
-				 DB.AsignarParametroCadena("@Descripcion", Descripcion);
-				 DB.AsignarParametroCadena("@Ubicacion", Ubicacion);
-				 DB.AsignarParametroCadena("@Telefono", Telefono);
+				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 				 DB.EjecutarComando();
 				 lRet = true;
@@ -195,15 +189,16 @@ namespace BL
 		 #endregion
 
 		 #region Metodos Privados
-		 private Boolean Exists(System.Int32 IdDireccion)
+		 private Boolean Exists(System.Int32 IdHorario, System.Int32 IdEmpleado)
 		 {
 			 Boolean lRet = false;
 			 try
 			 {
-				//if (IdDireccion <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
+				//if (IdHorario, IdEmpleado <= 0) throw new ReglasNegocioException("El id del contrato no es valido.");
 				 DB.Conectar();
-				 DB.CrearComando("DireccionSelProc @IdDireccion");
-				 DB.AsignarParametroEntero("@IdDireccion", IdDireccion);
+				 DB.CrearComando("HorarioFuncionarioSelProc @IdHorario, @IdEmpleado");
+				 DB.AsignarParametroEntero("@IdHorario", IdHorario);
+				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
 
 				 DbDataReader dr = DB.EjecutarConsulta();
 

@@ -1,46 +1,23 @@
-﻿using SGFBussinesLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SGFBussinesLayer.Infraestructura
+﻿using interfaces;
+namespace BLSGN.infraestructura
 {
     public interface IBusinessRequest
     {
-        #region Interfaces
-        public ICredenciales Credenciales { get; }
-        public IBodega Bodega { get; }
-        public IBoleta Boleta { get; }
-        public IBoletaDetalle BoletaDetalle { get; }
-        public ICaja Caja { get; }
-        public ICliente Cliente { get; }
-        public IClienteListaPrecio ClienteListaPrecio { get; }
-        public IContrato Contrato { get; }
-        public IDocumentoDetalle DocumentoDetalle { get; }
-        public IDocumentoReferencia DocumentoReferencia { get; }
-        public IDocumento Documento { get; }
-        public IEmpresa Empresa { get; }
-        public IEmpresas Empresas { get; }
-        public IEmpresaUser EmpresaUser { get; }
-        public IFacturacion Facturacion { get; }
-        public ICompra Compra { get; }
-        public IFolioDisponible FolioDisponible { get; }
-        public IFormaPago FormaPago { get; }
-        public IImpuesto Impuesto { get; }
-        public IKardex Kardex { get; }
-        public IKardexImpuesto KardexImpuesto { get; }
-        public IKardexMovimientos KardexMovimientos { get; }
-        public IListaPrecio ListaPrecio { get; }
-        public ILista Lista { get; }
-        public ILog Log { get; }
-        public ILogOn LogOn { get; }
-        public IParametro Parametro { get; }
-        public ITabla Tabla { get; }
-        public ITipoMovimiento TipoMovimiento { get; }
-        public IUsuario Usuario { get; }
-        public IVendedor Vendedor { get; }
+        #region interfaces
+        public ICargo Cargo { get; }
+        public IDireccion Direccion { get; }
+        public IDispositivos Dispositivos { get; }
+        public IDispositivosFuncionario DispositivoFuncionario{ get; }
+        public IFuncionario Funcionario { get; }
+        public IFuncionarioTipoContrato FuncionarioTipoContrato{ get; }
+        public IFuncionarioUnidad FuncionarioUnidad { get; }
+        public IHorario Horario { get; }
+        public IHorarioFuncionario HorarioFuncionario{ get; }
+        public IRegistro Registro { get; }
+        public IRegistroDiario RegistroDiario { get; }
+        public ITipoContrato TipoContrato { get; }
+        public ITipoMarca TipoMarca { get; }
+        public IUnidad Unidad { get; }
         #endregion
     }
 }

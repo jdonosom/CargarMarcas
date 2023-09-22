@@ -18,7 +18,7 @@ namespace BL
         readonly BaseDatos DB = new BaseDatos();
 
         private Horario current;
-        public Horario Current { get; }
+        public Horario Current { get; set; }
 
         #region Propiedades;
         string toxml;
@@ -412,9 +412,9 @@ namespace BL
                 DB.Conectar();
                 DB.CrearComando("HorarioUpdProc @IdHorario, @Descripcion, @Lunes, @L_EntradaMañana, @L_SalidaMañana, @L_EntradaTarde, @L_SalidaTarde, @L_ToleranciaEntrada, @L_ToleranciaSalida, @Martes, @M_EntradaMañana, @M_SalidaMañana, @M_EntradaTarde, @M_SalidaTarde, @M_ToleranciaEntrada, @M_ToleranciaSalida, @Miercoles, @X_EntradaMañana, @X_SalidaMañana, @X_EntradaTarde, @X_SalidaTarde, @X_ToleranciaEntrada, @X_ToleranciaSalida, @Jueves, @J_EntradaMañana, @J_SalidaMañana, @J_EntradaTarde, @J_SalidaTarde, @J_ToleranciaEntrada, @J_ToleranciaSalida, @Viernes, @V_EntradaMañana, @V_SalidaMañana, @V_EntradaTarde, @V_SalidaTarde, @V_ToleranciaEntrada, @V_ToleranciaSalida, @Sabado, @S_EntradaMañana, @S_SalidaMañana, @S_EntradaTarde, @S_SalidaTarde, @S_ToleranciaEntrada, @S_ToleranciaSalida, @Domingo, @D_EntradaMañana, @D_SalidaMañana, @D_EntradaTarde, @D_SalidaTarde, @D_ToleranciaEntrada, @D_ToleranciaSalida, @TotalHorasSemanales, @Desde, @Hasta");
 
-                DB.AsignarParametroEntero("@IdHorario", IdHorario);
-                DB.AsignarParametroCadena("@Descripcion", Descripcion);
-                DB.AsignarParametroCadena("@Lunes", Lunes);
+                DB.AsignarParametroEntero("@IdHorario", current.IdHorario);
+                DB.AsignarParametroCadena("@Descripcion", current.Descripcion);
+                DB.AsignarParametroCadena("@Lunes", current.Lunes);
                 DB.AsignarParametroFecha("@L_EntradaMañana", (new DateTime(1900, 01, 01) + L_EntradaMañana));
                 DB.AsignarParametroFecha("@L_SalidaMañana", new DateTime(1900, 01, 01) + L_SalidaMañana);
                 DB.AsignarParametroFecha("@L_EntradaTarde", new DateTime(1900, 01, 01) + L_EntradaTarde);

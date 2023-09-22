@@ -8,6 +8,9 @@ namespace BLSGM.interfaces
         //string Usuario { get; }
         string Host { get; set; }
         //string Mac { get; set; }
+
+        Horario Current { get; set; }   
+
         void Clear();
         Horario Get(int Id);
         List<Horario> GetAll();

@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHorario));
             panel1 = new Panel();
             label1 = new Label();
@@ -60,6 +60,8 @@
             btnTurno = new Button();
             panel4 = new Panel();
             label5 = new Label();
+            txtHora = new TextBox();
+            txtTolerancia = new CSUST.Data.TNumEditBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgHorario).BeginInit();
@@ -135,9 +137,9 @@
             dgHorario.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgHorario.Size = new Size(690, 266);
             dgHorario.TabIndex = 1;
-            dgHorario.CellContentClick += dgHorario_CellContentClick;
+            dgHorario.CellBeginEdit += dgHorario_CellBeginEdit;
             dgHorario.CellEndEdit += dgHorario_CellEndEdit;
-            dgHorario.CellValidating += dgHorario_CellValidating;
+            dgHorario.CellValueChanged += dgHorario_CellValueChanged;
             dgHorario.EditingControlShowing += dgHorario_EditingControlShowing;
             // 
             // colDia
@@ -148,11 +150,11 @@
             // 
             // colHE
             // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(0, 192, 192);
-            dataGridViewCellStyle1.Format = "t";
-            dataGridViewCellStyle1.NullValue = "00:00";
-            colHE.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = Color.FromArgb(0, 192, 192);
+            dataGridViewCellStyle19.Format = "t";
+            dataGridViewCellStyle19.NullValue = "00:00";
+            colHE.DefaultCellStyle = dataGridViewCellStyle19;
             colHE.HeaderText = "H.E.M.";
             colHE.MinimumWidth = 6;
             colHE.Name = "colHE";
@@ -161,12 +163,12 @@
             // 
             // colHS
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(192, 64, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Format = "t";
-            dataGridViewCellStyle2.NullValue = "00:00";
-            colHS.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = Color.FromArgb(192, 64, 0);
+            dataGridViewCellStyle20.ForeColor = Color.White;
+            dataGridViewCellStyle20.Format = "t";
+            dataGridViewCellStyle20.NullValue = "00:00";
+            colHS.DefaultCellStyle = dataGridViewCellStyle20;
             colHS.HeaderText = "H.S.M.";
             colHS.MinimumWidth = 6;
             colHS.Name = "colHS";
@@ -175,11 +177,11 @@
             // 
             // colTHE
             // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(192, 192, 0);
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = "0";
-            colTHE.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = Color.FromArgb(192, 192, 0);
+            dataGridViewCellStyle21.Format = "N0";
+            dataGridViewCellStyle21.NullValue = "0";
+            colTHE.DefaultCellStyle = dataGridViewCellStyle21;
             colTHE.HeaderText = "T.H.E.";
             colTHE.MinimumWidth = 6;
             colTHE.Name = "colTHE";
@@ -187,11 +189,11 @@
             // 
             // colTHS
             // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(0, 192, 192);
-            dataGridViewCellStyle4.Format = "t";
-            dataGridViewCellStyle4.NullValue = "00:00";
-            colTHS.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = Color.FromArgb(0, 192, 192);
+            dataGridViewCellStyle22.Format = "t";
+            dataGridViewCellStyle22.NullValue = "00:00";
+            colTHS.DefaultCellStyle = dataGridViewCellStyle22;
             colTHS.HeaderText = "H.E.T.";
             colTHS.MinimumWidth = 6;
             colTHS.Name = "colTHS";
@@ -199,12 +201,12 @@
             // 
             // colHET
             // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(192, 64, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.Format = "t";
-            dataGridViewCellStyle5.NullValue = "00:00";
-            colHET.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.BackColor = Color.FromArgb(192, 64, 0);
+            dataGridViewCellStyle23.ForeColor = Color.White;
+            dataGridViewCellStyle23.Format = "t";
+            dataGridViewCellStyle23.NullValue = "00:00";
+            colHET.DefaultCellStyle = dataGridViewCellStyle23;
             colHET.HeaderText = "H.S.T.";
             colHET.MinimumWidth = 6;
             colHET.Name = "colHET";
@@ -212,11 +214,11 @@
             // 
             // colHST
             // 
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(192, 192, 0);
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = "0";
-            colHST.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.BackColor = Color.FromArgb(192, 192, 0);
+            dataGridViewCellStyle24.Format = "N0";
+            dataGridViewCellStyle24.NullValue = "0";
+            colHST.DefaultCellStyle = dataGridViewCellStyle24;
             colHST.HeaderText = "T.H.S.";
             colHST.MinimumWidth = 6;
             colHST.Name = "colHST";
@@ -260,7 +262,7 @@
             txtRut.Location = new Point(10, 111);
             txtRut.Margin = new Padding(3, 2, 3, 2);
             txtRut.Name = "txtRut";
-            txtRut.Size = new Size(127, 23);
+            txtRut.Size = new Size(83, 23);
             txtRut.TabIndex = 6;
             txtRut.KeyPress += txtRut_KeyPress;
             txtRut.KeyUp += txtRut_KeyUp;
@@ -270,11 +272,11 @@
             // 
             txtNombre.BackColor = Color.White;
             txtNombre.Enabled = false;
-            txtNombre.Location = new Point(185, 111);
+            txtNombre.Location = new Point(142, 111);
             txtNombre.Margin = new Padding(3, 2, 3, 2);
             txtNombre.Name = "txtNombre";
             txtNombre.ReadOnly = true;
-            txtNombre.Size = new Size(490, 23);
+            txtNombre.Size = new Size(558, 23);
             txtNombre.TabIndex = 7;
             // 
             // label4
@@ -301,7 +303,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            label6.Location = new Point(63, 27);
+            label6.Location = new Point(55, 25);
             label6.Name = "label6";
             label6.Size = new Size(228, 25);
             label6.TabIndex = 1;
@@ -319,7 +321,7 @@
             // 
             // btnHlpEmpleado
             // 
-            btnHlpEmpleado.Location = new Point(143, 111);
+            btnHlpEmpleado.Location = new Point(99, 111);
             btnHlpEmpleado.Margin = new Padding(3, 2, 3, 2);
             btnHlpEmpleado.Name = "btnHlpEmpleado";
             btnHlpEmpleado.Size = new Size(37, 23);
@@ -359,11 +361,27 @@
             label5.TabIndex = 0;
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // txtHora
+            // 
+            txtHora.Location = new Point(63, 535);
+            txtHora.Name = "txtHora";
+            txtHora.Size = new Size(100, 23);
+            txtHora.TabIndex = 11;
+            // 
+            // txtTolerancia
+            // 
+            txtTolerancia.Location = new Point(357, 535);
+            txtTolerancia.Name = "txtTolerancia";
+            txtTolerancia.Size = new Size(100, 23);
+            txtTolerancia.TabIndex = 12;
+            // 
             // FrmHorario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(718, 498);
+            ClientSize = new Size(718, 588);
+            Controls.Add(txtTolerancia);
+            Controls.Add(txtHora);
             Controls.Add(btnTurno);
             Controls.Add(btnHlpEmpleado);
             Controls.Add(panel3);
@@ -376,7 +394,10 @@
             Controls.Add(panel4);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(3, 2, 3, 2);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FrmHorario";
             ShowIcon = false;
             Load += FrmHorario_Load;
@@ -420,5 +441,8 @@
         private DataGridViewTextBoxColumn colTHS;
         private DataGridViewTextBoxColumn colHET;
         private DataGridViewTextBoxColumn colHST;
+        private TextBox txtHora;
+        private TextBox textBox3;
+        private CSUST.Data.TNumEditBox txtTolerancia;
     }
 }

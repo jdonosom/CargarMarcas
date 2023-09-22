@@ -57,9 +57,6 @@ namespace CargarMarcas
                     {
                         services.AddTransient(form);
                     });
-
-
-
                 });
         }
 

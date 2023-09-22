@@ -1,15 +1,18 @@
 ﻿using BLSGM.infraestructura;
+using Models;
+using System.Globalization;
+using System.Windows.Forms;
 using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace CargarMarcas
 {
     public partial class FrmHorario : Form
     {
-
+        TextBox editBox;
         private readonly BusinessRequest bl;
         // private readonly Credencial credencial;
 
-        public FrmHorario( BusinessRequest bl)
+        public FrmHorario(BusinessRequest bl)
         {
             InitializeComponent();
             this.bl = bl;
@@ -22,7 +25,9 @@ namespace CargarMarcas
 
         private void FrmHorario_Load(object sender, EventArgs e)
         {
+            ClearDataGridViewRows(dgHorario);
 
+            HabilitaFormulario(false);
         }
 
         private void txtRut_KeyPress(object sender, KeyPressEventArgs e)
@@ -67,11 +72,136 @@ namespace CargarMarcas
             int nRut = int.Parse(aRut[0]);
             string Dv = aRut[1];
 
-            var empleado = bl.Funcionario.Get( nRut );
+            var empleado = bl.Funcionario.Get(nRut);
 
-            
-            
+            if (empleado is null)
+            {
+                MessageBox.Show("El rut ingresado no pertenece a un funcionario", "Diálogo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            txtNombre.Text = $"{empleado.Nombres.Trim()} {empleado.ApellidoPaterno.Trim()} {empleado.ApellidoMaterno.Trim()}";
 
+            // Cargar Horario Asignado
+            //
+            var horario = bl.Horario.GetFuncionario(nRut);
+            if (horario is null)
+            {
+                MessageBox.Show("El funcionario no tiene horarios asignados.", "Diálogo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DespliegaHorario(horario);
+
+
+
+            HabilitaFormulario(true);
+
+        }
+
+        private void DespliegaHorario(Horario horario)
+        {
+            lblHorario.Text = horario.Descripcion.TrimEnd().TrimStart();
+
+            // 
+            ClearDataGridViewRows(dgHorario);
+
+            dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana.ToString(@"hh\:mm"), horario.L_SalidaMañana.ToString(@"hh\:mm"), horario.L_ToleranciaEntrada, horario.L_EntradaTarde.ToString(@"hh\:mm"), horario.L_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Martes", horario.M_EntradaMañana.ToString(@"hh\:mm"), horario.M_SalidaMañana.ToString(@"hh\:mm"), horario.M_ToleranciaEntrada, horario.M_EntradaTarde.ToString(@"hh\:mm"), horario.M_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana.ToString(@"hh\:mm"), horario.X_SalidaMañana.ToString(@"hh\:mm"), horario.X_ToleranciaEntrada, horario.X_EntradaTarde.ToString(@"hh\:mm"), horario.X_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana.ToString(@"hh\:mm"), horario.J_SalidaMañana.ToString(@"hh\:mm"), horario.J_ToleranciaEntrada, horario.J_EntradaTarde.ToString(@"hh\:mm"), horario.J_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana.ToString(@"hh\:mm"), horario.V_SalidaMañana.ToString(@"hh\:mm"), horario.V_ToleranciaEntrada, horario.V_EntradaTarde.ToString(@"hh\:mm"), horario.V_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana.ToString(@"hh\:mm"), horario.S_SalidaMañana.ToString(@"hh\:mm"), horario.S_ToleranciaEntrada, horario.S_EntradaTarde.ToString(@"hh\:mm"), horario.S_SalidaTarde.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana.ToString(@"hh\:mm"), horario.D_SalidaMañana.ToString(@"hh\:mm"), horario.D_ToleranciaEntrada, horario.D_EntradaTarde.ToString(@"hh\:mm"), horario.D_SalidaTarde.ToString(@"hh\:mm"));
+        }
+
+        public static void ClearDataGridViewRows(DataGridView dataGridView)
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+
+                if (dataGridView.Rows.Count == 1) continue;
+
+                dataGridView.Rows.RemoveAt(dataGridView.Rows.Count - 1);
+
+            }
+        }
+
+
+        private void HabilitaFormulario(bool flag)
+        {
+            txtRut.Enabled = !flag;
+            dgHorario.Enabled = flag;
+
+        }
+
+        private void dgHorario_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            var fecha = (DateTime)default;
+
+            var valor = dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+            // var date = fecha + valor;
+
+        }
+
+        private void dgHorario_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            DateTime Hora = default;
+            string headerText = ((DataGridView)sender).Columns[e.ColumnIndex].HeaderText;
+            string valor = e.FormattedValue.ToString();
+
+
+            if (headerText.Equals("H.E.M.") || headerText.Equals("H.S.M.") || headerText.Equals("H.E.T.") || headerText.Equals("H.S.T."))
+            {
+
+                if (string.IsNullOrEmpty(valor))
+                {
+                    dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "00:00";
+                    e.Cancel = false;
+                    return;
+                }
+
+                bool ldospuntos = valor.Contains(":");
+                bool lNumerico = IsNumeric(ldospuntos ? valor.Replace(":", "") : valor);
+
+                if (lNumerico)
+                {
+                    if (ldospuntos)
+                        Hora = DateTime.ParseExact(valor, "HH:mm", CultureInfo.InvariantCulture);
+                    else
+                        Hora = DateTime.ParseExact(valor, "HHmm", CultureInfo.InvariantCulture);
+                }
+                dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora.ToString("HH:mm");
+                e.Cancel = false;
+            }
+
+
+            // Confirmar que la celda no este vacia
+            //
+            //if (string.IsNullOrEmpty(e.FormattedValue.ToString()))
+            //{
+            //    dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "00:00";
+            //    //                 ((DataGridView)sender).Rows[e.RowIndex].ErrorText = "La hora no puede estar vacia";
+            //    e.Cancel = true;
+            //}
+
+            // dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = ((TimeSpan)e.FormattedValue).ToString(@"hh\:mm");
+            dgHorario.Refresh();
+        }
+
+        public bool IsNumeric(string value)
+        {
+            return value.All(char.IsNumber);
+        }
+
+        private void dgHorario_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is TextBox) editBox = e.Control as TextBox;
         }
     }
 }

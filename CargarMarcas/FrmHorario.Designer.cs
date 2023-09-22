@@ -39,7 +39,8 @@
             label1 = new Label();
             panel2 = new Panel();
             label2 = new Label();
-            dataGridView1 = new DataGridView();
+            dgHorario = new DataGridView();
+            colDia = new DataGridViewTextBoxColumn();
             colHE = new DataGridViewTextBoxColumn();
             colHS = new DataGridViewTextBoxColumn();
             colTHE = new DataGridViewTextBoxColumn();
@@ -47,32 +48,35 @@
             colHET = new DataGridViewTextBoxColumn();
             colHST = new DataGridViewTextBoxColumn();
             panel5 = new Panel();
-            label5 = new Label();
+            lblHorario = new Label();
             label3 = new Label();
             txtRut = new TextBox();
-            textBox2 = new TextBox();
+            txtNombre = new TextBox();
             label4 = new Label();
             panel3 = new Panel();
             label6 = new Label();
             pictureBox1 = new PictureBox();
             btnHlpEmpleado = new Button();
             btnTurno = new Button();
+            panel4 = new Panel();
+            label5 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgHorario).BeginInit();
             panel5.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.LightGreen;
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(10, 198);
+            panel1.Location = new Point(109, 198);
             panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(422, 19);
+            panel1.Size = new Size(283, 19);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -82,7 +86,7 @@
             label1.FlatStyle = FlatStyle.Flat;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(422, 19);
+            label1.Size = new Size(283, 19);
             label1.TabIndex = 0;
             label1.Text = "Mañana";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -91,10 +95,10 @@
             // 
             panel2.BackColor = Color.LightGreen;
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(431, 198);
+            panel2.Location = new Point(392, 198);
             panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(423, 19);
+            panel2.Size = new Size(308, 19);
             panel2.TabIndex = 0;
             // 
             // label2
@@ -105,23 +109,42 @@
             label2.FlatStyle = FlatStyle.Flat;
             label2.Location = new Point(0, 0);
             label2.Name = "label2";
-            label2.Size = new Size(423, 19);
+            label2.Size = new Size(308, 19);
             label2.TabIndex = 0;
             label2.Text = "Tarde";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dataGridView1
+            // dgHorario
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colHE, colHS, colTHE, colTHS, colHET, colHST });
-            dataGridView1.Location = new Point(10, 216);
-            dataGridView1.Margin = new Padding(3, 2, 3, 2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(873, 266);
-            dataGridView1.TabIndex = 1;
+            dgHorario.AllowUserToAddRows = false;
+            dgHorario.AllowUserToDeleteRows = false;
+            dgHorario.AllowUserToResizeColumns = false;
+            dgHorario.AllowUserToResizeRows = false;
+            dgHorario.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgHorario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgHorario.Columns.AddRange(new DataGridViewColumn[] { colDia, colHE, colHS, colTHE, colTHS, colHET, colHST });
+            dgHorario.Location = new Point(10, 216);
+            dgHorario.Margin = new Padding(3, 2, 3, 2);
+            dgHorario.MultiSelect = false;
+            dgHorario.Name = "dgHorario";
+            dgHorario.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgHorario.RowHeadersVisible = false;
+            dgHorario.RowHeadersWidth = 51;
+            dgHorario.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgHorario.RowTemplate.Height = 29;
+            dgHorario.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgHorario.Size = new Size(690, 266);
+            dgHorario.TabIndex = 1;
+            dgHorario.CellContentClick += dgHorario_CellContentClick;
+            dgHorario.CellEndEdit += dgHorario_CellEndEdit;
+            dgHorario.CellValidating += dgHorario_CellValidating;
+            dgHorario.EditingControlShowing += dgHorario_EditingControlShowing;
+            // 
+            // colDia
+            // 
+            colDia.HeaderText = "Dia";
+            colDia.Name = "colDia";
+            colDia.Width = 98;
             // 
             // colHE
             // 
@@ -134,7 +157,7 @@
             colHE.MinimumWidth = 6;
             colHE.Name = "colHE";
             colHE.ToolTipText = "Hora Entrada";
-            colHE.Width = 200;
+            colHE.Width = 98;
             // 
             // colHS
             // 
@@ -148,11 +171,11 @@
             colHS.MinimumWidth = 6;
             colHS.Name = "colHS";
             colHS.ToolTipText = "Hora Salida";
-            colHS.Width = 200;
+            colHS.Width = 98;
             // 
             // colTHE
             // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(192, 192, 0);
             dataGridViewCellStyle3.Format = "N0";
             dataGridViewCellStyle3.NullValue = "0";
@@ -160,7 +183,7 @@
             colTHE.HeaderText = "T.H.E.";
             colTHE.MinimumWidth = 6;
             colTHE.Name = "colTHE";
-            colTHE.Width = 80;
+            colTHE.Width = 99;
             // 
             // colTHS
             // 
@@ -172,7 +195,7 @@
             colTHS.HeaderText = "H.E.T.";
             colTHS.MinimumWidth = 6;
             colTHS.Name = "colTHS";
-            colTHS.Width = 200;
+            colTHS.Width = 98;
             // 
             // colHET
             // 
@@ -185,11 +208,11 @@
             colHET.HeaderText = "H.S.T.";
             colHET.MinimumWidth = 6;
             colHET.Name = "colHET";
-            colHET.Width = 200;
+            colHET.Width = 98;
             // 
             // colHST
             // 
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.TopRight;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle6.BackColor = Color.FromArgb(192, 192, 0);
             dataGridViewCellStyle6.Format = "N0";
             dataGridViewCellStyle6.NullValue = "0";
@@ -197,30 +220,31 @@
             colHST.HeaderText = "T.H.S.";
             colHST.MinimumWidth = 6;
             colHST.Name = "colHST";
-            colHST.Width = 80;
+            colHST.Width = 98;
             // 
             // panel5
             // 
             panel5.BackColor = Color.LightGreen;
-            panel5.Controls.Add(label5);
+            panel5.Controls.Add(lblHorario);
             panel5.Location = new Point(10, 179);
             panel5.Margin = new Padding(3, 2, 3, 2);
             panel5.Name = "panel5";
-            panel5.Size = new Size(844, 19);
+            panel5.Size = new Size(690, 19);
             panel5.TabIndex = 4;
             // 
-            // label5
+            // lblHorario
             // 
-            label5.BackColor = Color.Blue;
-            label5.BorderStyle = BorderStyle.FixedSingle;
-            label5.Dock = DockStyle.Fill;
-            label5.FlatStyle = FlatStyle.Flat;
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(0, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(844, 19);
-            label5.TabIndex = 0;
-            label5.TextAlign = ContentAlignment.MiddleCenter;
+            lblHorario.BackColor = Color.Blue;
+            lblHorario.BorderStyle = BorderStyle.FixedSingle;
+            lblHorario.Dock = DockStyle.Fill;
+            lblHorario.FlatStyle = FlatStyle.Flat;
+            lblHorario.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHorario.ForeColor = Color.White;
+            lblHorario.Location = new Point(0, 0);
+            lblHorario.Name = "lblHorario";
+            lblHorario.Size = new Size(690, 19);
+            lblHorario.TabIndex = 0;
+            lblHorario.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -242,16 +266,16 @@
             txtRut.KeyUp += txtRut_KeyUp;
             txtRut.Leave += txtRut_Leave;
             // 
-            // textBox2
+            // txtNombre
             // 
-            textBox2.BackColor = Color.White;
-            textBox2.Enabled = false;
-            textBox2.Location = new Point(185, 111);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(670, 23);
-            textBox2.TabIndex = 7;
+            txtNombre.BackColor = Color.White;
+            txtNombre.Enabled = false;
+            txtNombre.Location = new Point(185, 111);
+            txtNombre.Margin = new Padding(3, 2, 3, 2);
+            txtNombre.Name = "txtNombre";
+            txtNombre.ReadOnly = true;
+            txtNombre.Size = new Size(490, 23);
+            txtNombre.TabIndex = 7;
             // 
             // label4
             // 
@@ -270,7 +294,7 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(897, 64);
+            panel3.Size = new Size(718, 64);
             panel3.TabIndex = 8;
             // 
             // label6
@@ -306,27 +330,50 @@
             // btnTurno
             // 
             btnTurno.Image = (Image)resources.GetObject("btnTurno.Image");
-            btnTurno.Location = new Point(822, 69);
+            btnTurno.Location = new Point(643, 69);
             btnTurno.Margin = new Padding(3, 2, 3, 2);
             btnTurno.Name = "btnTurno";
             btnTurno.Size = new Size(32, 28);
             btnTurno.TabIndex = 10;
             btnTurno.UseVisualStyleBackColor = true;
             // 
+            // panel4
+            // 
+            panel4.BackColor = Color.LightGreen;
+            panel4.Controls.Add(label5);
+            panel4.Location = new Point(10, 198);
+            panel4.Margin = new Padding(3, 2, 3, 2);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(101, 19);
+            panel4.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.BackColor = Color.LemonChiffon;
+            label5.BorderStyle = BorderStyle.FixedSingle;
+            label5.Dock = DockStyle.Fill;
+            label5.FlatStyle = FlatStyle.Flat;
+            label5.Location = new Point(0, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(101, 19);
+            label5.TabIndex = 0;
+            label5.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // FrmHorario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(897, 524);
+            ClientSize = new Size(718, 498);
             Controls.Add(btnTurno);
             Controls.Add(btnHlpEmpleado);
             Controls.Add(panel3);
-            Controls.Add(textBox2);
+            Controls.Add(txtNombre);
             Controls.Add(txtRut);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(panel5);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgHorario);
+            Controls.Add(panel4);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Margin = new Padding(3, 2, 3, 2);
@@ -335,11 +382,12 @@
             Load += FrmHorario_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgHorario).EndInit();
             panel5.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel4.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -350,23 +398,27 @@
         private Label label1;
         private Panel panel2;
         private Label label2;
-        private DataGridView dataGridView1;
+        private DataGridView dgHorario;
         private Panel panel5;
-        private Label label5;
+        private Label lblHorario;
         private Label label3;
         private TextBox txtRut;
         private TextBox textBox2;
-        private DataGridViewTextBoxColumn colHE;
-        private DataGridViewTextBoxColumn colHS;
-        private DataGridViewTextBoxColumn colTHE;
-        private DataGridViewTextBoxColumn colTHS;
-        private DataGridViewTextBoxColumn colHET;
-        private DataGridViewTextBoxColumn colHST;
         private Label label4;
         private Panel panel3;
         private Label label6;
         private PictureBox pictureBox1;
         private Button btnHlpEmpleado;
         private Button btnTurno;
+        private TextBox txtNombre;
+        private Panel panel4;
+        private Label label5;
+        private DataGridViewTextBoxColumn colDia;
+        private DataGridViewTextBoxColumn colHE;
+        private DataGridViewTextBoxColumn colHS;
+        private DataGridViewTextBoxColumn colTHE;
+        private DataGridViewTextBoxColumn colTHS;
+        private DataGridViewTextBoxColumn colHET;
+        private DataGridViewTextBoxColumn colHST;
     }
 }

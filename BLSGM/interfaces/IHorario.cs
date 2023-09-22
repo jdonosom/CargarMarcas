@@ -13,5 +13,6 @@ namespace BLSGM.interfaces
         List<Horario> GetAll();
         bool Delete(int Id);
         bool Update();
+        Horario GetFuncionario(int IdEmpleado);
     }
 }

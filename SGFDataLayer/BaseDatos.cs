@@ -52,6 +52,7 @@ namespace SGFDataLayer
                 // this.cadenaConexion = ConfigurationManager.AppSettings.Get("CADENA_CONEXION");
                 this.cadenaConexion = String.Format("Server={0};Database={1};Uid={2};Pwd={3};", server, database, user, password);
 
+                DbProviderFactories.RegisterFactory(proveedor, SqlClientFactory.Instance);
                 BaseDatos.factory = DbProviderFactories.GetFactory(proveedor);
                 //BaseDatos.factory = GetFactory();
             }

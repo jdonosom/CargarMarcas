@@ -9,22 +9,28 @@ namespace CargarMarcas
 {
     public partial class FrmHorario : Form
     {
-        private string ValorEdit=null;
+        private string ValorEdit = null;
         private TextBox editBox;
         private bool lChange = false;
 
+        private readonly IFormFactory forms;
         private readonly BusinessRequest bl;
+
         // private readonly Credencial credencial;
 
-        public FrmHorario(BusinessRequest bl)
+        public FrmHorario(
+             BusinessRequest bl
+            , IFormFactory forms)
         {
             InitializeComponent();
             this.bl = bl;
+            this.forms = forms;
 
             #region ToolTips
             ToolTip tool = new ToolTip();
             tool.SetToolTip(this.btnTurno, "Configurar Turno");
             #endregion
+
         }
 
         private void FrmHorario_Load(object sender, EventArgs e)
@@ -111,7 +117,8 @@ namespace CargarMarcas
             lblHorario.Text = horario.Descripcion.TrimEnd().TrimStart();
 
             // 
-            ClearDataGridViewRows(dgHorario);
+            // ClearDataGridViewRows(dgHorario);
+            this.dgHorario.Rows.Clear();
 
             dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana.ToString(@"hh\:mm"), horario.L_SalidaMañana.ToString(@"hh\:mm"), horario.L_ToleranciaEntrada, horario.L_EntradaTarde.ToString(@"hh\:mm"), horario.L_SalidaTarde.ToString(@"hh\:mm"));
             dgHorario.Rows.Add("Martes", horario.M_EntradaMañana.ToString(@"hh\:mm"), horario.M_SalidaMañana.ToString(@"hh\:mm"), horario.M_ToleranciaEntrada, horario.M_EntradaTarde.ToString(@"hh\:mm"), horario.M_SalidaTarde.ToString(@"hh\:mm"));
@@ -126,11 +133,8 @@ namespace CargarMarcas
         {
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
-
                 if (dataGridView.Rows.Count == 1) continue;
-
                 dataGridView.Rows.RemoveAt(dataGridView.Rows.Count - 1);
-
             }
         }
 
@@ -138,7 +142,6 @@ namespace CargarMarcas
         {
             txtRut.Enabled = !flag;
             dgHorario.Enabled = flag;
-
         }
 
         private void dgHorario_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -233,6 +236,37 @@ namespace CargarMarcas
             if (!lChange)
                 dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = ValorEdit;
 
+        }
+
+        private void txtRut_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtRut.Text))
+            {
+                e.Handled = true;
+                return;
+            }
+            if (e.KeyCode == Keys.Enter)
+                SendKeys.Send("{TAB}");
+        }
+
+        private void btnHlpEmpleado_Click(object sender, EventArgs e)
+        {
+            var frm = forms.Create<FrmBusquedaEmpleados>();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            DialogResult dr = frm.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+
+                if (string.IsNullOrEmpty(frm.RutAux))
+                    return;
+
+                txtRut.Enabled = true;
+                txtRut.Text = frm.RutAux;
+                txtRut.Focus();
+
+                SendKeys.Send("{TAB}");
+            }
         }
     }
 }

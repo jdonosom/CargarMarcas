@@ -13,6 +13,6 @@ namespace BLSGM.interfaces
         List<Funcionario> GetAll();
         bool Delete(int Id);
         bool Update();
-
+        List<Funcionario> GetByNombre(string nombre);
     }
 }

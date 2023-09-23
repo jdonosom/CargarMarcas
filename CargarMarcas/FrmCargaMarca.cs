@@ -27,7 +27,7 @@ namespace CargarMarcas
             InitializeComponent();
 
             this.forms = frm;
-            this.Bl    = Bl;
+            this.Bl = Bl;
 
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
 
@@ -368,9 +368,15 @@ namespace CargarMarcas
 
             //FormFactory frm = new FormFactory();
             //frm.Create<FrmHorario>().ShowDialog();
-            
+
             //FrmHorario frm = new();
             //frm.ShowDialog();
+        }
+
+        private void mantenciónDeHorariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = forms.Create<FrmMantHorarios>();
+            frm.ShowDialog();
         }
     }
 }

@@ -290,6 +290,63 @@ namespace BL
             }
             return lRet;
         }
+
+        List<Funcionario> IFuncionario.GetByNombre(string nombre)
+        {
+            var oLst = new List<Funcionario>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("FuncionarioByNombreSelProc @Nombre");
+                DB.AsignarParametroCadena("@Nombre", nombre);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+                    Funcionario e = new Funcionario()
+                    {
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                        Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "" : reader.GetString(reader.GetOrdinal("Rut")),
+                        Nombres = reader.IsDBNull(reader.GetOrdinal("Nombres")) ? "" : reader.GetString(reader.GetOrdinal("Nombres")),
+                        ApellidoPaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoPaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoPaterno")),
+                        ApellidoMaterno = reader.IsDBNull(reader.GetOrdinal("ApellidoMaterno")) ? "" : reader.GetString(reader.GetOrdinal("ApellidoMaterno")),
+                        Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { } : reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
+                        Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "" : reader.GetString(reader.GetOrdinal("Email")),
+                    };
+                    oLst.Add(e);
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
         #endregion
 
     }

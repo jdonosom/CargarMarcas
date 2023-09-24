@@ -1,6 +1,6 @@
 ﻿namespace CargarMarcas
 {
-    partial class FrmHorario
+    partial class FrmHorarioFuncionario
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHorario));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHorarioFuncionario));
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();

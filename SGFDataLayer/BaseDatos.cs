@@ -290,6 +290,25 @@ namespace SGFDataLayer
         }
 
         /// <summary>
+        /// Asigna un parámetro de tipo time al comando creado.
+        /// </summary>
+        /// <param name="nombre">El nombre del parámetro.</param>
+        /// <param name="valor">El valor del parámetro.</param>
+        public void AsignarParametroTime(string nombre, TimeSpan? valor)
+        {
+            DbParameter param = comando.CreateParameter(); ;
+            param.DbType = System.Data.DbType.Time;
+            param.Direction = ParameterDirection.Input;
+            param.ParameterName = nombre;
+            param.Value = valor;
+
+            comando.Parameters.Add(param);
+
+            // AsignarParametro(nombre, "'", valor.ToString());
+        }
+
+
+        /// <summary>
         /// Asigna un parámetro de tipo fecha al comando creado.
         /// </summary>
         /// <param name="nombre">El nombre del parámetro.</param>

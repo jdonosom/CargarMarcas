@@ -31,6 +31,8 @@
             lstHorario = new ListView();
             colId = new ColumnHeader();
             colDescripcion = new ColumnHeader();
+            btnAceptar = new Button();
+            btnCancelar = new Button();
             SuspendLayout();
             // 
             // lstHorario
@@ -39,11 +41,14 @@
             lstHorario.FullRowSelect = true;
             lstHorario.GridLines = true;
             lstHorario.Location = new Point(12, 12);
+            lstHorario.MultiSelect = false;
             lstHorario.Name = "lstHorario";
+            lstHorario.ShowItemToolTips = true;
             lstHorario.Size = new Size(540, 285);
             lstHorario.TabIndex = 0;
             lstHorario.UseCompatibleStateImageBehavior = false;
             lstHorario.View = View.Details;
+            lstHorario.DoubleClick += lstHorario_DoubleClick;
             // 
             // colId
             // 
@@ -54,11 +59,35 @@
             colDescripcion.Text = "Descripción";
             colDescripcion.Width = 450;
             // 
+            // btnAceptar
+            // 
+            btnAceptar.Location = new Point(396, 307);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(75, 23);
+            btnAceptar.TabIndex = 1;
+            btnAceptar.Text = "&Aceptar";
+            btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.Location = new Point(477, 307);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.TabIndex = 1;
+            btnCancelar.Text = "&Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
+            // 
             // FrmBusquedaHorarios
             // 
+            AcceptButton = btnAceptar;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(564, 309);
+            CancelButton = btnCancelar;
+            ClientSize = new Size(564, 339);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnAceptar);
             Controls.Add(lstHorario);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             MaximizeBox = false;
@@ -74,5 +103,7 @@
         private ListView lstHorario;
         private ColumnHeader colId;
         private ColumnHeader colDescripcion;
+        private Button btnAceptar;
+        private Button btnCancelar;
     }
 }

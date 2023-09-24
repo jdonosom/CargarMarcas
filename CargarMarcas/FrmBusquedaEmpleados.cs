@@ -20,7 +20,6 @@ namespace CargarMarcas
         public int IdListaPrecio;
         #endregion
 
-
         #region Formulario
         public FrmBusquedaEmpleados(
             BusinessRequest bl

@@ -7,7 +7,7 @@ using ToolTip = System.Windows.Forms.ToolTip;
 
 namespace CargarMarcas
 {
-    public partial class FrmHorario : Form
+    public partial class FrmHorarioFuncionario : Form
     {
         private string ValorEdit = null;
         private TextBox editBox;
@@ -18,7 +18,7 @@ namespace CargarMarcas
 
         // private readonly Credencial credencial;
 
-        public FrmHorario(
+        public FrmHorarioFuncionario(
              BusinessRequest bl
             , IFormFactory forms)
         {

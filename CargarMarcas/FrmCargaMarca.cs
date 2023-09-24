@@ -58,7 +58,10 @@ namespace CargarMarcas
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    using (new CenterWinDialog(this))
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -363,7 +366,7 @@ namespace CargarMarcas
         private void adignaciónHorariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            var frm = forms.Create<FrmHorario>();
+            var frm = forms.Create<FrmHorarioFuncionario>();
             frm.ShowDialog();
 
             //FormFactory frm = new FormFactory();

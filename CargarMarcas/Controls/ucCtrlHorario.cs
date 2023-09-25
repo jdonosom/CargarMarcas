@@ -82,9 +82,16 @@ namespace CargarMarcas.Controls
         {
             if (lEdit)
             {
-                var dateTime = $"1900-01-01 {editBox.Text}";
-                var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture);
-                dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora;
+                if (e.ColumnIndex == 3 || e.ColumnIndex == 6)
+                {
+                    dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = editBox.Text;
+                }
+                else
+                {
+                    var dateTime = $"1900-01-01 {editBox.Text}";
+                    var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture);
+                    dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora;
+                }
                 ActualizaRegistro(e.RowIndex, e.ColumnIndex, dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
 
             }
@@ -93,82 +100,129 @@ namespace CargarMarcas.Controls
 
         private void ActualizaRegistro(int row, int col, object value)
         {
-            // Lunes 
-            //
-            if (row == 0 && col == 1) // Entrada mañana
-                horario.L_EntradaMañana = (DateTime)value;
-            else if (row == 0 && col == 2) // Salida mañana
-                horario.L_SalidaMañana = (DateTime)value;
-            else if (row == 0 && col == 3) // Entrada Tarde
-                horario.L_EntradaTarde = (DateTime)value;
-            else if (row == 0 && col == 4) // Salida Tarde
-                horario.L_SalidaTarde = (DateTime)value;
+            if (col == 3 || col == 6)
+            {
+                // Lunes
+                if (row == 0 && col == 3) // Entrada mañana
+                    horario.L_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 0 && col == 5) // Salida mañana
+                    horario.L_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Martes
-            //
-            if (row == 1 && col == 1) // Entrada mañana
-                horario.M_EntradaMañana = (DateTime)value;
-            else if (row == 1 && col == 2) // Salida mañana
-                horario.M_SalidaMañana = (DateTime)value;
-            else if (row == 1 && col == 3) // Entrada Tarde
-                horario.M_EntradaTarde = (DateTime)value;
-            else if (row == 1 && col == 4) // Salida Tarde
-                horario.M_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 1 && col == 3) // Entrada mañana
+                    horario.M_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 1 && col == 5) // Salida mañana
+                    horario.M_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Miercoles
-            //
-            if (row == 2 && col == 1) // Entrada mañana
-                horario.X_EntradaMañana = (DateTime)value;
-            else if (row == 2 && col == 2) // Salida mañana
-                horario.X_SalidaMañana = (DateTime)value;
-            else if (row == 2 && col == 3) // Entrada Tarde
-                horario.X_EntradaTarde = (DateTime)value;
-            else if (row == 2 && col == 4) // Salida Tarde
-                horario.X_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 2 && col == 3) // Entrada mañana
+                    horario.X_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 2 && col == 5) // Salida mañana
+                    horario.X_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Jueves
-            //
-            if (row == 3 && col == 1) // Entrada mañana
-                horario.J_EntradaMañana = (DateTime)value;
-            else if (row == 3 && col == 2) // Salida mañana
-                horario.J_SalidaMañana = (DateTime)value;
-            else if (row == 3 && col == 3) // Entrada Tarde
-                horario.J_EntradaTarde = (DateTime)value;
-            else if (row == 3 && col == 4) // Salida Tarde
-                horario.J_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 3 && col == 3) // Entrada mañana
+                    horario.J_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 3 && col == 5) // Salida mañana
+                    horario.J_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Viernes
-            //
-            if (row == 4 && col == 1) // Entrada mañana
-                horario.V_EntradaMañana = (DateTime)value;
-            else if (row == 4 && col == 2) // Salida mañana
-                horario.V_SalidaMañana = (DateTime)value;
-            else if (row == 4 && col == 3) // Entrada Tarde
-                horario.V_EntradaTarde = (DateTime)value;
-            else if (row == 4 && col == 4) // Salida Tarde
-                horario.V_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 4 && col == 3) // Entrada mañana
+                    horario.V_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 4 && col == 5) // Salida mañana
+                    horario.V_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Sábado
-            //
-            if (row == 5 && col == 1) // Entrada mañana
-                horario.S_EntradaMañana = (DateTime)value;
-            else if (row == 5 && col == 2) // Salida mañana
-                horario.S_SalidaMañana = (DateTime)value;
-            else if (row == 5 && col == 3) // Entrada Tarde
-                horario.S_EntradaTarde = (DateTime)value;
-            else if (row == 5 && col == 4) // Salida Tarde
-                horario.S_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 5 && col == 3) // Entrada mañana
+                    horario.S_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 5 && col == 5) // Salida mañana
+                    horario.S_ToleranciaSalida = Convert.ToInt16(value);
 
-            // Domingo
-            //
-            if (row == 6 && col == 1) // Entrada mañana
-                horario.D_EntradaMañana = (DateTime)value;
-            else if (row == 6 && col == 2) // Salida mañana
-                horario.D_SalidaMañana = (DateTime)value;
-            else if (row == 6 && col == 3) // Entrada Tarde
-                horario.D_EntradaTarde = (DateTime)value;
-            else if (row == 6 && col == 4) // Salida Tarde
-                horario.D_SalidaTarde = (DateTime)value;
+                // Lunes
+                if (row == 6 && col == 3) // Entrada mañana
+                    horario.D_ToleranciaEntrada = Convert.ToInt16(value);
+                else if (row == 6 && col == 5) // Salida mañana
+                    horario.D_ToleranciaSalida = Convert.ToInt16(value);
+            }
+            else
+            {
+                // Lunes 
+                //
+                if (row == 0 && col == 1) // Entrada mañana
+                    horario.L_EntradaMañana = (DateTime)value;
+                else if (row == 0 && col == 2) // Salida mañana
+                    horario.L_SalidaMañana = (DateTime)value;
+                else if (row == 0 && col == 3) // Entrada Tarde
+                    horario.L_EntradaTarde = (DateTime)value;
+                else if (row == 0 && col == 4) // Salida Tarde
+                    horario.L_SalidaTarde = (DateTime)value;
+
+                // Martes
+                //
+                if (row == 1 && col == 1) // Entrada mañana
+                    horario.M_EntradaMañana = (DateTime)value;
+                else if (row == 1 && col == 2) // Salida mañana
+                    horario.M_SalidaMañana = (DateTime)value;
+                else if (row == 1 && col == 3) // Entrada Tarde
+                    horario.M_EntradaTarde = (DateTime)value;
+                else if (row == 1 && col == 4) // Salida Tarde
+                    horario.M_SalidaTarde = (DateTime)value;
+
+                // Miercoles
+                //
+                if (row == 2 && col == 1) // Entrada mañana
+                    horario.X_EntradaMañana = (DateTime)value;
+                else if (row == 2 && col == 2) // Salida mañana
+                    horario.X_SalidaMañana = (DateTime)value;
+                else if (row == 2 && col == 3) // Entrada Tarde
+                    horario.X_EntradaTarde = (DateTime)value;
+                else if (row == 2 && col == 4) // Salida Tarde
+                    horario.X_SalidaTarde = (DateTime)value;
+
+                // Jueves
+                //
+                if (row == 3 && col == 1) // Entrada mañana
+                    horario.J_EntradaMañana = (DateTime)value;
+                else if (row == 3 && col == 2) // Salida mañana
+                    horario.J_SalidaMañana = (DateTime)value;
+                else if (row == 3 && col == 3) // Entrada Tarde
+                    horario.J_EntradaTarde = (DateTime)value;
+                else if (row == 3 && col == 4) // Salida Tarde
+                    horario.J_SalidaTarde = (DateTime)value;
+
+                // Viernes
+                //
+                if (row == 4 && col == 1) // Entrada mañana
+                    horario.V_EntradaMañana = (DateTime)value;
+                else if (row == 4 && col == 2) // Salida mañana
+                    horario.V_SalidaMañana = (DateTime)value;
+                else if (row == 4 && col == 3) // Entrada Tarde
+                    horario.V_EntradaTarde = (DateTime)value;
+                else if (row == 4 && col == 4) // Salida Tarde
+                    horario.V_SalidaTarde = (DateTime)value;
+
+                // Sábado
+                //
+                if (row == 5 && col == 1) // Entrada mañana
+                    horario.S_EntradaMañana = (DateTime)value;
+                else if (row == 5 && col == 2) // Salida mañana
+                    horario.S_SalidaMañana = (DateTime)value;
+                else if (row == 5 && col == 3) // Entrada Tarde
+                    horario.S_EntradaTarde = (DateTime)value;
+                else if (row == 5 && col == 4) // Salida Tarde
+                    horario.S_SalidaTarde = (DateTime)value;
+
+                // Domingo
+                //
+                if (row == 6 && col == 1) // Entrada mañana
+                    horario.D_EntradaMañana = (DateTime)value;
+                else if (row == 6 && col == 2) // Salida mañana
+                    horario.D_SalidaMañana = (DateTime)value;
+                else if (row == 6 && col == 3) // Entrada Tarde
+                    horario.D_EntradaTarde = (DateTime)value;
+                else if (row == 6 && col == 4) // Salida Tarde
+                    horario.D_SalidaTarde = (DateTime)value;
+            }
         }
 
         private void dgHorario_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

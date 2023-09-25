@@ -308,6 +308,9 @@ namespace BL
                     #region Asignacion de propiedades
                     this.IdHorario = current.IdHorario;
                     this.Descripcion = current.Descripcion;
+                    this.Desde = current.Desde;
+                    this.Hasta = current.Hasta;
+
                     this.Lunes = current.Lunes;
                     this.L_EntradaMañana = current.L_EntradaMañana;
                     this.L_SalidaMañana = current.L_SalidaMañana;
@@ -315,6 +318,7 @@ namespace BL
                     this.L_SalidaTarde = current.L_SalidaTarde;
                     this.L_ToleranciaEntrada = current.L_ToleranciaEntrada;
                     this.L_ToleranciaSalida = current.L_ToleranciaSalida;
+
                     this.Martes = current.Martes;
                     this.M_EntradaMañana = current.M_EntradaMañana;
                     this.M_SalidaMañana = current.M_SalidaMañana;
@@ -322,6 +326,7 @@ namespace BL
                     this.M_SalidaTarde = current.M_SalidaTarde;
                     this.M_ToleranciaEntrada = current.M_ToleranciaEntrada;
                     this.M_ToleranciaSalida = current.M_ToleranciaSalida;
+
                     this.Miercoles = current.Miercoles;
                     this.X_EntradaMañana = current.X_EntradaMañana;
                     this.X_SalidaMañana = current.X_SalidaMañana;
@@ -329,6 +334,7 @@ namespace BL
                     this.X_SalidaTarde = current.X_SalidaTarde;
                     this.X_ToleranciaEntrada = current.X_ToleranciaEntrada;
                     this.X_ToleranciaSalida = current.X_ToleranciaSalida;
+
                     this.Jueves = current.Jueves;
                     this.J_EntradaMañana = current.J_EntradaMañana;
                     this.J_SalidaMañana = current.J_SalidaMañana;
@@ -336,6 +342,7 @@ namespace BL
                     this.J_SalidaTarde = current.J_SalidaTarde;
                     this.J_ToleranciaEntrada = current.J_ToleranciaEntrada;
                     this.J_ToleranciaSalida = current.J_ToleranciaSalida;
+
                     this.Viernes = current.Viernes;
                     this.V_EntradaMañana = current.V_EntradaMañana;
                     this.V_SalidaMañana = current.V_SalidaMañana;
@@ -343,6 +350,7 @@ namespace BL
                     this.V_SalidaTarde = current.V_SalidaTarde;
                     this.V_ToleranciaEntrada = current.V_ToleranciaEntrada;
                     this.V_ToleranciaSalida = current.V_ToleranciaSalida;
+
                     this.Sabado = current.Sabado;
                     this.S_EntradaMañana = current.S_EntradaMañana;
                     this.S_SalidaMañana = current.S_SalidaMañana;
@@ -350,6 +358,7 @@ namespace BL
                     this.S_SalidaTarde = current.S_SalidaTarde;
                     this.S_ToleranciaEntrada = current.S_ToleranciaEntrada;
                     this.S_ToleranciaSalida = current.S_ToleranciaSalida;
+
                     this.Domingo = current.Domingo;
                     this.D_EntradaMañana = current.D_EntradaMañana;
                     this.D_SalidaMañana = current.D_SalidaMañana;
@@ -358,8 +367,7 @@ namespace BL
                     this.D_ToleranciaEntrada = current.D_ToleranciaEntrada;
                     this.D_ToleranciaSalida = current.D_ToleranciaSalida;
                     this.TotalHorasSemanales = current.TotalHorasSemanales;
-                    this.Desde = current.Desde;
-                    this.Hasta = current.Hasta;
+
                     #endregion
 
                     return current;

@@ -427,58 +427,58 @@ namespace BL
                 DB.AsignarParametroCadena("@Hasta", current.Hasta.ToString("yyyyMMdd"));
 
                 DB.AsignarParametroCadena("@Lunes", current.Lunes);
-                DB.AsignarParametroCadena("@L_EntradaMañana", current.L_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@L_SalidaMañana", current.L_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@L_EntradaTarde", current.L_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@L_SalidaTarde", current.L_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@L_EntradaMañana", current.L_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@L_SalidaMañana", current.L_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@L_EntradaTarde", current.L_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@L_SalidaTarde", current.L_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@L_ToleranciaEntrada", current.L_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@L_ToleranciaSalida", current.L_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Martes", current.Martes);
-                DB.AsignarParametroCadena("@M_EntradaMañana", current.M_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@M_SalidaMañana", current.M_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@M_EntradaTarde", current.M_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@M_SalidaTarde", current.M_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@M_EntradaMañana", current.M_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@M_SalidaMañana", current.M_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@M_EntradaTarde", current.M_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@M_SalidaTarde", current.M_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@M_ToleranciaEntrada", current.M_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@M_ToleranciaSalida", current.M_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Miercoles", Miercoles);
-                DB.AsignarParametroCadena("@X_EntradaMañana", current.X_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@X_SalidaMañana", current.X_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@X_EntradaTarde", current.X_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@X_SalidaTarde", current.X_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@X_EntradaMañana", current.X_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@X_SalidaMañana", current.X_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@X_EntradaTarde", current.X_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@X_SalidaTarde", current.X_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@X_ToleranciaEntrada", current.X_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@X_ToleranciaSalida", current.X_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Jueves", current.Jueves);
-                DB.AsignarParametroCadena("@J_EntradaMañana", current.J_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@J_SalidaMañana", current.J_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@J_EntradaTarde", current.J_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@J_SalidaTarde", current.J_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@J_EntradaMañana", current.J_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@J_SalidaMañana", current.J_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@J_EntradaTarde", current.J_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@J_SalidaTarde", current.J_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@J_ToleranciaEntrada", current.J_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@J_ToleranciaSalida", current.J_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Viernes", current.Viernes);
-                DB.AsignarParametroCadena("@V_EntradaMañana", current.V_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@V_SalidaMañana", current.V_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@V_EntradaTarde", current.V_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@V_SalidaTarde", current.V_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@V_EntradaMañana", current.V_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@V_SalidaMañana", current.V_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@V_EntradaTarde", current.V_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@V_SalidaTarde", current.V_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@V_ToleranciaEntrada", current.V_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@V_ToleranciaSalida", current.V_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Sabado", current.Sabado);
-                DB.AsignarParametroCadena("@S_EntradaMañana", current.S_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@S_SalidaMañana", current.S_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@S_EntradaTarde", current.S_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@S_SalidaTarde", current.S_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@S_EntradaMañana", current.S_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@S_SalidaMañana", current.S_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@S_EntradaTarde", current.S_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@S_SalidaTarde", current.S_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@S_ToleranciaEntrada", current.S_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@S_ToleranciaSalida", current.S_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Domingo", current.Domingo);
-                DB.AsignarParametroCadena("@D_EntradaMañana", current.D_EntradaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@D_SalidaMañana", current.D_SalidaMañana.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@D_EntradaTarde", current.D_EntradaTarde.ToString("yyyyMMdd HH:mm:ss"));
-                DB.AsignarParametroCadena("@D_SalidaTarde", current.D_SalidaTarde.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@D_EntradaMañana", current.D_EntradaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@D_SalidaMañana", current.D_SalidaMañana?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@D_EntradaTarde", current.D_EntradaTarde?.ToString("yyyyMMdd HH:mm:ss"));
+                DB.AsignarParametroCadena("@D_SalidaTarde", current.D_SalidaTarde?.ToString("yyyyMMdd HH:mm:ss"));
                 DB.AsignarParametroEntero("@D_ToleranciaEntrada", current.D_ToleranciaEntrada);
                 DB.AsignarParametroEntero("@D_ToleranciaSalida", current.D_ToleranciaSalida);
 

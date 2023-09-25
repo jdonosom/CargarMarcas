@@ -44,8 +44,8 @@ namespace Models
                 lunes = value;
             }
         }
-        private System.DateTime l_entradamañana;
-        public System.DateTime L_EntradaMañana
+        private System.DateTime? l_entradamañana;
+        public System.DateTime? L_EntradaMañana
         {
             get
             {
@@ -56,8 +56,8 @@ namespace Models
                 l_entradamañana = value;
             }
         }
-        private System.DateTime l_salidamañana;
-        public System.DateTime L_SalidaMañana
+        private System.DateTime? l_salidamañana;
+        public System.DateTime? L_SalidaMañana
         {
             get
             {
@@ -68,8 +68,8 @@ namespace Models
                 l_salidamañana = value;
             }
         }
-        private System.DateTime l_entradatarde;
-        public System.DateTime L_EntradaTarde
+        private System.DateTime? l_entradatarde;
+        public System.DateTime? L_EntradaTarde
         {
             get
             {
@@ -80,8 +80,8 @@ namespace Models
                 l_entradatarde = value;
             }
         }
-        private System.DateTime l_salidatarde;
-        public System.DateTime L_SalidaTarde
+        private System.DateTime? l_salidatarde;
+        public System.DateTime? L_SalidaTarde
         {
             get
             {
@@ -128,8 +128,8 @@ namespace Models
                 martes = value;
             }
         }
-        private System.DateTime m_entradamañana;
-        public System.DateTime M_EntradaMañana
+        private System.DateTime? m_entradamañana;
+        public System.DateTime? M_EntradaMañana
         {
             get
             {
@@ -140,8 +140,8 @@ namespace Models
                 m_entradamañana = value;
             }
         }
-        private System.DateTime m_salidamañana;
-        public System.DateTime M_SalidaMañana
+        private System.DateTime? m_salidamañana;
+        public System.DateTime? M_SalidaMañana
         {
             get
             {
@@ -152,8 +152,8 @@ namespace Models
                 m_salidamañana = value;
             }
         }
-        private System.DateTime m_entradatarde;
-        public System.DateTime M_EntradaTarde
+        private System.DateTime? m_entradatarde;
+        public System.DateTime? M_EntradaTarde
         {
             get
             {
@@ -164,8 +164,8 @@ namespace Models
                 m_entradatarde = value;
             }
         }
-        private System.DateTime m_salidatarde;
-        public System.DateTime M_SalidaTarde
+        private System.DateTime? m_salidatarde;
+        public System.DateTime? M_SalidaTarde
         {
             get
             {
@@ -212,8 +212,8 @@ namespace Models
                 miercoles = value;
             }
         }
-        private System.DateTime x_entradamañana;
-        public System.DateTime X_EntradaMañana
+        private System.DateTime? x_entradamañana;
+        public System.DateTime? X_EntradaMañana
         {
             get
             {
@@ -224,8 +224,8 @@ namespace Models
                 x_entradamañana = value;
             }
         }
-        private System.DateTime x_salidamañana;
-        public System.DateTime X_SalidaMañana
+        private System.DateTime? x_salidamañana;
+        public System.DateTime? X_SalidaMañana
         {
             get
             {
@@ -236,8 +236,8 @@ namespace Models
                 x_salidamañana = value;
             }
         }
-        private System.DateTime x_entradatarde;
-        public System.DateTime X_EntradaTarde
+        private System.DateTime? x_entradatarde;
+        public System.DateTime? X_EntradaTarde
         {
             get
             {
@@ -246,10 +246,12 @@ namespace Models
             set
             {
                 x_entradatarde = value;
+                if (value >= Convert.ToDateTime("0001-01-01"))
+                    x_entradatarde = default;
             }
         }
-        private System.DateTime x_salidatarde;
-        public System.DateTime X_SalidaTarde
+        private System.DateTime? x_salidatarde;
+        public System.DateTime? X_SalidaTarde
         {
             get
             {
@@ -258,6 +260,8 @@ namespace Models
             set
             {
                 x_salidatarde = value;
+                if (value >= Convert.ToDateTime("0001-01-01"))
+                    x_salidatarde = default;
             }
         }
         private System.Int32 x_toleranciaentrada;
@@ -296,8 +300,8 @@ namespace Models
                 jueves = value;
             }
         }
-        private System.DateTime j_entradamañana;
-        public System.DateTime J_EntradaMañana
+        private System.DateTime? j_entradamañana;
+        public System.DateTime? J_EntradaMañana
         {
             get
             {
@@ -308,8 +312,8 @@ namespace Models
                 j_entradamañana = value;
             }
         }
-        private System.DateTime j_salidamañana;
-        public System.DateTime J_SalidaMañana
+        private System.DateTime? j_salidamañana;
+        public System.DateTime? J_SalidaMañana
         {
             get
             {
@@ -320,8 +324,8 @@ namespace Models
                 j_salidamañana = value;
             }
         }
-        private System.DateTime j_entradatarde;
-        public System.DateTime J_EntradaTarde
+        private System.DateTime? j_entradatarde;
+        public System.DateTime? J_EntradaTarde
         {
             get
             {
@@ -330,10 +334,12 @@ namespace Models
             set
             {
                 j_entradatarde = value;
+                if (value >= Convert.ToDateTime("0001-01-01"))
+                    j_entradatarde = default;
             }
         }
-        private System.DateTime j_salidatarde;
-        public System.DateTime J_SalidaTarde
+        private System.DateTime? j_salidatarde;
+        public System.DateTime? J_SalidaTarde
         {
             get
             {
@@ -380,8 +386,8 @@ namespace Models
                 viernes = value;
             }
         }
-        private System.DateTime v_entradamañana;
-        public System.DateTime V_EntradaMañana
+        private System.DateTime? v_entradamañana;
+        public System.DateTime? V_EntradaMañana
         {
             get
             {
@@ -392,8 +398,8 @@ namespace Models
                 v_entradamañana = value;
             }
         }
-        private System.DateTime v_salidamañana;
-        public System.DateTime V_SalidaMañana
+        private System.DateTime? v_salidamañana;
+        public System.DateTime? V_SalidaMañana
         {
             get
             {
@@ -404,8 +410,8 @@ namespace Models
                 v_salidamañana = value;
             }
         }
-        private System.DateTime v_entradatarde;
-        public System.DateTime V_EntradaTarde
+        private System.DateTime? v_entradatarde;
+        public System.DateTime? V_EntradaTarde
         {
             get
             {
@@ -416,8 +422,8 @@ namespace Models
                 v_entradatarde = value;
             }
         }
-        private System.DateTime v_salidatarde;
-        public System.DateTime V_SalidaTarde
+        private System.DateTime? v_salidatarde;
+        public System.DateTime? V_SalidaTarde
         {
             get
             {
@@ -464,8 +470,8 @@ namespace Models
                 sabado = value;
             }
         }
-        private System.DateTime s_entradamañana;
-        public System.DateTime S_EntradaMañana
+        private System.DateTime? s_entradamañana;
+        public System.DateTime? S_EntradaMañana
         {
             get
             {
@@ -476,8 +482,8 @@ namespace Models
                 s_entradamañana = value;
             }
         }
-        private System.DateTime s_salidamañana;
-        public System.DateTime S_SalidaMañana
+        private System.DateTime? s_salidamañana;
+        public System.DateTime? S_SalidaMañana
         {
             get
             {
@@ -488,8 +494,8 @@ namespace Models
                 s_salidamañana = value;
             }
         }
-        private System.DateTime s_entradatarde;
-        public System.DateTime S_EntradaTarde
+        private System.DateTime? s_entradatarde;
+        public System.DateTime? S_EntradaTarde
         {
             get
             {
@@ -500,8 +506,8 @@ namespace Models
                 s_entradatarde = value;
             }
         }
-        private System.DateTime s_salidatarde;
-        public System.DateTime S_SalidaTarde
+        private System.DateTime? s_salidatarde;
+        public System.DateTime? S_SalidaTarde
         {
             get
             {
@@ -548,8 +554,8 @@ namespace Models
                 domingo = value;
             }
         }
-        private System.DateTime d_entradamañana;
-        public System.DateTime D_EntradaMañana
+        private System.DateTime? d_entradamañana;
+        public System.DateTime? D_EntradaMañana
         {
             get
             {
@@ -560,8 +566,8 @@ namespace Models
                 d_entradamañana = value;
             }
         }
-        private System.DateTime d_salidamañana;
-        public System.DateTime D_SalidaMañana
+        private System.DateTime? d_salidamañana;
+        public System.DateTime? D_SalidaMañana
         {
             get
             {
@@ -572,8 +578,8 @@ namespace Models
                 d_salidamañana = value;
             }
         }
-        private System.DateTime d_entradatarde;
-        public System.DateTime D_EntradaTarde
+        private System.DateTime? d_entradatarde;
+        public System.DateTime? D_EntradaTarde
         {
             get
             {
@@ -584,8 +590,8 @@ namespace Models
                 d_entradatarde = value;
             }
         }
-        private System.DateTime d_salidatarde;
-        public System.DateTime D_SalidaTarde
+        private System.DateTime? d_salidatarde;
+        public System.DateTime? D_SalidaTarde
         {
             get
             {

@@ -363,9 +363,9 @@ namespace BL
                     this.D_EntradaMañana = current.D_EntradaMañana;
                     this.D_SalidaMañana = current.D_SalidaMañana;
                     this.D_EntradaTarde = current.D_EntradaTarde;
-                    this.D_SalidaTarde = current.D_SalidaTarde;
+                    this.D_SalidaTarde  = current.D_SalidaTarde;
                     this.D_ToleranciaEntrada = current.D_ToleranciaEntrada;
-                    this.D_ToleranciaSalida = current.D_ToleranciaSalida;
+                    this.D_ToleranciaSalida  = current.D_ToleranciaSalida;
                     this.TotalHorasSemanales = current.TotalHorasSemanales;
 
                     #endregion
@@ -425,7 +425,6 @@ namespace BL
             try
             {
                 DB.Conectar();
-                // DB.CrearComando("HorarioUpdProc @IdHorario, @TotalHorasSemanales, @Desde, @Hasta, @Descripcion, @Lunes, @L_SalidaMañana, @L_EntradaTarde, @L_SalidaTarde, @L_ToleranciaEntrada, @L_ToleranciaSalida, @Martes, @M_EntradaMañana, @M_SalidaMañana, @M_EntradaTarde, @M_SalidaTarde, @M_ToleranciaEntrada, @M_ToleranciaSalida, @Miercoles, @X_EntradaMañana, @X_SalidaMañana, @X_EntradaTarde, @X_SalidaTarde, @X_ToleranciaEntrada, @X_ToleranciaSalida, @Jueves, @J_EntradaMañana, @J_SalidaMañana, @J_EntradaTarde, @J_SalidaTarde, @J_ToleranciaEntrada, @J_ToleranciaSalida, @Viernes, @V_EntradaMañana, @V_SalidaMañana, @V_EntradaTarde, @V_SalidaTarde, @V_ToleranciaEntrada, @V_ToleranciaSalida, @Sabado, @S_EntradaMañana, @S_SalidaMañana, @S_EntradaTarde, @S_SalidaTarde, @S_ToleranciaEntrada, @S_ToleranciaSalida, @Domingo, @D_EntradaMañana, @D_SalidaMañana, @D_EntradaTarde, @D_SalidaTarde, @D_ToleranciaEntrada, @D_ToleranciaSalida");
                 DB.CrearComando("HorarioUpdProc @IdHorario, @Descripcion, @TotalHorasSemanales, @Desde, @Hasta, @Lunes, @L_EntradaMañana, @L_SalidaMañana, @L_EntradaTarde, @L_SalidaTarde, @L_ToleranciaEntrada, @L_ToleranciaSalida, @Martes, @M_EntradaMañana, @M_SalidaMañana, @M_EntradaTarde, @M_SalidaTarde, @M_ToleranciaEntrada, @M_ToleranciaSalida, @Miercoles, @X_EntradaMañana, @X_SalidaMañana, @X_EntradaTarde, @X_SalidaTarde, @X_ToleranciaEntrada, @X_ToleranciaSalida, @Jueves, @J_EntradaMañana, @J_SalidaMañana, @J_EntradaTarde, @J_SalidaTarde, @J_ToleranciaEntrada, @J_ToleranciaSalida, @Viernes, @V_EntradaMañana, @V_SalidaMañana, @V_EntradaTarde, @V_SalidaTarde, @V_ToleranciaEntrada, @V_ToleranciaSalida, @Sabado, @S_EntradaMañana, @S_SalidaMañana, @S_EntradaTarde, @S_SalidaTarde, @S_ToleranciaEntrada, @S_ToleranciaSalida, @Domingo, @D_EntradaMañana, @D_SalidaMañana, @D_EntradaTarde, @D_SalidaTarde, @D_ToleranciaEntrada, @D_ToleranciaSalida");
 
                 DB.AsignarParametroEntero("@IdHorario", current.IdHorario);

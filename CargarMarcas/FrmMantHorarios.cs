@@ -147,60 +147,61 @@ namespace CargarMarcas
                 current.Desde = DateTime.Parse("1900-01-01");
                 current.Hasta = DateTime.Parse("1900-01-01");
 
+
                 current.Lunes = (true) ? "S" : "N";
-                current.L_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.L_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.L_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.L_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.L_EntradaMañana = ucCtrlHorario1.Horario.L_EntradaMañana;
+                current.L_SalidaMañana = ucCtrlHorario1.Horario.L_SalidaMañana;
                 current.L_ToleranciaEntrada = ucCtrlHorario1.Horario.L_ToleranciaEntrada;
-                current.L_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.L_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.L_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.L_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.L_EntradaTarde = ucCtrlHorario1.Horario.L_EntradaTarde;
+                current.L_SalidaTarde = ucCtrlHorario1.Horario.L_SalidaTarde;
                 current.L_ToleranciaSalida = ucCtrlHorario1.Horario.L_ToleranciaSalida;
 
                 current.Martes = "S";
-                current.M_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.M_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.M_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.M_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.M_EntradaMañana = ucCtrlHorario1.Horario.M_EntradaMañana;
+                current.M_SalidaMañana = ucCtrlHorario1.Horario.M_SalidaMañana;
                 current.M_ToleranciaEntrada = ucCtrlHorario1.Horario.M_ToleranciaEntrada;
-                current.M_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.M_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.M_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.M_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.M_EntradaTarde = ucCtrlHorario1.Horario.M_EntradaTarde;
+                current.M_SalidaTarde = ucCtrlHorario1.Horario.M_SalidaTarde;
                 current.M_ToleranciaSalida = ucCtrlHorario1.Horario.M_ToleranciaSalida;
 
                 current.Miercoles = "S";
-                current.X_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.X_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.X_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.X_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.X_EntradaMañana = ucCtrlHorario1.Horario.X_EntradaMañana;
+                current.X_SalidaMañana = ucCtrlHorario1.Horario.X_SalidaMañana;
                 current.X_ToleranciaEntrada = ucCtrlHorario1.Horario.X_ToleranciaEntrada;
-                current.X_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.X_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.X_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.X_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.X_EntradaTarde = ucCtrlHorario1.Horario.X_EntradaTarde;
+                current.X_SalidaTarde = ucCtrlHorario1.Horario.X_SalidaTarde;
                 current.X_ToleranciaSalida = ucCtrlHorario1.Horario.X_ToleranciaSalida;
 
                 current.Jueves = "S";
-                current.J_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.J_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.J_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.J_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.J_EntradaMañana = ucCtrlHorario1.Horario.J_EntradaMañana;
+                current.J_SalidaMañana = ucCtrlHorario1.Horario.J_SalidaMañana;
                 current.J_ToleranciaEntrada = ucCtrlHorario1.Horario.J_ToleranciaEntrada;
-                current.J_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.J_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.J_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.J_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.J_EntradaTarde = ucCtrlHorario1.Horario.J_EntradaTarde;
+                current.J_SalidaTarde = ucCtrlHorario1.Horario.J_SalidaTarde;
                 current.J_ToleranciaSalida = ucCtrlHorario1.Horario.J_ToleranciaSalida;
 
                 current.Viernes = "S";
-                current.V_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.V_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.V_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.V_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.V_EntradaMañana = ucCtrlHorario1.Horario.V_EntradaMañana;
+                current.V_SalidaMañana = ucCtrlHorario1.Horario.V_SalidaMañana;
                 current.V_ToleranciaEntrada = ucCtrlHorario1.Horario.V_ToleranciaEntrada;
-                current.V_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.V_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.V_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.V_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.V_EntradaTarde = ucCtrlHorario1.Horario.V_EntradaTarde;
+                current.V_SalidaTarde = ucCtrlHorario1.Horario.V_SalidaTarde;
                 current.V_ToleranciaSalida = ucCtrlHorario1.Horario.V_ToleranciaSalida;
 
                 current.Sabado = "S";
-                current.S_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.S_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.S_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.S_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.S_EntradaMañana = ucCtrlHorario1.Horario.S_EntradaMañana;
+                current.S_SalidaMañana = ucCtrlHorario1.Horario.S_SalidaMañana;
                 current.S_ToleranciaEntrada = ucCtrlHorario1.Horario.S_ToleranciaEntrada;
-                current.S_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.S_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.S_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.S_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.S_EntradaTarde = ucCtrlHorario1.Horario.S_EntradaTarde;
+                current.S_SalidaTarde = ucCtrlHorario1.Horario.S_SalidaTarde;
                 current.S_ToleranciaSalida = ucCtrlHorario1.Horario.S_ToleranciaSalida;
 
                 current.Domingo = "S";
-                current.D_EntradaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.D_EntradaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.D_SalidaMañana = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.D_SalidaMañana?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.D_EntradaMañana = ucCtrlHorario1.Horario.D_EntradaMañana;
+                current.D_SalidaMañana = ucCtrlHorario1.Horario.D_SalidaMañana;
                 current.D_ToleranciaEntrada = ucCtrlHorario1.Horario.D_ToleranciaEntrada;
-                current.D_EntradaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.D_EntradaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
-                current.D_SalidaTarde = DateTime.ParseExact($"1900-01-01 {ucCtrlHorario1.Horario.D_SalidaTarde?.ToString("HH:mm")}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                current.D_EntradaTarde = ucCtrlHorario1.Horario.D_EntradaTarde;
+                current.D_SalidaTarde = ucCtrlHorario1.Horario.D_SalidaTarde;
                 current.D_ToleranciaSalida = ucCtrlHorario1.Horario.D_ToleranciaSalida;
 
                 bl.Horario.Current = current;

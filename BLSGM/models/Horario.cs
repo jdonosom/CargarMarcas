@@ -44,8 +44,8 @@ namespace Models
                 lunes = value;
             }
         }
-        private System.DateTime? l_entradamañana;
-        public System.DateTime? L_EntradaMañana
+        private string l_entradamañana;
+        public string L_EntradaMañana
         {
             get
             {
@@ -56,8 +56,8 @@ namespace Models
                 l_entradamañana = value;
             }
         }
-        private System.DateTime? l_salidamañana;
-        public System.DateTime? L_SalidaMañana
+        private string l_salidamañana;
+        public string L_SalidaMañana
         {
             get
             {
@@ -68,8 +68,8 @@ namespace Models
                 l_salidamañana = value;
             }
         }
-        private System.DateTime? l_entradatarde;
-        public System.DateTime? L_EntradaTarde
+        private string l_entradatarde;
+        public string L_EntradaTarde
         {
             get
             {
@@ -80,8 +80,8 @@ namespace Models
                 l_entradatarde = value;
             }
         }
-        private System.DateTime? l_salidatarde;
-        public System.DateTime? L_SalidaTarde
+        private string l_salidatarde;
+        public string L_SalidaTarde
         {
             get
             {
@@ -92,8 +92,8 @@ namespace Models
                 l_salidatarde = value;
             }
         }
-        private System.Int32 l_toleranciaentrada;
-        public System.Int32 L_ToleranciaEntrada
+        private System.Int32? l_toleranciaentrada;
+        public System.Int32? L_ToleranciaEntrada
         {
             get
             {
@@ -104,8 +104,8 @@ namespace Models
                 l_toleranciaentrada = value;
             }
         }
-        private System.Int32 l_toleranciasalida;
-        public System.Int32 L_ToleranciaSalida
+        private System.Int32? l_toleranciasalida;
+        public System.Int32? L_ToleranciaSalida
         {
             get
             {
@@ -128,8 +128,8 @@ namespace Models
                 martes = value;
             }
         }
-        private System.DateTime? m_entradamañana;
-        public System.DateTime? M_EntradaMañana
+        private string m_entradamañana;
+        public string M_EntradaMañana
         {
             get
             {
@@ -140,8 +140,8 @@ namespace Models
                 m_entradamañana = value;
             }
         }
-        private System.DateTime? m_salidamañana;
-        public System.DateTime? M_SalidaMañana
+        private string m_salidamañana;
+        public string M_SalidaMañana
         {
             get
             {
@@ -152,8 +152,8 @@ namespace Models
                 m_salidamañana = value;
             }
         }
-        private System.DateTime? m_entradatarde;
-        public System.DateTime? M_EntradaTarde
+        private string m_entradatarde;
+        public string M_EntradaTarde
         {
             get
             {
@@ -164,8 +164,8 @@ namespace Models
                 m_entradatarde = value;
             }
         }
-        private System.DateTime? m_salidatarde;
-        public System.DateTime? M_SalidaTarde
+        private string m_salidatarde;
+        public string M_SalidaTarde
         {
             get
             {
@@ -176,8 +176,8 @@ namespace Models
                 m_salidatarde = value;
             }
         }
-        private System.Int32 m_toleranciaentrada;
-        public System.Int32 M_ToleranciaEntrada
+        private System.Int32? m_toleranciaentrada;
+        public System.Int32? M_ToleranciaEntrada
         {
             get
             {
@@ -188,8 +188,8 @@ namespace Models
                 m_toleranciaentrada = value;
             }
         }
-        private System.Int32 m_toleranciasalida;
-        public System.Int32 M_ToleranciaSalida
+        private System.Int32? m_toleranciasalida;
+        public System.Int32? M_ToleranciaSalida
         {
             get
             {
@@ -212,8 +212,8 @@ namespace Models
                 miercoles = value;
             }
         }
-        private System.DateTime? x_entradamañana;
-        public System.DateTime? X_EntradaMañana
+        private string x_entradamañana;
+        public string X_EntradaMañana
         {
             get
             {
@@ -224,8 +224,8 @@ namespace Models
                 x_entradamañana = value;
             }
         }
-        private System.DateTime? x_salidamañana;
-        public System.DateTime? X_SalidaMañana
+        private string x_salidamañana;
+        public string X_SalidaMañana
         {
             get
             {
@@ -236,8 +236,8 @@ namespace Models
                 x_salidamañana = value;
             }
         }
-        private System.DateTime? x_entradatarde;
-        public System.DateTime? X_EntradaTarde
+        private string x_entradatarde;
+        public string X_EntradaTarde
         {
             get
             {
@@ -246,12 +246,10 @@ namespace Models
             set
             {
                 x_entradatarde = value;
-                if (value >= Convert.ToDateTime("0001-01-01"))
-                    x_entradatarde = default;
             }
         }
-        private System.DateTime? x_salidatarde;
-        public System.DateTime? X_SalidaTarde
+        private string x_salidatarde;
+        public string X_SalidaTarde
         {
             get
             {
@@ -260,12 +258,10 @@ namespace Models
             set
             {
                 x_salidatarde = value;
-                if (value >= Convert.ToDateTime("0001-01-01"))
-                    x_salidatarde = default;
             }
         }
-        private System.Int32 x_toleranciaentrada;
-        public System.Int32 X_ToleranciaEntrada
+        private System.Int32? x_toleranciaentrada;
+        public System.Int32? X_ToleranciaEntrada
         {
             get
             {
@@ -276,8 +272,8 @@ namespace Models
                 x_toleranciaentrada = value;
             }
         }
-        private System.Int32 x_toleranciasalida;
-        public System.Int32 X_ToleranciaSalida
+        private System.Int32? x_toleranciasalida;
+        public System.Int32? X_ToleranciaSalida
         {
             get
             {
@@ -300,8 +296,8 @@ namespace Models
                 jueves = value;
             }
         }
-        private System.DateTime? j_entradamañana;
-        public System.DateTime? J_EntradaMañana
+        private string j_entradamañana;
+        public string J_EntradaMañana
         {
             get
             {
@@ -312,8 +308,8 @@ namespace Models
                 j_entradamañana = value;
             }
         }
-        private System.DateTime? j_salidamañana;
-        public System.DateTime? J_SalidaMañana
+        private string j_salidamañana;
+        public string J_SalidaMañana
         {
             get
             {
@@ -324,8 +320,8 @@ namespace Models
                 j_salidamañana = value;
             }
         }
-        private System.DateTime? j_entradatarde;
-        public System.DateTime? J_EntradaTarde
+        private string j_entradatarde;
+        public string J_EntradaTarde
         {
             get
             {
@@ -334,12 +330,10 @@ namespace Models
             set
             {
                 j_entradatarde = value;
-                if (value >= Convert.ToDateTime("0001-01-01"))
-                    j_entradatarde = default;
             }
         }
-        private System.DateTime? j_salidatarde;
-        public System.DateTime? J_SalidaTarde
+        private string j_salidatarde;
+        public string J_SalidaTarde
         {
             get
             {
@@ -350,8 +344,8 @@ namespace Models
                 j_salidatarde = value;
             }
         }
-        private System.Int32 j_toleranciaentrada;
-        public System.Int32 J_ToleranciaEntrada
+        private System.Int32? j_toleranciaentrada;
+        public System.Int32? J_ToleranciaEntrada
         {
             get
             {
@@ -362,8 +356,8 @@ namespace Models
                 j_toleranciaentrada = value;
             }
         }
-        private System.Int32 j_toleranciasalida;
-        public System.Int32 J_ToleranciaSalida
+        private System.Int32? j_toleranciasalida;
+        public System.Int32? J_ToleranciaSalida
         {
             get
             {
@@ -386,8 +380,8 @@ namespace Models
                 viernes = value;
             }
         }
-        private System.DateTime? v_entradamañana;
-        public System.DateTime? V_EntradaMañana
+        private string v_entradamañana;
+        public string V_EntradaMañana
         {
             get
             {
@@ -398,8 +392,8 @@ namespace Models
                 v_entradamañana = value;
             }
         }
-        private System.DateTime? v_salidamañana;
-        public System.DateTime? V_SalidaMañana
+        private string v_salidamañana;
+        public string V_SalidaMañana
         {
             get
             {
@@ -410,8 +404,8 @@ namespace Models
                 v_salidamañana = value;
             }
         }
-        private System.DateTime? v_entradatarde;
-        public System.DateTime? V_EntradaTarde
+        private string v_entradatarde;
+        public string V_EntradaTarde
         {
             get
             {
@@ -422,8 +416,8 @@ namespace Models
                 v_entradatarde = value;
             }
         }
-        private System.DateTime? v_salidatarde;
-        public System.DateTime? V_SalidaTarde
+        private string v_salidatarde;
+        public string V_SalidaTarde
         {
             get
             {
@@ -434,8 +428,8 @@ namespace Models
                 v_salidatarde = value;
             }
         }
-        private System.Int32 v_toleranciaentrada;
-        public System.Int32 V_ToleranciaEntrada
+        private System.Int32? v_toleranciaentrada;
+        public System.Int32? V_ToleranciaEntrada
         {
             get
             {
@@ -446,8 +440,8 @@ namespace Models
                 v_toleranciaentrada = value;
             }
         }
-        private System.Int32 v_toleranciasalida;
-        public System.Int32 V_ToleranciaSalida
+        private System.Int32? v_toleranciasalida;
+        public System.Int32? V_ToleranciaSalida
         {
             get
             {
@@ -470,8 +464,8 @@ namespace Models
                 sabado = value;
             }
         }
-        private System.DateTime? s_entradamañana;
-        public System.DateTime? S_EntradaMañana
+        private string s_entradamañana;
+        public string S_EntradaMañana
         {
             get
             {
@@ -482,8 +476,8 @@ namespace Models
                 s_entradamañana = value;
             }
         }
-        private System.DateTime? s_salidamañana;
-        public System.DateTime? S_SalidaMañana
+        private string s_salidamañana;
+        public string S_SalidaMañana
         {
             get
             {
@@ -494,8 +488,8 @@ namespace Models
                 s_salidamañana = value;
             }
         }
-        private System.DateTime? s_entradatarde;
-        public System.DateTime? S_EntradaTarde
+        private string s_entradatarde;
+        public string S_EntradaTarde
         {
             get
             {
@@ -506,8 +500,8 @@ namespace Models
                 s_entradatarde = value;
             }
         }
-        private System.DateTime? s_salidatarde;
-        public System.DateTime? S_SalidaTarde
+        private string s_salidatarde;
+        public string S_SalidaTarde
         {
             get
             {
@@ -518,8 +512,8 @@ namespace Models
                 s_salidatarde = value;
             }
         }
-        private System.Int32 s_toleranciaentrada;
-        public System.Int32 S_ToleranciaEntrada
+        private System.Int32? s_toleranciaentrada;
+        public System.Int32? S_ToleranciaEntrada
         {
             get
             {
@@ -530,8 +524,8 @@ namespace Models
                 s_toleranciaentrada = value;
             }
         }
-        private System.Int32 s_toleranciasalida;
-        public System.Int32 S_ToleranciaSalida
+        private System.Int32? s_toleranciasalida;
+        public System.Int32? S_ToleranciaSalida
         {
             get
             {
@@ -554,8 +548,8 @@ namespace Models
                 domingo = value;
             }
         }
-        private System.DateTime? d_entradamañana;
-        public System.DateTime? D_EntradaMañana
+        private string d_entradamañana;
+        public string D_EntradaMañana
         {
             get
             {
@@ -566,8 +560,8 @@ namespace Models
                 d_entradamañana = value;
             }
         }
-        private System.DateTime? d_salidamañana;
-        public System.DateTime? D_SalidaMañana
+        private string d_salidamañana;
+        public string D_SalidaMañana
         {
             get
             {
@@ -578,8 +572,8 @@ namespace Models
                 d_salidamañana = value;
             }
         }
-        private System.DateTime? d_entradatarde;
-        public System.DateTime? D_EntradaTarde
+        private string d_entradatarde;
+        public string D_EntradaTarde
         {
             get
             {
@@ -590,8 +584,8 @@ namespace Models
                 d_entradatarde = value;
             }
         }
-        private System.DateTime? d_salidatarde;
-        public System.DateTime? D_SalidaTarde
+        private string d_salidatarde;
+        public string D_SalidaTarde
         {
             get
             {
@@ -602,8 +596,8 @@ namespace Models
                 d_salidatarde = value;
             }
         }
-        private System.Int32 d_toleranciaentrada;
-        public System.Int32 D_ToleranciaEntrada
+        private System.Int32? d_toleranciaentrada;
+        public System.Int32? D_ToleranciaEntrada
         {
             get
             {
@@ -614,8 +608,8 @@ namespace Models
                 d_toleranciaentrada = value;
             }
         }
-        private System.Int32 d_toleranciasalida;
-        public System.Int32 D_ToleranciaSalida
+        private System.Int32? d_toleranciasalida;
+        public System.Int32? D_ToleranciaSalida
         {
             get
             {

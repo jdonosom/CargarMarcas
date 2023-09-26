@@ -192,7 +192,7 @@ namespace SGFDataLayer
         /// </summary>
         /// <param name="nombre">El nombre del parámetro.</param>
         /// <param name="valor">El valor del parámetro.</param>
-        public void AsignarParametroEntero(string nombre, int valor)
+        public void AsignarParametroEntero(string nombre, int? valor)
         {
             DbParameter param = comando.CreateParameter(); ;
             param.DbType = System.Data.DbType.Int32;

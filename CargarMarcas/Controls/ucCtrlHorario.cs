@@ -89,7 +89,7 @@ namespace CargarMarcas.Controls
                 else
                 {
                     var dateTime = $"1900-01-01 {editBox.Text}";
-                    var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture);
+                    var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm");
                     dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora;
                 }
                 ActualizaRegistro(e.RowIndex, e.ColumnIndex, dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
@@ -98,130 +98,141 @@ namespace CargarMarcas.Controls
             lEdit = false;
         }
 
-        private void ActualizaRegistro(int row, int col, object value)
+        private void ActualizaRegistro(int row, int col, object? value)
         {
             if (col == 3 || col == 6)
             {
+                if (value.GetType() == typeof(string))
+                {
+                    if (string.IsNullOrEmpty((string)value))
+                    {
+                        value = null;
+                    }
+                }
+
                 // Lunes
                 if (row == 0 && col == 3) // Entrada mañana
-                    horario.L_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.L_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 0 && col == 5) // Salida mañana
-                    horario.L_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.L_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Martes
                 if (row == 1 && col == 3) // Entrada mañana
-                    horario.M_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.M_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 1 && col == 5) // Salida mañana
-                    horario.M_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.M_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Miercoles
                 if (row == 2 && col == 3) // Entrada mañana
-                    horario.X_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.X_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 2 && col == 5) // Salida mañana
-                    horario.X_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.X_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Jueves
                 if (row == 3 && col == 3) // Entrada mañana
-                    horario.J_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.J_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 3 && col == 5) // Salida mañana
-                    horario.J_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.J_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Viernes
                 if (row == 4 && col == 3) // Entrada mañana
-                    horario.V_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.V_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 4 && col == 5) // Salida mañana
-                    horario.V_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.V_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Sabado
                 if (row == 5 && col == 3) // Entrada mañana
-                    horario.S_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.S_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 5 && col == 5) // Salida mañana
-                    horario.S_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.S_ToleranciaSalida = value is null ? null : (int)value;
 
-                // Lunes
+                // Domingo
                 if (row == 6 && col == 3) // Entrada mañana
-                    horario.D_ToleranciaEntrada = Convert.ToInt16(value);
+                    horario.D_ToleranciaEntrada = value is null ? null : (int)value;
                 else if (row == 6 && col == 5) // Salida mañana
-                    horario.D_ToleranciaSalida = Convert.ToInt16(value);
+                    horario.D_ToleranciaSalida = value is null ? null : (int)value;
             }
             else
             {
+                DateTime? valor;
+                var lflag = DateTime.TryParse((string)value, out DateTime result);
+
                 // Lunes 
                 //
                 if (row == 0 && col == 1) // Entrada mañana
-                    horario.L_EntradaMañana = (DateTime)value;
+                    horario.L_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 0 && col == 2) // Salida mañana
-                    horario.L_SalidaMañana = (DateTime)value;
+                    horario.L_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 0 && col == 3) // Entrada Tarde
-                    horario.L_EntradaTarde = (DateTime)value;
+                    horario.L_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 0 && col == 4) // Salida Tarde
-                    horario.L_SalidaTarde = (DateTime)value;
+                    horario.L_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Martes
                 //
                 if (row == 1 && col == 1) // Entrada mañana
-                    horario.M_EntradaMañana = (DateTime)value;
+                    horario.M_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 1 && col == 2) // Salida mañana
-                    horario.M_SalidaMañana = (DateTime)value;
+                    horario.M_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 1 && col == 3) // Entrada Tarde
-                    horario.M_EntradaTarde = (DateTime)value;
+                    horario.M_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 1 && col == 4) // Salida Tarde
-                    horario.M_SalidaTarde = (DateTime)value;
+                    horario.M_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Miercoles
                 //
                 if (row == 2 && col == 1) // Entrada mañana
-                    horario.X_EntradaMañana = (DateTime)value;
+                    horario.X_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 2 && col == 2) // Salida mañana
-                    horario.X_SalidaMañana = (DateTime)value;
+                    horario.X_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 2 && col == 3) // Entrada Tarde
-                    horario.X_EntradaTarde = (DateTime)value;
+                    horario.X_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 2 && col == 4) // Salida Tarde
-                    horario.X_SalidaTarde = (DateTime)value;
+                    horario.X_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Jueves
                 //
                 if (row == 3 && col == 1) // Entrada mañana
-                    horario.J_EntradaMañana = (DateTime)value;
+                    horario.J_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 3 && col == 2) // Salida mañana
-                    horario.J_SalidaMañana = (DateTime)value;
+                    horario.J_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 3 && col == 3) // Entrada Tarde
-                    horario.J_EntradaTarde = (DateTime)value;
+                    horario.J_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 3 && col == 4) // Salida Tarde
-                    horario.J_SalidaTarde = (DateTime)value;
+                    horario.J_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Viernes
                 //
                 if (row == 4 && col == 1) // Entrada mañana
-                    horario.V_EntradaMañana = (DateTime)value;
+                    horario.V_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 4 && col == 2) // Salida mañana
-                    horario.V_SalidaMañana = (DateTime)value;
+                    horario.V_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 4 && col == 3) // Entrada Tarde
-                    horario.V_EntradaTarde = (DateTime)value;
+                    horario.V_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 4 && col == 4) // Salida Tarde
-                    horario.V_SalidaTarde = (DateTime)value;
+                    horario.V_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Sábado
                 //
                 if (row == 5 && col == 1) // Entrada mañana
-                    horario.S_EntradaMañana = (DateTime)value;
+                    horario.S_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 5 && col == 2) // Salida mañana
-                    horario.S_SalidaMañana = (DateTime)value;
+                    horario.S_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 5 && col == 3) // Entrada Tarde
-                    horario.S_EntradaTarde = (DateTime)value;
+                    horario.S_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 5 && col == 4) // Salida Tarde
-                    horario.S_SalidaTarde = (DateTime)value;
+                    horario.S_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
 
                 // Domingo
                 //
                 if (row == 6 && col == 1) // Entrada mañana
-                    horario.D_EntradaMañana = (DateTime)value;
+                    horario.D_EntradaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 6 && col == 2) // Salida mañana
-                    horario.D_SalidaMañana = (DateTime)value;
+                    horario.D_SalidaMañana = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 6 && col == 3) // Entrada Tarde
-                    horario.D_EntradaTarde = (DateTime)value;
+                    horario.D_EntradaTarde = !lflag ? null : result.ToString("HH:mm");
                 else if (row == 6 && col == 4) // Salida Tarde
-                    horario.D_SalidaTarde = (DateTime)value;
+                    horario.D_SalidaTarde = !lflag ? null : result.ToString("HH:mm");
             }
         }
 
@@ -255,79 +266,79 @@ namespace CargarMarcas.Controls
                     // Lunes 
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.L_EntradaMañana = Hora;
+                        horario.L_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.L_SalidaMañana = Hora;
+                        horario.L_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.L_EntradaTarde = Hora;
+                        horario.L_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.L_SalidaTarde = Hora;
+                        horario.L_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Martes
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.M_EntradaMañana = Hora;
+                        horario.M_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.M_SalidaMañana = Hora;
+                        horario.M_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.M_EntradaTarde = Hora;
+                        horario.M_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.M_SalidaTarde = Hora;
+                        horario.M_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Miercoles
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.X_EntradaMañana = Hora;
+                        horario.X_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.X_SalidaMañana = Hora;
+                        horario.X_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.X_EntradaTarde = Hora;
+                        horario.X_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.X_SalidaTarde = Hora;
+                        horario.X_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Jueves
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.J_EntradaMañana = Hora;
+                        horario.J_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.J_SalidaMañana = Hora;
+                        horario.J_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.J_EntradaTarde = Hora;
+                        horario.J_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.J_SalidaTarde = Hora;
+                        horario.J_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Viernes
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.V_EntradaMañana = Hora;
+                        horario.V_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.V_SalidaMañana = Hora;
+                        horario.V_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.V_EntradaTarde = Hora;
+                        horario.V_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.V_SalidaTarde = Hora;
+                        horario.V_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Sábado
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.S_EntradaMañana = Hora;
+                        horario.S_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.S_SalidaMañana = Hora;
+                        horario.S_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.S_EntradaTarde = Hora;
+                        horario.S_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.S_SalidaTarde = Hora;
+                        horario.S_SalidaTarde = Hora.ToString("HH:mm");
 
                     // Domingo
                     //
                     if (cell.RowIndex == 0 && cell.ColumnIndex == 1) // Entrada mañana
-                        horario.D_EntradaMañana = Hora;
+                        horario.D_EntradaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 2) // Salida mañana
-                        horario.D_SalidaMañana = Hora;
+                        horario.D_SalidaMañana = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 3) // Entrada Tarde
-                        horario.D_EntradaTarde = Hora;
+                        horario.D_EntradaTarde = Hora.ToString("HH:mm");
                     else if (cell.RowIndex == 0 && cell.ColumnIndex == 4) // Salida Tarde
-                        horario.D_SalidaTarde = Hora;
+                        horario.D_SalidaTarde = Hora.ToString("HH:mm");
                 }
                 // Tolerancias
                 //
@@ -402,13 +413,13 @@ namespace CargarMarcas.Controls
                 return;
 
             this.dgHorario.Rows.Clear();
-            this.dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana?.ToString(@"HH\:mm"), horario.L_SalidaMañana?.ToString(@"HH\:mm"), horario.L_ToleranciaEntrada, horario.L_EntradaTarde?.ToString(@"HH\:mm"), horario.L_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Martes", horario.M_EntradaMañana?.ToString(@"HH\:mm"), horario.M_SalidaMañana?.ToString(@"HH\:mm"), horario.M_ToleranciaEntrada, horario.M_EntradaTarde?.ToString(@"HH\:mm"), horario.M_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana?.ToString(@"HH\:mm"), horario.X_SalidaMañana?.ToString(@"HH\:mm"), horario.X_ToleranciaEntrada, horario.X_EntradaTarde?.ToString(@"HH\:mm"), horario.X_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana?.ToString(@"HH\:mm"), horario.J_SalidaMañana?.ToString(@"HH\:mm"), horario.J_ToleranciaEntrada, horario.J_EntradaTarde?.ToString(@"HH\:mm"), horario.J_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana?.ToString(@"HH\:mm"), horario.V_SalidaMañana?.ToString(@"HH\:mm"), horario.V_ToleranciaEntrada, horario.V_EntradaTarde?.ToString(@"HH\:mm"), horario.V_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana?.ToString(@"HH\:mm"), horario.S_SalidaMañana?.ToString(@"HH\:mm"), horario.S_ToleranciaEntrada, horario.S_EntradaTarde?.ToString(@"HH\:mm"), horario.S_SalidaTarde?.ToString(@"HH\:mm"));
-            this.dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana?.ToString(@"HH\:mm"), horario.D_SalidaMañana?.ToString(@"HH\:mm"), horario.D_ToleranciaEntrada, horario.D_EntradaTarde?.ToString(@"HH\:mm"), horario.D_SalidaTarde?.ToString(@"HH\:mm"));
+            this.dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana, horario.L_SalidaMañana, horario.L_ToleranciaEntrada, horario.L_EntradaTarde, horario.L_SalidaTarde);
+            this.dgHorario.Rows.Add("Martes", horario.M_EntradaMañana, horario.M_SalidaMañana, horario.M_ToleranciaEntrada, horario.M_EntradaTarde, horario.M_SalidaTarde);
+            this.dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana, horario.X_SalidaMañana, horario.X_ToleranciaEntrada, horario.X_EntradaTarde, horario.X_SalidaTarde);
+            this.dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana, horario.J_SalidaMañana, horario.J_ToleranciaEntrada, horario.J_EntradaTarde, horario.J_SalidaTarde);
+            this.dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana, horario.V_SalidaMañana, horario.V_ToleranciaEntrada, horario.V_EntradaTarde, horario.V_SalidaTarde);
+            this.dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana, horario.S_SalidaMañana, horario.S_ToleranciaEntrada, horario.S_EntradaTarde, horario.S_SalidaTarde);
+            this.dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana, horario.D_SalidaMañana, horario.D_ToleranciaEntrada, horario.D_EntradaTarde, horario.D_SalidaTarde);
         }
         #endregion
 
@@ -449,6 +460,7 @@ namespace CargarMarcas.Controls
             {
                 var cell = dgHorario.SelectedCells[0];
                 dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = "";
+                ActualizaRegistro(cell.RowIndex, cell.ColumnIndex, cell.Value);
             }
         }
     }

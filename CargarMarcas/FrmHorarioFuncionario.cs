@@ -120,13 +120,13 @@ namespace CargarMarcas
             // ClearDataGridViewRows(dgHorario);
             this.dgHorario.Rows.Clear();
 
-            dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana?.ToString(@"hh\:mm"), horario.L_SalidaMañana?.ToString(@"hh\:mm"), horario.L_ToleranciaEntrada, horario.L_EntradaTarde?.ToString(@"hh\:mm"), horario.L_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Martes", horario.M_EntradaMañana?.ToString(@"hh\:mm"), horario.M_SalidaMañana?.ToString(@"hh\:mm"), horario.M_ToleranciaEntrada, horario.M_EntradaTarde?.ToString(@"hh\:mm"), horario.M_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana?.ToString(@"hh\:mm"), horario.X_SalidaMañana?.ToString(@"hh\:mm"), horario.X_ToleranciaEntrada, horario.X_EntradaTarde?.ToString(@"hh\:mm"), horario.X_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana?.ToString(@"hh\:mm"), horario.J_SalidaMañana?.ToString(@"hh\:mm"), horario.J_ToleranciaEntrada, horario.J_EntradaTarde?.ToString(@"hh\:mm"), horario.J_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana?.ToString(@"hh\:mm"), horario.V_SalidaMañana?.ToString(@"hh\:mm"), horario.V_ToleranciaEntrada, horario.V_EntradaTarde?.ToString(@"hh\:mm"), horario.V_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana?.ToString(@"hh\:mm"), horario.S_SalidaMañana?.ToString(@"hh\:mm"), horario.S_ToleranciaEntrada, horario.S_EntradaTarde?.ToString(@"hh\:mm"), horario.S_SalidaTarde?.ToString(@"hh\:mm"));
-            dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana?.ToString(@"hh\:mm"), horario.D_SalidaMañana?.ToString(@"hh\:mm"), horario.D_ToleranciaEntrada, horario.D_EntradaTarde?.ToString(@"hh\:mm"), horario.D_SalidaTarde?.ToString(@"hh\:mm"));
+            dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana, horario.L_SalidaMañana, horario.L_ToleranciaEntrada, horario.L_EntradaTarde, horario.L_SalidaTarde);
+            dgHorario.Rows.Add("Martes", horario.M_EntradaMañana, horario.M_SalidaMañana, horario.M_ToleranciaEntrada, horario.M_EntradaTarde, horario.M_SalidaTarde);
+            dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana, horario.X_SalidaMañana, horario.X_ToleranciaEntrada, horario.X_EntradaTarde, horario.X_SalidaTarde);
+            dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana, horario.J_SalidaMañana, horario.J_ToleranciaEntrada, horario.J_EntradaTarde, horario.J_SalidaTarde);
+            dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana, horario.V_SalidaMañana, horario.V_ToleranciaEntrada, horario.V_EntradaTarde, horario.V_SalidaTarde);
+            dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana, horario.S_SalidaMañana, horario.S_ToleranciaEntrada, horario.S_EntradaTarde, horario.S_SalidaTarde);
+            dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana, horario.D_SalidaMañana, horario.D_ToleranciaEntrada, horario.D_EntradaTarde, horario.D_SalidaTarde);
         }
 
         public static void ClearDataGridViewRows(DataGridView dataGridView)

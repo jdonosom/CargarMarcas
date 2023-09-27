@@ -140,6 +140,7 @@ namespace CargarMarcas
             current = new Horario();
             try
             {
+                current = ucCtrlHorario1.Horario;
 
                 current.IdHorario = (int)txtIdHorario.Value;
                 current.Descripcion = txtDescripcion.Text;

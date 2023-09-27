@@ -92,13 +92,13 @@ namespace CargarMarcas.Controls
                     var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd HH:mm");
                     dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora;
                 }
-                ActualizaRegistro(e.RowIndex, e.ColumnIndex, dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+                ActualizaRegistro(e.RowIndex, e.ColumnIndex, dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
 
             }
             lEdit = false;
         }
 
-        private void ActualizaRegistro(int row, int col, object? value)
+        private void ActualizaRegistro(int row, int col, string value)
         {
             if (col == 3 || col == 6)
             {
@@ -112,45 +112,45 @@ namespace CargarMarcas.Controls
 
                 // Lunes
                 if (row == 0 && col == 3) // Entrada mañana
-                    horario.L_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.L_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 0 && col == 6) // Salida mañana
-                    horario.L_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.L_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Martes
                 if (row == 1 && col == 3) // Entrada mañana
-                    horario.M_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.M_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 1 && col == 6) // Salida mañana
-                    horario.M_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.M_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Miercoles
                 if (row == 2 && col == 3) // Entrada mañana
-                    horario.X_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.X_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 2 && col == 6) // Salida mañana
-                    horario.X_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.X_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Jueves
                 if (row == 3 && col == 3) // Entrada mañana
-                    horario.J_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.J_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 3 && col == 6) // Salida mañana
-                    horario.J_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.J_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Viernes
                 if (row == 4 && col == 3) // Entrada mañana
-                    horario.V_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.V_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 4 && col == 5) // Salida mañana
-                    horario.V_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.V_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Sabado
                 if (row == 5 && col == 3) // Entrada mañana
-                    horario.S_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.S_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 5 && col == 6) // Salida mañana
-                    horario.S_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.S_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
 
                 // Domingo
                 if (row == 6 && col == 3) // Entrada mañana
-                    horario.D_ToleranciaEntrada = value is null ? -1 : (int)value;
+                    horario.D_ToleranciaEntrada = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
                 else if (row == 6 && col == 6) // Salida mañana
-                    horario.D_ToleranciaSalida = value is null ? -1 : (int)value;
+                    horario.D_ToleranciaSalida = string.IsNullOrWhiteSpace(value) ? -1 : Convert.ToInt16(value);
             }
             else
             {
@@ -407,19 +407,29 @@ namespace CargarMarcas.Controls
 
         }
 
+
+
         private void DespliegaHorario()
         {
             if (this.horario is null)
                 return;
-
+             
             this.dgHorario.Rows.Clear();
-            this.dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana, horario.L_SalidaMañana, horario.L_ToleranciaEntrada, horario.L_EntradaTarde, horario.L_SalidaTarde);
-            this.dgHorario.Rows.Add("Martes", horario.M_EntradaMañana, horario.M_SalidaMañana, horario.M_ToleranciaEntrada, horario.M_EntradaTarde, horario.M_SalidaTarde);
-            this.dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana, horario.X_SalidaMañana, horario.X_ToleranciaEntrada, horario.X_EntradaTarde, horario.X_SalidaTarde);
-            this.dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana, horario.J_SalidaMañana, horario.J_ToleranciaEntrada, horario.J_EntradaTarde, horario.J_SalidaTarde);
-            this.dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana, horario.V_SalidaMañana, horario.V_ToleranciaEntrada, horario.V_EntradaTarde, horario.V_SalidaTarde);
-            this.dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana, horario.S_SalidaMañana, horario.S_ToleranciaEntrada, horario.S_EntradaTarde, horario.S_SalidaTarde);
-            this.dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana, horario.D_SalidaMañana, horario.D_ToleranciaEntrada, horario.D_EntradaTarde, horario.D_SalidaTarde);
+            this.dgHorario.Rows.Add("Lunes",     IsNull(horario.L_EntradaMañana, ""), IsNull(horario.L_SalidaMañana, ""), IsNull(horario.L_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.L_EntradaTarde, ""), IsNull(horario.L_SalidaTarde, ""), IsNull(horario.L_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Martes",    IsNull(horario.M_EntradaMañana, ""), IsNull(horario.M_SalidaMañana, ""), IsNull(horario.M_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.M_EntradaTarde, ""), IsNull(horario.M_SalidaTarde, ""), IsNull(horario.M_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Miércoles", IsNull(horario.X_EntradaMañana, ""), IsNull(horario.X_SalidaMañana, ""), IsNull(horario.X_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.X_EntradaTarde, ""), IsNull(horario.X_SalidaTarde, ""), IsNull(horario.X_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Jueves",    IsNull(horario.J_EntradaMañana, ""), IsNull(horario.J_SalidaMañana, ""), IsNull(horario.J_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.J_EntradaTarde, ""), IsNull(horario.J_SalidaTarde, ""), IsNull(horario.J_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Viernes",   IsNull(horario.V_EntradaMañana, ""), IsNull(horario.V_SalidaMañana, ""), IsNull(horario.V_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.V_EntradaTarde, ""), IsNull(horario.V_SalidaTarde, ""), IsNull(horario.V_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Sábado",    IsNull(horario.S_EntradaMañana, ""), IsNull(horario.S_SalidaMañana, ""), IsNull(horario.S_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.S_EntradaTarde, ""), IsNull(horario.S_SalidaTarde, ""), IsNull(horario.S_ToleranciaEntrada.ToString(), "-1") );
+            this.dgHorario.Rows.Add("Domingo",   IsNull(horario.D_EntradaMañana, ""), IsNull(horario.D_SalidaMañana, ""), IsNull(horario.D_ToleranciaEntrada.ToString(), "-1"), IsNull(horario.D_EntradaTarde, ""), IsNull(horario.D_SalidaTarde, ""), IsNull(horario.D_ToleranciaEntrada.ToString(), "-1") );
+        }
+
+        private string IsNull(string expresion, string valorDefecto)
+        {
+            if (string.IsNullOrWhiteSpace(expresion))
+                return valorDefecto;
+            else
+                return expresion;
         }
         #endregion
 
@@ -459,8 +469,8 @@ namespace CargarMarcas.Controls
             if (e.KeyCode == Keys.Delete)
             {
                 var cell = dgHorario.SelectedCells[0];
-                dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = "";
-                ActualizaRegistro(cell.RowIndex, cell.ColumnIndex, cell.Value);
+                dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = " ";
+                ActualizaRegistro(cell.RowIndex, cell.ColumnIndex, cell.Value.ToString());
             }
         }
     }

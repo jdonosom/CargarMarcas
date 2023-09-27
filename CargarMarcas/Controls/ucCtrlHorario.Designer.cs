@@ -192,6 +192,7 @@
             dataGridViewCellStyle1.NullValue = " ";
             colHE.DefaultCellStyle = dataGridViewCellStyle1;
             colHE.HeaderText = "E.M.";
+            colHE.MaxInputLength = 4;
             colHE.MinimumWidth = 6;
             colHE.Name = "colHE";
             colHE.ToolTipText = "Hora entrada mañana";
@@ -206,6 +207,7 @@
             dataGridViewCellStyle2.NullValue = " ";
             colHS.DefaultCellStyle = dataGridViewCellStyle2;
             colHS.HeaderText = "S.M.";
+            colHS.MaxInputLength = 4;
             colHS.MinimumWidth = 6;
             colHS.Name = "colHS";
             colHS.ToolTipText = "Hora salida mañana";
@@ -220,6 +222,7 @@
             colTHE.DefaultCellStyle = dataGridViewCellStyle3;
             colTHE.FillWeight = 90F;
             colTHE.HeaderText = "T.A.";
+            colTHE.MaxInputLength = 2;
             colTHE.MinimumWidth = 6;
             colTHE.Name = "colTHE";
             colTHE.ToolTipText = "Tolerancia acceso mañana";
@@ -233,6 +236,7 @@
             dataGridViewCellStyle4.NullValue = " ";
             colTHS.DefaultCellStyle = dataGridViewCellStyle4;
             colTHS.HeaderText = "E.T.";
+            colTHS.MaxInputLength = 4;
             colTHS.MinimumWidth = 6;
             colTHS.Name = "colTHS";
             colTHS.ToolTipText = "Hora entrada tarde";
@@ -247,6 +251,7 @@
             dataGridViewCellStyle5.NullValue = " ";
             colHET.DefaultCellStyle = dataGridViewCellStyle5;
             colHET.HeaderText = "S.T.";
+            colHET.MaxInputLength = 4;
             colHET.MinimumWidth = 6;
             colHET.Name = "colHET";
             colHET.ToolTipText = "Hora salida tarde";
@@ -260,6 +265,7 @@
             dataGridViewCellStyle6.NullValue = " ";
             colHST.DefaultCellStyle = dataGridViewCellStyle6;
             colHST.HeaderText = "T.S.";
+            colHST.MaxInputLength = 2;
             colHST.MinimumWidth = 6;
             colHST.Name = "colHST";
             colHST.ToolTipText = "Tolerancia salida tarde";

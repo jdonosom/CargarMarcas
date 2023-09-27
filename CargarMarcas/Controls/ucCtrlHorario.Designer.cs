@@ -37,6 +37,12 @@
             panel5 = new Panel();
             lblHorario = new Label();
             dgHorario = new DataGridView();
+            panel4 = new Panel();
+            label5 = new Label();
+            panel2 = new Panel();
+            label2 = new Label();
+            panel1 = new Panel();
+            label1 = new Label();
             colDia = new DataGridViewTextBoxColumn();
             colHE = new DataGridViewTextBoxColumn();
             colHS = new DataGridViewTextBoxColumn();
@@ -44,12 +50,6 @@
             colTHS = new DataGridViewTextBoxColumn();
             colHET = new DataGridViewTextBoxColumn();
             colHST = new DataGridViewTextBoxColumn();
-            panel4 = new Panel();
-            label5 = new Label();
-            panel2 = new Panel();
-            label2 = new Label();
-            panel1 = new Panel();
-            label1 = new Label();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgHorario).BeginInit();
             panel4.SuspendLayout();
@@ -109,94 +109,6 @@
             dgHorario.EditingControlShowing += dgHorario_EditingControlShowing;
             dgHorario.KeyDown += dgHorario_KeyDown;
             dgHorario.Leave += dgHorario_Leave;
-            // 
-            // colDia
-            // 
-            colDia.HeaderText = "Dia";
-            colDia.Name = "colDia";
-            colDia.Resizable = DataGridViewTriState.False;
-            colDia.Width = 98;
-            // 
-            // colHE
-            // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(0, 192, 192);
-            dataGridViewCellStyle1.Format = "t";
-            dataGridViewCellStyle1.NullValue = "00:00";
-            colHE.DefaultCellStyle = dataGridViewCellStyle1;
-            colHE.HeaderText = "E.M.";
-            colHE.MinimumWidth = 6;
-            colHE.Name = "colHE";
-            colHE.ToolTipText = "Hora entrada mañana";
-            colHE.Width = 98;
-            // 
-            // colHS
-            // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(192, 64, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.Format = "t";
-            dataGridViewCellStyle2.NullValue = "00:00";
-            colHS.DefaultCellStyle = dataGridViewCellStyle2;
-            colHS.HeaderText = "S.M.";
-            colHS.MinimumWidth = 6;
-            colHS.Name = "colHS";
-            colHS.ToolTipText = "Hora salida mañana";
-            colHS.Width = 98;
-            // 
-            // colTHE
-            // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(192, 192, 0);
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = "0";
-            colTHE.DefaultCellStyle = dataGridViewCellStyle3;
-            colTHE.FillWeight = 90F;
-            colTHE.HeaderText = "T.A.";
-            colTHE.MinimumWidth = 6;
-            colTHE.Name = "colTHE";
-            colTHE.ToolTipText = "Tolerancia acceso mañana";
-            colTHE.Width = 87;
-            // 
-            // colTHS
-            // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(0, 192, 192);
-            dataGridViewCellStyle4.Format = "t";
-            dataGridViewCellStyle4.NullValue = "00:00";
-            colTHS.DefaultCellStyle = dataGridViewCellStyle4;
-            colTHS.HeaderText = "E.T.";
-            colTHS.MinimumWidth = 6;
-            colTHS.Name = "colTHS";
-            colTHS.ToolTipText = "Hora entrada tarde";
-            colTHS.Width = 98;
-            // 
-            // colHET
-            // 
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(192, 64, 0);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.Format = "t";
-            dataGridViewCellStyle5.NullValue = "00:00";
-            colHET.DefaultCellStyle = dataGridViewCellStyle5;
-            colHET.HeaderText = "S.T.";
-            colHET.MinimumWidth = 6;
-            colHET.Name = "colHET";
-            colHET.ToolTipText = "Hora salida tarde";
-            colHET.Width = 98;
-            // 
-            // colHST
-            // 
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(192, 192, 0);
-            dataGridViewCellStyle6.Format = "N0";
-            dataGridViewCellStyle6.NullValue = "0";
-            colHST.DefaultCellStyle = dataGridViewCellStyle6;
-            colHST.HeaderText = "T.S.";
-            colHST.MinimumWidth = 6;
-            colHST.Name = "colHST";
-            colHST.ToolTipText = "Tolerancia salida tarde";
-            colHST.Width = 87;
             // 
             // panel4
             // 
@@ -265,6 +177,94 @@
             label1.Text = "Mañana";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // colDia
+            // 
+            colDia.HeaderText = "Dia";
+            colDia.Name = "colDia";
+            colDia.Resizable = DataGridViewTriState.False;
+            colDia.Width = 98;
+            // 
+            // colHE
+            // 
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(0, 192, 192);
+            dataGridViewCellStyle1.Format = "t";
+            dataGridViewCellStyle1.NullValue = " ";
+            colHE.DefaultCellStyle = dataGridViewCellStyle1;
+            colHE.HeaderText = "E.M.";
+            colHE.MinimumWidth = 6;
+            colHE.Name = "colHE";
+            colHE.ToolTipText = "Hora entrada mañana";
+            colHE.Width = 98;
+            // 
+            // colHS
+            // 
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(192, 64, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.Format = "t";
+            dataGridViewCellStyle2.NullValue = " ";
+            colHS.DefaultCellStyle = dataGridViewCellStyle2;
+            colHS.HeaderText = "S.M.";
+            colHS.MinimumWidth = 6;
+            colHS.Name = "colHS";
+            colHS.ToolTipText = "Hora salida mañana";
+            colHS.Width = 98;
+            // 
+            // colTHE
+            // 
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(192, 192, 0);
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = " ";
+            colTHE.DefaultCellStyle = dataGridViewCellStyle3;
+            colTHE.FillWeight = 90F;
+            colTHE.HeaderText = "T.A.";
+            colTHE.MinimumWidth = 6;
+            colTHE.Name = "colTHE";
+            colTHE.ToolTipText = "Tolerancia acceso mañana";
+            colTHE.Width = 87;
+            // 
+            // colTHS
+            // 
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(0, 192, 192);
+            dataGridViewCellStyle4.Format = "t";
+            dataGridViewCellStyle4.NullValue = " ";
+            colTHS.DefaultCellStyle = dataGridViewCellStyle4;
+            colTHS.HeaderText = "E.T.";
+            colTHS.MinimumWidth = 6;
+            colTHS.Name = "colTHS";
+            colTHS.ToolTipText = "Hora entrada tarde";
+            colTHS.Width = 98;
+            // 
+            // colHET
+            // 
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(192, 64, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.Format = "t";
+            dataGridViewCellStyle5.NullValue = " ";
+            colHET.DefaultCellStyle = dataGridViewCellStyle5;
+            colHET.HeaderText = "S.T.";
+            colHET.MinimumWidth = 6;
+            colHET.Name = "colHET";
+            colHET.ToolTipText = "Hora salida tarde";
+            colHET.Width = 98;
+            // 
+            // colHST
+            // 
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(192, 192, 0);
+            dataGridViewCellStyle6.Format = "N0";
+            dataGridViewCellStyle6.NullValue = " ";
+            colHST.DefaultCellStyle = dataGridViewCellStyle6;
+            colHST.HeaderText = "T.S.";
+            colHST.MinimumWidth = 6;
+            colHST.Name = "colHST";
+            colHST.ToolTipText = "Tolerancia salida tarde";
+            colHST.Width = 87;
+            // 
             // ucCtrlHorario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -290,6 +290,12 @@
         private Panel panel5;
         private Label lblHorario;
         private DataGridView dgHorario;
+        private Panel panel4;
+        private Label label5;
+        private Panel panel2;
+        private Label label2;
+        private Panel panel1;
+        private Label label1;
         private DataGridViewTextBoxColumn colDia;
         private DataGridViewTextBoxColumn colHE;
         private DataGridViewTextBoxColumn colHS;
@@ -297,11 +303,5 @@
         private DataGridViewTextBoxColumn colTHS;
         private DataGridViewTextBoxColumn colHET;
         private DataGridViewTextBoxColumn colHST;
-        private Panel panel4;
-        private Label label5;
-        private Panel panel2;
-        private Label label2;
-        private Panel panel1;
-        private Label label1;
     }
 }

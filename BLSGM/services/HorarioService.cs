@@ -68,56 +68,56 @@ namespace BL
             this.L_SalidaMañana = default;
             this.L_EntradaTarde = default;
             this.L_SalidaTarde = default;
-            this.L_ToleranciaEntrada = 0;
-            this.L_ToleranciaSalida = 0;
+            this.L_ToleranciaEntrada = null;
+            this.L_ToleranciaSalida = null;
 
             this.Martes = "";
             this.M_EntradaMañana = default;
             this.M_SalidaMañana = default;
             this.M_EntradaTarde = default;
             this.M_SalidaTarde = default;
-            this.M_ToleranciaEntrada = 0;
-            this.M_ToleranciaSalida = 0;
+            this.M_ToleranciaEntrada = null;
+            this.M_ToleranciaSalida = null;
 
             this.Miercoles = "";
             this.X_EntradaMañana = default;
             this.X_SalidaMañana = default;
             this.X_EntradaTarde = default;
             this.X_SalidaTarde = default;
-            this.X_ToleranciaEntrada = 0;
-            this.X_ToleranciaSalida = 0;
+            this.X_ToleranciaEntrada = null;
+            this.X_ToleranciaSalida = null;
 
             this.Jueves = "";
             this.J_EntradaMañana = default;
             this.J_SalidaMañana = default;
             this.J_EntradaTarde = default;
             this.J_SalidaTarde = default;
-            this.J_ToleranciaEntrada = 0;
-            this.J_ToleranciaSalida = 0;
+            this.J_ToleranciaEntrada = null;
+            this.J_ToleranciaSalida = null;
 
             this.Viernes = "";
             this.V_EntradaMañana = default;
             this.V_SalidaMañana = default;
             this.V_EntradaTarde = default;
             this.V_SalidaTarde = default;
-            this.V_ToleranciaEntrada = 0;
-            this.V_ToleranciaSalida = 0;
+            this.V_ToleranciaEntrada = null;
+            this.V_ToleranciaSalida = null;
 
             this.Sabado = "";
             this.S_EntradaMañana = default;
             this.S_SalidaMañana = default;
             this.S_EntradaTarde = default;
             this.S_SalidaTarde = default;
-            this.S_ToleranciaEntrada = 0;
-            this.S_ToleranciaSalida = 0;
+            this.S_ToleranciaEntrada = null;
+            this.S_ToleranciaSalida = null;
 
             this.Domingo = "";
             this.D_EntradaMañana = default;
             this.D_SalidaMañana = default;
             this.D_EntradaTarde = default;
             this.D_SalidaTarde = default;
-            this.D_ToleranciaEntrada = 0;
-            this.D_ToleranciaSalida = 0;
+            this.D_ToleranciaEntrada = null;
+            this.D_ToleranciaSalida = null;
             this.TotalHorasSemanales = 0;
 
         }
@@ -371,9 +371,9 @@ namespace BL
                     this.D_EntradaMañana = current.D_EntradaMañana;
                     this.D_SalidaMañana = current.D_SalidaMañana;
                     this.D_EntradaTarde = current.D_EntradaTarde;
-                    this.D_SalidaTarde  = current.D_SalidaTarde;
+                    this.D_SalidaTarde = current.D_SalidaTarde;
                     this.D_ToleranciaEntrada = current.D_ToleranciaEntrada;
-                    this.D_ToleranciaSalida  = current.D_ToleranciaSalida;
+                    this.D_ToleranciaSalida = current.D_ToleranciaSalida;
                     this.TotalHorasSemanales = current.TotalHorasSemanales;
 
                     #endregion
@@ -446,56 +446,56 @@ namespace BL
                 DB.AsignarParametroCadena("@L_SalidaMañana", current.L_SalidaMañana);
                 DB.AsignarParametroCadena("@L_EntradaTarde", current.L_EntradaTarde);
                 DB.AsignarParametroCadena("@L_SalidaTarde", current.L_SalidaTarde);
-                DB.AsignarParametroEntero("@L_ToleranciaEntrada", current.L_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@L_ToleranciaSalida", current.L_ToleranciaSalida);
+                DB.AsignarParametroCadena("@L_ToleranciaEntrada", current.L_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@L_ToleranciaSalida", current.L_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Martes", current.Martes);
                 DB.AsignarParametroCadena("@M_EntradaMañana", current.M_EntradaMañana);
                 DB.AsignarParametroCadena("@M_SalidaMañana", current.M_SalidaMañana);
                 DB.AsignarParametroCadena("@M_EntradaTarde", current.M_EntradaTarde);
                 DB.AsignarParametroCadena("@M_SalidaTarde", current.M_SalidaTarde);
-                DB.AsignarParametroEntero("@M_ToleranciaEntrada", current.M_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@M_ToleranciaSalida", current.M_ToleranciaSalida);
+                DB.AsignarParametroCadena("@M_ToleranciaEntrada", current.M_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@M_ToleranciaSalida", current.M_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Miercoles", Miercoles);
                 DB.AsignarParametroCadena("@X_EntradaMañana", current.X_EntradaMañana);
                 DB.AsignarParametroCadena("@X_SalidaMañana", current.X_SalidaMañana);
                 DB.AsignarParametroCadena("@X_EntradaTarde", current.X_EntradaTarde);
                 DB.AsignarParametroCadena("@X_SalidaTarde", current.X_SalidaTarde);
-                DB.AsignarParametroEntero("@X_ToleranciaEntrada", current.X_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@X_ToleranciaSalida", current.X_ToleranciaSalida);
+                DB.AsignarParametroCadena("@X_ToleranciaEntrada", current.X_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@X_ToleranciaSalida", current.X_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Jueves", current.Jueves);
                 DB.AsignarParametroCadena("@J_EntradaMañana", current.J_EntradaMañana);
                 DB.AsignarParametroCadena("@J_SalidaMañana", current.J_SalidaMañana);
                 DB.AsignarParametroCadena("@J_EntradaTarde", current.J_EntradaTarde);
                 DB.AsignarParametroCadena("@J_SalidaTarde", current.J_SalidaTarde);
-                DB.AsignarParametroEntero("@J_ToleranciaEntrada", current.J_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@J_ToleranciaSalida", current.J_ToleranciaSalida);
+                DB.AsignarParametroCadena("@J_ToleranciaEntrada", current.J_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@J_ToleranciaSalida", current.J_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Viernes", current.Viernes);
                 DB.AsignarParametroCadena("@V_EntradaMañana", current.V_EntradaMañana);
                 DB.AsignarParametroCadena("@V_SalidaMañana", current.V_SalidaMañana);
                 DB.AsignarParametroCadena("@V_EntradaTarde", current.V_EntradaTarde);
                 DB.AsignarParametroCadena("@V_SalidaTarde", current.V_SalidaTarde);
-                DB.AsignarParametroEntero("@V_ToleranciaEntrada", current.V_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@V_ToleranciaSalida", current.V_ToleranciaSalida);
+                DB.AsignarParametroCadena("@V_ToleranciaEntrada", current.V_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@V_ToleranciaSalida", current.V_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Sabado", current.Sabado);
                 DB.AsignarParametroCadena("@S_EntradaMañana", current.S_EntradaMañana);
                 DB.AsignarParametroCadena("@S_SalidaMañana", current.S_SalidaMañana);
                 DB.AsignarParametroCadena("@S_EntradaTarde", current.S_EntradaTarde);
                 DB.AsignarParametroCadena("@S_SalidaTarde", current.S_SalidaTarde);
-                DB.AsignarParametroEntero("@S_ToleranciaEntrada", current.S_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@S_ToleranciaSalida", current.S_ToleranciaSalida);
+                DB.AsignarParametroCadena("@S_ToleranciaEntrada", current.S_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@S_ToleranciaSalida", current.S_ToleranciaSalida);
 
                 DB.AsignarParametroCadena("@Domingo", current.Domingo);
                 DB.AsignarParametroCadena("@D_EntradaMañana", current.D_EntradaMañana);
                 DB.AsignarParametroCadena("@D_SalidaMañana", current.D_SalidaMañana);
                 DB.AsignarParametroCadena("@D_EntradaTarde", current.D_EntradaTarde);
                 DB.AsignarParametroCadena("@D_SalidaTarde", current.D_SalidaTarde);
-                DB.AsignarParametroEntero("@D_ToleranciaEntrada", current.D_ToleranciaEntrada);
-                DB.AsignarParametroEntero("@D_ToleranciaSalida", current.D_ToleranciaSalida);
+                DB.AsignarParametroCadena("@D_ToleranciaEntrada", current.D_ToleranciaEntrada);
+                DB.AsignarParametroCadena("@D_ToleranciaSalida", current.D_ToleranciaSalida);
 
                 DB.EjecutarComando();
                 lRet = true;
@@ -572,56 +572,56 @@ namespace BL
                 L_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("L_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("L_SalidaMañana"))).ToString("HH:mm"),
                 L_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("L_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("L_EntradaTarde"))).ToString("HH:mm"),
                 L_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("L_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("L_SalidaTarde"))).ToString("HH:mm"),
-                L_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaEntrada")),
-                L_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("L_ToleranciaSalida")),
+                L_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("L_ToleranciaEntrada")).ToString(),
+                L_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("L_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("L_ToleranciaSalida")).ToString(),
 
                 Martes = reader.IsDBNull(reader.GetOrdinal("Martes")) ? "" : reader.GetString(reader.GetOrdinal("Martes")),
                 M_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("M_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("M_EntradaMañana"))).ToString("HH:mm"),
                 M_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("M_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("M_SalidaMañana"))).ToString("HH:mm"),
                 M_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("M_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("M_EntradaTarde"))).ToString("HH:mm"),
                 M_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("M_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("M_SalidaTarde"))).ToString("HH:mm"),
-                M_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaEntrada")),
-                M_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("M_ToleranciaSalida")),
+                M_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("M_ToleranciaEntrada")).ToString(),
+                M_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("M_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("M_ToleranciaSalida")).ToString(),
 
                 Miercoles = reader.IsDBNull(reader.GetOrdinal("Miercoles")) ? "" : reader.GetString(reader.GetOrdinal("Miercoles")),
                 X_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("X_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("X_EntradaMañana"))).ToString("HH:mm"),
                 X_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("X_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("X_SalidaMañana"))).ToString("HH:mm"),
                 X_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("X_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("X_EntradaTarde"))).ToString("HH:mm"),
                 X_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("X_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("X_SalidaTarde"))).ToString("HH:mm"),
-                X_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaEntrada")),
-                X_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("X_ToleranciaSalida")),
+                X_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("X_ToleranciaEntrada")).ToString(),
+                X_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("X_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("X_ToleranciaSalida")).ToString(),
 
                 Jueves = reader.IsDBNull(reader.GetOrdinal("Jueves")) ? "" : reader.GetString(reader.GetOrdinal("Jueves")),
                 J_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("J_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("J_EntradaMañana"))).ToString("HH:mm"),
                 J_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("J_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("J_SalidaMañana"))).ToString("HH:mm"),
                 J_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("J_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("J_EntradaTarde"))).ToString("HH:mm"),
                 J_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("J_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("J_SalidaTarde"))).ToString("HH:mm"),
-                J_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaEntrada")),
-                J_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("J_ToleranciaSalida")),
+                J_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("J_ToleranciaEntrada")).ToString(),
+                J_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("J_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("J_ToleranciaSalida")).ToString(),
 
                 Viernes = reader.IsDBNull(reader.GetOrdinal("Viernes")) ? "" : reader.GetString(reader.GetOrdinal("Viernes")),
                 V_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("V_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("V_EntradaMañana"))).ToString("HH:mm"),
                 V_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("V_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("V_SalidaMañana"))).ToString("HH:mm"),
                 V_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("V_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("V_EntradaTarde"))).ToString("HH:mm"),
                 V_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("V_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("V_SalidaTarde"))).ToString("HH:mm"),
-                V_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaEntrada")),
-                V_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("V_ToleranciaSalida")),
+                V_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("V_ToleranciaEntrada")).ToString(),
+                V_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("V_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("V_ToleranciaSalida")).ToString(),
 
                 Sabado = reader.IsDBNull(reader.GetOrdinal("Sabado")) ? "" : reader.GetString(reader.GetOrdinal("Sabado")),
                 S_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("S_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("S_EntradaMañana"))).ToString("HH:mm"),
                 S_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("S_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("S_SalidaMañana"))).ToString("HH:mm"),
                 S_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("S_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("S_EntradaTarde"))).ToString("HH:mm"),
                 S_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("S_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("S_SalidaTarde"))).ToString("HH:mm"),
-                S_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaEntrada")),
-                S_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("S_ToleranciaSalida")),
+                S_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("S_ToleranciaEntrada")).ToString(),
+                S_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("S_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("S_ToleranciaSalida")).ToString(),
 
                 Domingo = reader.IsDBNull(reader.GetOrdinal("Domingo")) ? "" : reader.GetString(reader.GetOrdinal("Domingo")),
                 D_EntradaMañana = reader.IsDBNull(reader.GetOrdinal("D_EntradaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("D_EntradaMañana"))).ToString("HH:mm"),
                 D_SalidaMañana = reader.IsDBNull(reader.GetOrdinal("D_SalidaMañana")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("D_SalidaMañana"))).ToString("HH:mm"),
                 D_EntradaTarde = reader.IsDBNull(reader.GetOrdinal("D_EntradaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("D_EntradaTarde"))).ToString("HH:mm"),
                 D_SalidaTarde = reader.IsDBNull(reader.GetOrdinal("D_SalidaTarde")) ? null : ((DateTime)reader.GetValue(reader.GetOrdinal("D_SalidaTarde"))).ToString("HH:mm"),
-                D_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaEntrada")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaEntrada")),
-                D_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaSalida")) ? 0 : reader.GetInt32(reader.GetOrdinal("D_ToleranciaSalida")),
+                D_ToleranciaEntrada = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaEntrada")) ? null : reader.GetInt32(reader.GetOrdinal("D_ToleranciaEntrada")).ToString(),
+                D_ToleranciaSalida = reader.IsDBNull(reader.GetOrdinal("D_ToleranciaSalida")) ? null : reader.GetInt32(reader.GetOrdinal("D_ToleranciaSalida")).ToString(),
 
                 TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal("TotalHorasSemanales")) ? 0 : reader.GetInt32(reader.GetOrdinal("TotalHorasSemanales")),
                 Desde = reader.IsDBNull(reader.GetOrdinal("Desde")) ? default : (DateTime)reader.GetValue(reader.GetOrdinal("Desde")),

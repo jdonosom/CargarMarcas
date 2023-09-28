@@ -37,12 +37,6 @@
             panel5 = new Panel();
             lblHorario = new Label();
             dgHorario = new DataGridView();
-            panel4 = new Panel();
-            label5 = new Label();
-            panel2 = new Panel();
-            label2 = new Label();
-            panel1 = new Panel();
-            label1 = new Label();
             colDia = new DataGridViewTextBoxColumn();
             colHE = new DataGridViewTextBoxColumn();
             colHS = new DataGridViewTextBoxColumn();
@@ -50,6 +44,12 @@
             colTHS = new DataGridViewTextBoxColumn();
             colHET = new DataGridViewTextBoxColumn();
             colHST = new DataGridViewTextBoxColumn();
+            panel4 = new Panel();
+            label5 = new Label();
+            panel2 = new Panel();
+            label2 = new Label();
+            panel1 = new Panel();
+            label1 = new Label();
             panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgHorario).BeginInit();
             panel4.SuspendLayout();
@@ -108,74 +108,8 @@
             dgHorario.CellValueChanged += dgHorario_CellValueChanged;
             dgHorario.EditingControlShowing += dgHorario_EditingControlShowing;
             dgHorario.KeyDown += dgHorario_KeyDown;
+            dgHorario.KeyPress += dgHorario_KeyPress;
             dgHorario.Leave += dgHorario_Leave;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.LightGreen;
-            panel4.Controls.Add(label5);
-            panel4.Location = new Point(1, 20);
-            panel4.Margin = new Padding(3, 2, 3, 2);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(101, 19);
-            panel4.TabIndex = 5;
-            // 
-            // label5
-            // 
-            label5.BackColor = Color.LemonChiffon;
-            label5.BorderStyle = BorderStyle.FixedSingle;
-            label5.Dock = DockStyle.Fill;
-            label5.FlatStyle = FlatStyle.Flat;
-            label5.Location = new Point(0, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(101, 19);
-            label5.TabIndex = 0;
-            label5.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.LightGreen;
-            panel2.Controls.Add(label2);
-            panel2.Location = new Point(383, 20);
-            panel2.Margin = new Padding(3, 2, 3, 2);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(286, 19);
-            panel2.TabIndex = 6;
-            // 
-            // label2
-            // 
-            label2.BackColor = Color.CornflowerBlue;
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Dock = DockStyle.Fill;
-            label2.FlatStyle = FlatStyle.Flat;
-            label2.Location = new Point(0, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(286, 19);
-            label2.TabIndex = 0;
-            label2.Text = "Tarde";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.LightGreen;
-            panel1.Controls.Add(label1);
-            panel1.Location = new Point(100, 20);
-            panel1.Margin = new Padding(3, 2, 3, 2);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(283, 19);
-            panel1.TabIndex = 7;
-            // 
-            // label1
-            // 
-            label1.BorderStyle = BorderStyle.FixedSingle;
-            label1.Dock = DockStyle.Fill;
-            label1.FlatStyle = FlatStyle.Flat;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(283, 19);
-            label1.TabIndex = 0;
-            label1.Text = "Mañana";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // colDia
             // 
@@ -270,6 +204,73 @@
             colHST.Name = "colHST";
             colHST.ToolTipText = "Tolerancia salida tarde";
             colHST.Width = 87;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.LightGreen;
+            panel4.Controls.Add(label5);
+            panel4.Location = new Point(1, 20);
+            panel4.Margin = new Padding(3, 2, 3, 2);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(101, 19);
+            panel4.TabIndex = 5;
+            // 
+            // label5
+            // 
+            label5.BackColor = Color.LemonChiffon;
+            label5.BorderStyle = BorderStyle.FixedSingle;
+            label5.Dock = DockStyle.Fill;
+            label5.FlatStyle = FlatStyle.Flat;
+            label5.Location = new Point(0, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(101, 19);
+            label5.TabIndex = 0;
+            label5.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.LightGreen;
+            panel2.Controls.Add(label2);
+            panel2.Location = new Point(383, 20);
+            panel2.Margin = new Padding(3, 2, 3, 2);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(286, 19);
+            panel2.TabIndex = 6;
+            // 
+            // label2
+            // 
+            label2.BackColor = Color.CornflowerBlue;
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Dock = DockStyle.Fill;
+            label2.FlatStyle = FlatStyle.Flat;
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(286, 19);
+            label2.TabIndex = 0;
+            label2.Text = "Tarde";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.LightGreen;
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(100, 20);
+            panel1.Margin = new Padding(3, 2, 3, 2);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(283, 19);
+            panel1.TabIndex = 7;
+            // 
+            // label1
+            // 
+            label1.BorderStyle = BorderStyle.FixedSingle;
+            label1.Dock = DockStyle.Fill;
+            label1.FlatStyle = FlatStyle.Flat;
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(283, 19);
+            label1.TabIndex = 0;
+            label1.Text = "Mañana";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ucCtrlHorario
             // 

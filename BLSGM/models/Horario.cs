@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Models
@@ -53,7 +54,7 @@ namespace Models
             }
             set
             {
-                l_entradamañana = value;
+                l_entradamañana = IsNull(value, "");
             }
         }
         private string l_salidamañana;
@@ -65,7 +66,7 @@ namespace Models
             }
             set
             {
-                l_salidamañana = value;
+                l_salidamañana = IsNull(value, "");
             }
         }
         private string l_entradatarde;
@@ -77,7 +78,7 @@ namespace Models
             }
             set
             {
-                l_entradatarde = value;
+                l_entradatarde = IsNull(value, "");
             }
         }
         private string l_salidatarde;
@@ -89,11 +90,11 @@ namespace Models
             }
             set
             {
-                l_salidatarde = value;
+                l_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? l_toleranciaentrada;
-        public System.Int32? L_ToleranciaEntrada
+        private string l_toleranciaentrada;
+        public string L_ToleranciaEntrada
         {
             get
             {
@@ -101,11 +102,11 @@ namespace Models
             }
             set
             {
-                l_toleranciaentrada = value;
+                l_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? l_toleranciasalida;
-        public System.Int32? L_ToleranciaSalida
+        private string l_toleranciasalida;
+        public string L_ToleranciaSalida
         {
             get
             {
@@ -113,7 +114,7 @@ namespace Models
             }
             set
             {
-                l_toleranciasalida = value;
+                l_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String martes;
@@ -137,7 +138,7 @@ namespace Models
             }
             set
             {
-                m_entradamañana = value;
+                m_entradamañana = IsNull(value, "");
             }
         }
         private string m_salidamañana;
@@ -149,7 +150,7 @@ namespace Models
             }
             set
             {
-                m_salidamañana = value;
+                m_salidamañana = IsNull(value, "");
             }
         }
         private string m_entradatarde;
@@ -161,7 +162,7 @@ namespace Models
             }
             set
             {
-                m_entradatarde = value;
+                m_entradatarde = IsNull(value, "");
             }
         }
         private string m_salidatarde;
@@ -173,11 +174,11 @@ namespace Models
             }
             set
             {
-                m_salidatarde = value;
+                m_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? m_toleranciaentrada;
-        public System.Int32? M_ToleranciaEntrada
+        private string m_toleranciaentrada;
+        public string M_ToleranciaEntrada
         {
             get
             {
@@ -185,11 +186,11 @@ namespace Models
             }
             set
             {
-                m_toleranciaentrada = value;
+                m_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? m_toleranciasalida;
-        public System.Int32? M_ToleranciaSalida
+        private string m_toleranciasalida;
+        public string M_ToleranciaSalida
         {
             get
             {
@@ -197,7 +198,7 @@ namespace Models
             }
             set
             {
-                m_toleranciasalida = value;
+                m_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String miercoles;
@@ -221,7 +222,7 @@ namespace Models
             }
             set
             {
-                x_entradamañana = value;
+                x_entradamañana = IsNull(value, "");
             }
         }
         private string x_salidamañana;
@@ -233,7 +234,7 @@ namespace Models
             }
             set
             {
-                x_salidamañana = value;
+                x_salidamañana = IsNull(value, "");
             }
         }
         private string x_entradatarde;
@@ -245,7 +246,7 @@ namespace Models
             }
             set
             {
-                x_entradatarde = value;
+                x_entradatarde = IsNull(value, "");
             }
         }
         private string x_salidatarde;
@@ -257,11 +258,11 @@ namespace Models
             }
             set
             {
-                x_salidatarde = value;
+                x_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? x_toleranciaentrada;
-        public System.Int32? X_ToleranciaEntrada
+        private string x_toleranciaentrada;
+        public string X_ToleranciaEntrada
         {
             get
             {
@@ -269,11 +270,11 @@ namespace Models
             }
             set
             {
-                x_toleranciaentrada = value;
+                x_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? x_toleranciasalida;
-        public System.Int32? X_ToleranciaSalida
+        private string x_toleranciasalida;
+        public string X_ToleranciaSalida
         {
             get
             {
@@ -281,7 +282,7 @@ namespace Models
             }
             set
             {
-                x_toleranciasalida = value;
+                x_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String jueves;
@@ -305,7 +306,7 @@ namespace Models
             }
             set
             {
-                j_entradamañana = value;
+                j_entradamañana = IsNull(value, "");
             }
         }
         private string j_salidamañana;
@@ -317,7 +318,7 @@ namespace Models
             }
             set
             {
-                j_salidamañana = value;
+                j_salidamañana = IsNull(value, "");
             }
         }
         private string j_entradatarde;
@@ -329,7 +330,7 @@ namespace Models
             }
             set
             {
-                j_entradatarde = value;
+                j_entradatarde = IsNull(value, "");
             }
         }
         private string j_salidatarde;
@@ -341,11 +342,11 @@ namespace Models
             }
             set
             {
-                j_salidatarde = value;
+                j_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? j_toleranciaentrada;
-        public System.Int32? J_ToleranciaEntrada
+        private string j_toleranciaentrada;
+        public string J_ToleranciaEntrada
         {
             get
             {
@@ -353,11 +354,11 @@ namespace Models
             }
             set
             {
-                j_toleranciaentrada = value;
+                j_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? j_toleranciasalida;
-        public System.Int32? J_ToleranciaSalida
+        private string j_toleranciasalida;
+        public string J_ToleranciaSalida
         {
             get
             {
@@ -365,7 +366,7 @@ namespace Models
             }
             set
             {
-                j_toleranciasalida = value;
+                j_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String viernes;
@@ -389,7 +390,7 @@ namespace Models
             }
             set
             {
-                v_entradamañana = value;
+                v_entradamañana = IsNull(value, "");
             }
         }
         private string v_salidamañana;
@@ -401,7 +402,7 @@ namespace Models
             }
             set
             {
-                v_salidamañana = value;
+                v_salidamañana = IsNull(value, "");
             }
         }
         private string v_entradatarde;
@@ -413,7 +414,7 @@ namespace Models
             }
             set
             {
-                v_entradatarde = value;
+                v_entradatarde = IsNull(value, "");
             }
         }
         private string v_salidatarde;
@@ -425,11 +426,11 @@ namespace Models
             }
             set
             {
-                v_salidatarde = value;
+                v_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? v_toleranciaentrada;
-        public System.Int32? V_ToleranciaEntrada
+        private string v_toleranciaentrada;
+        public string V_ToleranciaEntrada
         {
             get
             {
@@ -437,11 +438,11 @@ namespace Models
             }
             set
             {
-                v_toleranciaentrada = value;
+                v_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? v_toleranciasalida;
-        public System.Int32? V_ToleranciaSalida
+        private string v_toleranciasalida;
+        public string V_ToleranciaSalida
         {
             get
             {
@@ -449,7 +450,7 @@ namespace Models
             }
             set
             {
-                v_toleranciasalida = value;
+                v_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String sabado;
@@ -473,7 +474,7 @@ namespace Models
             }
             set
             {
-                s_entradamañana = value;
+                s_entradamañana = IsNull(value, "");
             }
         }
         private string s_salidamañana;
@@ -485,7 +486,7 @@ namespace Models
             }
             set
             {
-                s_salidamañana = value;
+                s_salidamañana = IsNull(value, "");
             }
         }
         private string s_entradatarde;
@@ -497,7 +498,7 @@ namespace Models
             }
             set
             {
-                s_entradatarde = value;
+                s_entradatarde = IsNull(value, "");
             }
         }
         private string s_salidatarde;
@@ -509,11 +510,11 @@ namespace Models
             }
             set
             {
-                s_salidatarde = value;
+                s_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? s_toleranciaentrada;
-        public System.Int32? S_ToleranciaEntrada
+        private string s_toleranciaentrada;
+        public string S_ToleranciaEntrada
         {
             get
             {
@@ -521,11 +522,11 @@ namespace Models
             }
             set
             {
-                s_toleranciaentrada = value;
+                s_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? s_toleranciasalida;
-        public System.Int32? S_ToleranciaSalida
+        private string s_toleranciasalida;
+        public string S_ToleranciaSalida
         {
             get
             {
@@ -533,7 +534,7 @@ namespace Models
             }
             set
             {
-                s_toleranciasalida = value;
+                s_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.String domingo;
@@ -557,7 +558,7 @@ namespace Models
             }
             set
             {
-                d_entradamañana = value;
+                d_entradamañana = IsNull(value, "");
             }
         }
         private string d_salidamañana;
@@ -569,7 +570,7 @@ namespace Models
             }
             set
             {
-                d_salidamañana = value;
+                d_salidamañana = IsNull(value, "");
             }
         }
         private string d_entradatarde;
@@ -581,7 +582,7 @@ namespace Models
             }
             set
             {
-                d_entradatarde = value;
+                d_entradatarde = IsNull(value, "");
             }
         }
         private string d_salidatarde;
@@ -593,11 +594,11 @@ namespace Models
             }
             set
             {
-                d_salidatarde = value;
+                d_salidatarde = IsNull(value, "");
             }
         }
-        private System.Int32? d_toleranciaentrada;
-        public System.Int32? D_ToleranciaEntrada
+        private string d_toleranciaentrada;
+        public string D_ToleranciaEntrada
         {
             get
             {
@@ -605,11 +606,11 @@ namespace Models
             }
             set
             {
-                d_toleranciaentrada = value;
+                d_toleranciaentrada = IsNull(value, "-1");
             }
         }
-        private System.Int32? d_toleranciasalida;
-        public System.Int32? D_ToleranciaSalida
+        private string d_toleranciasalida;
+        public string D_ToleranciaSalida
         {
             get
             {
@@ -617,7 +618,7 @@ namespace Models
             }
             set
             {
-                d_toleranciasalida = value;
+                d_toleranciasalida = IsNull(value, "-1");
             }
         }
         private System.Int32 totalhorassemanales;
@@ -655,6 +656,14 @@ namespace Models
             {
                 hasta = value;
             }
+        }
+
+        private string IsNull(string expresion, string valorDefecto)
+        {
+            if (string.IsNullOrWhiteSpace(expresion))
+                return valorDefecto;
+            else
+                return expresion;
         }
     }
 }

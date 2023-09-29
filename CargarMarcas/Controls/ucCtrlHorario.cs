@@ -607,8 +607,6 @@ namespace CargarMarcas.Controls
         private void dgHorario_KeyDown(object sender, KeyEventArgs e)
         {
 
-            // e.SuppressKeyPress = true;
-
             if (e.KeyCode == Keys.Delete)
             {
                 var cell = dgHorario.SelectedCells[0];
@@ -619,7 +617,7 @@ namespace CargarMarcas.Controls
 
         private void dgHorario_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            
         }
     }
 

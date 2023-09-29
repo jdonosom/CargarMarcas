@@ -30,12 +30,18 @@ namespace CargarMarcas
             this.bl = bl;
             this.forms = forms;
 
+            ucCtrlHorario1.Recalcular += UcCtrlHorario1_Recalcular;
+
+
+
             ToolTip tool = new ToolTip();
             tool.SetToolTip(btnLimpiar, "Limpiar");
 
             // Habilita la entrada inicial al formulario
             Habilitar(true);
+
         }
+
 
         private void btnHlpEmpleado_Click(object sender, EventArgs e)
         {
@@ -81,6 +87,7 @@ namespace CargarMarcas
 
             Habilitar(false);
 
+            lblHrsSemanales.Text = ucCtrlHorario1.HorasSemanales.ToString();
             txtDescripcion.Text = horario.Descripcion;
             txtDescripcion.Focus();
 
@@ -224,5 +231,11 @@ namespace CargarMarcas
         {
             this.Close();
         }
+
+        private void UcCtrlHorario1_Recalcular(object? sender, EventArgs e)
+        {
+            lblHrsSemanales.Text = ucCtrlHorario1.HorasSemanales.ToString();
+        }
+
     }
 }

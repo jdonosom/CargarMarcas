@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using BLSGM.interfaces;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,10 @@ namespace CargarMarcas.Controls
             InitializeComponent();
         }
 
+        #region Evento
+        public event EventHandler Recalcular;
+        #endregion
+
         #region Metodo publico
 
         public void Clear()
@@ -34,6 +39,14 @@ namespace CargarMarcas.Controls
 
         private Horario horario;
         private string descripcion;
+        private int horasSemanales;
+
+        public int HorasSemanales
+        {
+            get { return horasSemanales; }
+            private set { horasSemanales = value; }
+        }
+
 
         public string Descripcion
         {
@@ -114,6 +127,7 @@ namespace CargarMarcas.Controls
                     value.D_ToleranciaSalida = IsNull(((Horario)value).D_ToleranciaSalida, null);
                     #endregion
                     horario = value;
+                    CalculaHorasSemanales(horario);
                     DespliegaHorario();
                 }
             }
@@ -150,11 +164,12 @@ namespace CargarMarcas.Controls
                 else
                 {
                     var dateTime = $"1900-01-01 {editBox.Text}";
-                    var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture).ToString("HH:mm");
+                    var Hora = DateTime.ParseExact(dateTime, "yyyy-MM-dd HHmm", CultureInfo.InvariantCulture).ToString("HH:mm");
                     dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = Hora;
                 }
                 ActualizaRegistro(e.RowIndex, e.ColumnIndex, dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-
+                if (this.Recalcular is not null)
+                    this.Recalcular(this, null);
             }
             lEdit = false;
         }
@@ -295,6 +310,120 @@ namespace CargarMarcas.Controls
                 else if (row == 6 && col == 5) // Salida Tarde
                     horario.D_SalidaTarde = !lflag ? "" : result.ToString("HH:mm");
             }
+
+            CalculaHorasSemanales(horario);
+
+
+        }
+
+        /// <summary>
+        /// Calcular la cantidad de hora semanales del horario
+        /// </summary>
+        /// <param name="horario">Horario a calcular</param>
+        private void CalculaHorasSemanales(Horario horario)
+        {
+            horasSemanales = 0;
+            // Lunes
+            horasSemanales += string.IsNullOrWhiteSpace(horario.L_EntradaMañana) || string.IsNullOrEmpty(horario.L_SalidaMañana) ? 0 :
+             (
+                 DateTime.ParseExact(horario.L_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                 DateTime.ParseExact(horario.L_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+             );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.L_SalidaTarde) || string.IsNullOrEmpty(horario.L_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.L_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.L_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.L_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.L_SalidaTarde) ? 0 : 1)
+                );
+
+            // Martes
+            horasSemanales += string.IsNullOrWhiteSpace(horario.M_EntradaMañana) || string.IsNullOrEmpty(horario.M_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.M_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.M_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.M_SalidaTarde) || string.IsNullOrEmpty(horario.M_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.M_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.M_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.M_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.M_SalidaTarde) ? 0 : 1)
+                );
+
+            // Miercoles
+            horasSemanales += string.IsNullOrWhiteSpace(horario.X_EntradaMañana) || string.IsNullOrEmpty(horario.X_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.X_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.X_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.X_SalidaTarde) || string.IsNullOrEmpty(horario.X_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.X_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.X_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.X_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.X_SalidaTarde) ? 0 : 1)
+                );
+
+            // Jueves
+            horasSemanales += string.IsNullOrWhiteSpace(horario.J_EntradaMañana) || string.IsNullOrEmpty(horario.J_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.J_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.J_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.J_SalidaTarde) || string.IsNullOrEmpty(horario.J_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.J_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.J_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.J_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.J_SalidaTarde) ? 0 : 1)
+                );
+            // Viernes
+            horasSemanales += string.IsNullOrWhiteSpace(horario.V_EntradaMañana) || string.IsNullOrEmpty(horario.V_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.V_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.V_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.V_SalidaTarde) || string.IsNullOrEmpty(horario.V_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.V_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.V_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.V_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.V_SalidaTarde) ? 0 : 1)
+                );
+            // Sabado
+            horasSemanales += string.IsNullOrWhiteSpace(horario.S_EntradaMañana) || string.IsNullOrEmpty(horario.S_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.S_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.S_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.S_SalidaTarde) || string.IsNullOrEmpty(horario.S_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.S_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.S_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.S_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.S_SalidaTarde) ? 0 : 1)
+                );
+            // Domingo
+            horasSemanales += string.IsNullOrWhiteSpace(horario.D_EntradaMañana) || string.IsNullOrEmpty(horario.D_SalidaMañana) ? 0 :
+                (
+                    DateTime.ParseExact(horario.D_SalidaMañana, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.D_EntradaMañana, "HH:mm", CultureInfo.InvariantCulture)).Hours
+                );
+
+            horasSemanales += string.IsNullOrWhiteSpace(horario.D_SalidaTarde) || string.IsNullOrEmpty(horario.D_EntradaTarde) ? 0 :
+                (
+                    DateTime.ParseExact(horario.D_SalidaTarde, "HH:mm", CultureInfo.InvariantCulture).Subtract(
+                    DateTime.ParseExact(horario.D_EntradaTarde, "HH:mm", CultureInfo.InvariantCulture)).Hours +
+                    (string.IsNullOrWhiteSpace(horario.D_EntradaTarde) ||
+                     string.IsNullOrWhiteSpace(horario.D_SalidaTarde) ? 0 : 1)
+                );
         }
 
         private void dgHorario_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

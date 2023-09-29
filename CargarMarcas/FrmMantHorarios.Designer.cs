@@ -41,6 +41,8 @@
             txtIdHorario = new CSUST.Data.TNumEditBox();
             btnLimpiar = new Button();
             ucCtrlHorario1 = new Controls.ucCtrlHorario();
+            label3 = new Label();
+            lblHrsSemanales = new Label();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -162,12 +164,32 @@
             ucCtrlHorario1.Size = new Size(672, 267);
             ucCtrlHorario1.TabIndex = 18;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(15, 404);
+            label3.Name = "label3";
+            label3.Size = new Size(102, 15);
+            label3.TabIndex = 19;
+            label3.Text = "Horas semanales: ";
+            // 
+            // lblHrsSemanales
+            // 
+            lblHrsSemanales.AutoSize = true;
+            lblHrsSemanales.Location = new Point(123, 407);
+            lblHrsSemanales.Name = "lblHrsSemanales";
+            lblHrsSemanales.Size = new Size(13, 15);
+            lblHrsSemanales.TabIndex = 19;
+            lblHrsSemanales.Text = "0";
+            // 
             // FrmMantHorarios
             // 
             AcceptButton = btnAceptar;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(688, 431);
+            Controls.Add(lblHrsSemanales);
+            Controls.Add(label3);
             Controls.Add(ucCtrlHorario1);
             Controls.Add(txtIdHorario);
             Controls.Add(btnCancelar);
@@ -203,5 +225,7 @@
         private CSUST.Data.TNumEditBox txtIdHorario;
         private Button btnLimpiar;
         private Controls.ucCtrlHorario ucCtrlHorario1;
+        private Label label3;
+        private Label lblHrsSemanales;
     }
 }

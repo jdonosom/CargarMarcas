@@ -69,7 +69,7 @@
             // 
             txtDescripcion.Location = new Point(123, 102);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(508, 23);
+            txtDescripcion.Size = new Size(443, 23);
             txtDescripcion.TabIndex = 5;
             // 
             // panel3
@@ -116,7 +116,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.Location = new Point(515, 403);
+            btnAceptar.Location = new Point(515, 406);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(75, 23);
             btnAceptar.TabIndex = 12;
@@ -126,7 +126,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(596, 403);
+            btnCancelar.Location = new Point(596, 406);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(75, 23);
             btnCancelar.TabIndex = 12;
@@ -146,7 +146,7 @@
             // btnLimpiar
             // 
             btnLimpiar.Image = (Image)resources.GetObject("btnLimpiar.Image");
-            btnLimpiar.Location = new Point(637, 101);
+            btnLimpiar.Location = new Point(647, 102);
             btnLimpiar.Margin = new Padding(3, 2, 3, 2);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(24, 24);
@@ -159,35 +159,37 @@
             ucCtrlHorario1.AutoSize = true;
             ucCtrlHorario1.Descripcion = null;
             ucCtrlHorario1.Horario = null;
-            ucCtrlHorario1.Location = new Point(10, 130);
+            ucCtrlHorario1.Location = new Point(10, 133);
             ucCtrlHorario1.Name = "ucCtrlHorario1";
             ucCtrlHorario1.Size = new Size(672, 267);
             ucCtrlHorario1.TabIndex = 18;
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 404);
+            label3.Location = new Point(572, 67);
             label3.Name = "label3";
-            label3.Size = new Size(102, 15);
+            label3.Size = new Size(65, 32);
             label3.TabIndex = 19;
-            label3.Text = "Horas semanales: ";
+            label3.Text = "Horas semanales";
+            label3.Click += label3_Click;
             // 
             // lblHrsSemanales
             // 
-            lblHrsSemanales.AutoSize = true;
-            lblHrsSemanales.Location = new Point(123, 407);
+            lblHrsSemanales.BorderStyle = BorderStyle.FixedSingle;
+            lblHrsSemanales.FlatStyle = FlatStyle.Flat;
+            lblHrsSemanales.Location = new Point(572, 101);
             lblHrsSemanales.Name = "lblHrsSemanales";
-            lblHrsSemanales.Size = new Size(13, 15);
+            lblHrsSemanales.Size = new Size(65, 23);
             lblHrsSemanales.TabIndex = 19;
             lblHrsSemanales.Text = "0";
+            lblHrsSemanales.TextAlign = ContentAlignment.MiddleRight;
             // 
             // FrmMantHorarios
             // 
             AcceptButton = btnAceptar;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(688, 431);
+            ClientSize = new Size(688, 440);
             Controls.Add(lblHrsSemanales);
             Controls.Add(label3);
             Controls.Add(ucCtrlHorario1);

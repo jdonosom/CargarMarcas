@@ -149,9 +149,17 @@ namespace CargarMarcas.Controls
                 return;
 
             lChange = true;
-            ValorEdit = dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value.ToString();
+            // Convertir HH:mm a HHmm para la edición
+            //
+            var dato = dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value.ToString();
+            var hora = DateTime.ParseExact(dato, "HH:mm", CultureInfo.InvariantCulture).ToString("HHmm");
+            dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = hora;
+            ValorEdit = hora;
 
         }
+
+
+
 
         private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -736,8 +744,6 @@ namespace CargarMarcas.Controls
         private void dgHorario_KeyDown(object sender, KeyEventArgs e)
         {
 
-            // e.SuppressKeyPress = true;
-
             if (e.KeyCode == Keys.Delete)
             {
                 var cell = dgHorario.SelectedCells[0];
@@ -748,7 +754,7 @@ namespace CargarMarcas.Controls
 
         private void dgHorario_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            
         }
     }
 

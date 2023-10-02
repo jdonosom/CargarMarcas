@@ -381,5 +381,11 @@ namespace CargarMarcas
             var frm = forms.Create<FrmMantHorarios>();
             frm.ShowDialog();
         }
+
+        private void mantenciónDeFuncionariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = forms.Create<FrmFuncionario>();
+            frm.ShowDialog();
+        }
     }
 }

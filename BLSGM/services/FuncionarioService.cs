@@ -14,7 +14,7 @@ namespace BL
         private readonly BaseDatos DB = new BaseDatos();
 
         private Funcionario current;
-        public Funcionario Current { get; }
+        public Funcionario Current { get => current; set { current = value; } }
 
         #region Propiedades;
         string toxml;
@@ -220,13 +220,13 @@ namespace BL
                 DB.Conectar();
                 DB.CrearComando("FuncionarioUpdProc @IdEmpleado, @Rut, @Nombres, @ApellidoPaterno, @ApellidoMaterno, @Foto, @Email");
 
-                DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-                DB.AsignarParametroCadena("@Rut", Rut);
-                DB.AsignarParametroCadena("@Nombres", Nombres);
-                DB.AsignarParametroCadena("@ApellidoPaterno", ApellidoPaterno);
-                DB.AsignarParametroCadena("@ApellidoMaterno", ApellidoMaterno);
-                DB.AsignarParametroImage("@Foto", Foto);
-                DB.AsignarParametroCadena("@Email", Email);
+                DB.AsignarParametroEntero("@IdEmpleado", current.IdEmpleado);
+                DB.AsignarParametroCadena("@Rut", current.Rut);
+                DB.AsignarParametroCadena("@Nombres", current.Nombres);
+                DB.AsignarParametroCadena("@ApellidoPaterno", current.ApellidoPaterno);
+                DB.AsignarParametroCadena("@ApellidoMaterno", current.ApellidoMaterno);
+                DB.AsignarParametroImage("@Foto", current.Foto);
+                DB.AsignarParametroCadena("@Email", current.Email);
 
                 DB.EjecutarComando();
                 lRet = true;

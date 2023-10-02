@@ -47,6 +47,7 @@
             adignaciónHorariosToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem4 = new ToolStripSeparator();
             mantenciónDeHorariosToolStripMenuItem = new ToolStripMenuItem();
+            mantenciónDeFuncionariosToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             MenuReports.SuspendLayout();
@@ -146,9 +147,9 @@
             // MenuReports
             // 
             MenuReports.ImageScalingSize = new Size(20, 20);
-            MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem });
+            MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem, mantenciónDeFuncionariosToolStripMenuItem });
             MenuReports.Name = "contextMenuStrip1";
-            MenuReports.Size = new Size(241, 126);
+            MenuReports.Size = new Size(241, 148);
             MenuReports.Opening += contextMenuStrip1_Opening;
             // 
             // toolStripMenuItem1
@@ -186,6 +187,13 @@
             mantenciónDeHorariosToolStripMenuItem.Size = new Size(240, 22);
             mantenciónDeHorariosToolStripMenuItem.Text = "Mantención de horarios";
             mantenciónDeHorariosToolStripMenuItem.Click += mantenciónDeHorariosToolStripMenuItem_Click;
+            // 
+            // mantenciónDeFuncionariosToolStripMenuItem
+            // 
+            mantenciónDeFuncionariosToolStripMenuItem.Name = "mantenciónDeFuncionariosToolStripMenuItem";
+            mantenciónDeFuncionariosToolStripMenuItem.Size = new Size(240, 22);
+            mantenciónDeFuncionariosToolStripMenuItem.Text = "Mantención de Funcionarios";
+            mantenciónDeFuncionariosToolStripMenuItem.Click += mantenciónDeFuncionariosToolStripMenuItem_Click;
             // 
             // FrmCargaMarca
             // 
@@ -233,5 +241,6 @@
         private ToolStripMenuItem adignaciónHorariosToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem4;
         private ToolStripMenuItem mantenciónDeHorariosToolStripMenuItem;
+        private ToolStripMenuItem mantenciónDeFuncionariosToolStripMenuItem;
     }
 }

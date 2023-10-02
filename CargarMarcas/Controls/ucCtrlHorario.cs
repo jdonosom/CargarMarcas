@@ -34,7 +34,15 @@ namespace CargarMarcas.Controls
         public void Clear()
         {
             horario = null;
+
+            this.lblHorario.Text = string.Empty;
             this.dgHorario.Rows.Clear();
+
+            if (this.Recalcular is not null)
+            {
+                CalculaHorasSemanales(horario);
+                this.Recalcular(this, null);
+            }
         }
 
         private Horario horario;
@@ -145,7 +153,8 @@ namespace CargarMarcas.Controls
 
             lEdit = true;
             var cell = dgHorario.SelectedCells[0];
-            if (dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value is null)
+            //if (dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value is null)
+            if (string.IsNullOrWhiteSpace(cell.Value.ToString()) || cell is null)
                 return;
 
             lChange = true;
@@ -163,6 +172,9 @@ namespace CargarMarcas.Controls
 
         private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(editBox.Text))
+                return;
+
             if (lEdit)
             {
                 if (e.ColumnIndex == 3 || e.ColumnIndex == 6)
@@ -331,6 +343,8 @@ namespace CargarMarcas.Controls
         private void CalculaHorasSemanales(Horario horario)
         {
             horasSemanales = 0;
+            if (horario is null)
+                return;
             // Lunes
             horasSemanales += string.IsNullOrWhiteSpace(horario.L_EntradaMañana) || string.IsNullOrEmpty(horario.L_SalidaMañana) ? 0 :
              (
@@ -749,12 +763,15 @@ namespace CargarMarcas.Controls
                 var cell = dgHorario.SelectedCells[0];
                 dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = " ";
                 ActualizaRegistro(cell.RowIndex, cell.ColumnIndex, cell.Value.ToString());
+
+                if (this.Recalcular is not null)
+                    this.Recalcular(this, null);
             }
         }
 
         private void dgHorario_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
         }
     }
 

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BLSGM.infraestructura;
 
-namespace CargarMarcas
+namespace MantFuncionarios
 {
     internal static class Program
     {
@@ -11,15 +11,14 @@ namespace CargarMarcas
         private static IContainer container { get; set; }
 
         /// <summary>
-        /// The main entry point for the application.
+        ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-
             ApplicationConfiguration.Initialize();
             ServiceProvider = CreateHostBuilder().Build().Services;
-            Application.Run(ServiceProvider.GetService<FrmCargaMarca>());
+            Application.Run(ServiceProvider.GetService<FrmFuncionario>());
         }
 
 
@@ -44,9 +43,5 @@ namespace CargarMarcas
                     });
                 });
         }
-
     }
-
-
-
 }

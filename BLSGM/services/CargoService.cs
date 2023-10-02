@@ -14,6 +14,7 @@ namespace BL
         readonly BaseDatos DB = new BaseDatos();
 
         Cargo current;
+
         #region Propiedades;
         string toxml;
         int count;

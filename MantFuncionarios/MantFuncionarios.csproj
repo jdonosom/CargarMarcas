@@ -6,14 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>0c6c5f38-4320-4042-8a73-7f90291097e0</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="BaseDatos.cs" />
-    <Compile Remove="BaseDatosExcepcion.cs" />
-    <Compile Remove="Encriptacion.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="7.1.0" />
@@ -24,9 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="FrmFuncionario.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <ProjectReference Include="..\BLSGM\BLSGM.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -39,14 +33,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="infraestructura\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BLSGM\BLSGM.csproj" />
   </ItemGroup>
 
 </Project>

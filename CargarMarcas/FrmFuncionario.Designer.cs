@@ -49,19 +49,17 @@
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            lsvTipoContratos = new ListView();
-            lsvCargos = new ListView();
             btnCancelar = new Button();
             btnAceptar = new Button();
             imageList1 = new ImageList(components);
             btnLimpiar = new Button();
+            btnAdd = new Button();
+            btnMinus = new Button();
+            cmbContratos = new ComboBox();
+            cmbCargos = new ComboBox();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picFoto).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -228,59 +226,22 @@
             label8.AutoSize = true;
             label8.Location = new Point(291, 199);
             label8.Name = "label8";
-            label8.Size = new Size(99, 15);
+            label8.Size = new Size(94, 15);
             label8.TabIndex = 0;
-            label8.Text = "Tipo de contratos";
+            label8.Text = "Tipo de contrato";
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Location = new Point(477, 197);
             label9.Name = "label9";
-            label9.Size = new Size(44, 15);
+            label9.Size = new Size(39, 15);
             label9.TabIndex = 0;
-            label9.Text = "Cargos";
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(429, 198);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(16, 16);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 15;
-            pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(451, 198);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(16, 16);
-            pictureBox3.TabIndex = 15;
-            pictureBox3.TabStop = false;
-            // 
-            // lsvTipoContratos
-            // 
-            lsvTipoContratos.CheckBoxes = true;
-            lsvTipoContratos.Location = new Point(293, 217);
-            lsvTipoContratos.Name = "lsvTipoContratos";
-            lsvTipoContratos.Size = new Size(176, 64);
-            lsvTipoContratos.TabIndex = 16;
-            lsvTipoContratos.UseCompatibleStateImageBehavior = false;
-            // 
-            // lsvCargos
-            // 
-            lsvCargos.CheckBoxes = true;
-            lsvCargos.Location = new Point(477, 215);
-            lsvCargos.Name = "lsvCargos";
-            lsvCargos.Size = new Size(176, 66);
-            lsvCargos.TabIndex = 16;
-            lsvCargos.UseCompatibleStateImageBehavior = false;
+            label9.Text = "Cargo";
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(579, 294);
+            btnCancelar.Location = new Point(577, 362);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(75, 23);
             btnCancelar.TabIndex = 17;
@@ -289,7 +250,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.Location = new Point(498, 294);
+            btnAceptar.Location = new Point(496, 362);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(75, 23);
             btnAceptar.TabIndex = 18;
@@ -314,20 +275,59 @@
             btnLimpiar.Size = new Size(24, 24);
             btnLimpiar.TabIndex = 19;
             btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // btnAdd
+            // 
+            btnAdd.Image = (Image)resources.GetObject("btnAdd.Image");
+            btnAdd.Location = new Point(412, 190);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(22, 22);
+            btnAdd.TabIndex = 20;
+            btnAdd.UseVisualStyleBackColor = true;
+            // 
+            // btnMinus
+            // 
+            btnMinus.Image = (Image)resources.GetObject("btnMinus.Image");
+            btnMinus.Location = new Point(444, 190);
+            btnMinus.Name = "btnMinus";
+            btnMinus.Size = new Size(22, 22);
+            btnMinus.TabIndex = 21;
+            btnMinus.UseVisualStyleBackColor = true;
+            // 
+            // cmbContratos
+            // 
+            cmbContratos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbContratos.FormattingEnabled = true;
+            cmbContratos.Location = new Point(295, 216);
+            cmbContratos.Name = "cmbContratos";
+            cmbContratos.Size = new Size(171, 23);
+            cmbContratos.TabIndex = 22;
+            cmbContratos.KeyDown += cmbContratos_KeyDown;
+            // 
+            // cmbCargos
+            // 
+            cmbCargos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCargos.FormattingEnabled = true;
+            cmbCargos.Location = new Point(477, 215);
+            cmbCargos.Name = "cmbCargos";
+            cmbCargos.Size = new Size(176, 23);
+            cmbCargos.TabIndex = 22;
+            cmbCargos.KeyDown += cmbCargos_KeyDown;
             // 
             // FrmFuncionario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(670, 329);
+            ClientSize = new Size(670, 397);
+            Controls.Add(cmbCargos);
+            Controls.Add(cmbContratos);
+            Controls.Add(btnMinus);
+            Controls.Add(btnAdd);
             Controls.Add(picFoto);
             Controls.Add(btnLimpiar);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
-            Controls.Add(lsvCargos);
-            Controls.Add(lsvTipoContratos);
-            Controls.Add(pictureBox3);
-            Controls.Add(pictureBox2);
             Controls.Add(btnPhoto);
             Controls.Add(btnBuscaFuncionario);
             Controls.Add(txtApeMaterno);
@@ -349,12 +349,11 @@
             MinimizeBox = false;
             Name = "FrmFuncionario";
             ShowIcon = false;
+            Load += FrmFuncionario_Load;
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picFoto).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -380,13 +379,13 @@
         private Label label7;
         private Label label8;
         private Label label9;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
-        private ListView lsvTipoContratos;
-        private ListView lsvCargos;
         private Button btnCancelar;
         private Button btnAceptar;
         private ImageList imageList1;
         private Button btnLimpiar;
+        private Button btnAdd;
+        private Button btnMinus;
+        private ComboBox cmbContratos;
+        private ComboBox cmbCargos;
     }
 }

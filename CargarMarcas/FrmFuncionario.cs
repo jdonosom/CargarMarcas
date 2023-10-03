@@ -1,4 +1,5 @@
 using BLSGM.infraestructura;
+using BLSGM.interfaces;
 using Models;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -31,14 +32,62 @@ namespace CargarMarcas
             SetarToolTip();
             picFoto.Location = new Point(737, 12);
 
+
+            GetDataTipoCombos();
+
+
             LimpiaFormulario();
 
         }
 
+        private void GetDataTipoCombos()
+        {
+            GetDataTipoContratos();
+            GetDataCargos();
+        }
+
+        private void GetDataCargos()
+        {
+            List<Cargo> cargos =
+                bl.Cargo.GetAll();
+
+            //cmbCargos.Items.Clear();
+            cmbCargos.ValueMember = "IdCargo";
+            cmbCargos.DisplayMember = "Descripcion";
+            if (cargos != null)
+            {
+                cmbCargos.DataSource = cargos;
+            }
+            cmbCargos.SelectedIndex = -1;
+        }
+
+        private void GetDataTipoContratos()
+        {
+            List<TipoContrato> contratos =
+                    bl.TipoContrato.GetAll();
+
+            //cmbContratos.Items.Clear();
+            cmbContratos.ValueMember = "IdTipoContrato";
+            cmbContratos.DisplayMember = "Descripcion";
+
+            if (contratos != null)
+            {
+                cmbContratos.DataSource = contratos;
+            }
+            cmbContratos.SelectedIndex = -1;
+        }
+
         private void LimpiaFormulario()
         {
+            InicializaEdicion(false);
 
             txtRut.Text = string.Empty;
+            txtNombres.Text = string.Empty;
+            txtApePaterno.Text = string.Empty;
+            txtApeMaterno.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            picFoto.Image = null;
+            txtRut.Focus();
 
         }
 
@@ -51,12 +100,15 @@ namespace CargarMarcas
             txtApePaterno.Enabled = lflag;
             txtApeMaterno.Enabled = lflag;
             txtEmail.Enabled = lflag;
-            lsvTipoContratos.Items.Clear();
-            lsvTipoContratos.Enabled = lflag;
-            lsvCargos.Items.Clear();
-            lsvCargos.Enabled = lflag;
+            //lsvTipoContratos.Items.Clear();
+            //lsvTipoContratos.Enabled = lflag;
+            //cmbContratos.Items.Clear();
+            cmbContratos.Enabled = lflag;
+            // cmbCargos.Items.Clear();
+            cmbCargos.Enabled = lflag;
 
         }
+
 
         private void btnPhoto_Click(object sender, EventArgs e)
         {
@@ -94,8 +146,6 @@ namespace CargarMarcas
                         {
                             btnPhoto.Image = imageList1.Images[1];
                         }
-
-
                     }
 
                     formBackground.Dispose();
@@ -178,6 +228,7 @@ namespace CargarMarcas
             {
                 return;
             }
+            InicializaEdicion(true);
 
             var aRut = txtRut.Text.Split("-");
             int nRut = int.Parse(aRut[0]);
@@ -201,7 +252,23 @@ namespace CargarMarcas
             txtApeMaterno.Text = empleado.ApellidoMaterno.Trim();
             txtEmail.Text = empleado.Email;
             picFoto.Image = GetImage(empleado.Foto);
-            InicializaEdicion(true);
+
+            btnPhoto.Image = imageList1.Images[0];
+            if (picFoto.Image != null)
+                btnPhoto.Image = imageList1.Images[1];
+
+            // Mostrar tipo de contrato
+            //
+            var tipoContrato = 
+                bl.FuncionarioTipoContrato.Get(nRut);
+
+            cmbCargos.SelectedIndex = -1;
+            cmbContratos.SelectedIndex = -1;
+            if (tipoContrato is not null)
+            {
+                cmbCargos.SelectedValue = tipoContrato.IdCargo;
+                cmbContratos.SelectedValue = tipoContrato.TipoContrato;
+            }
 
         }
 
@@ -245,7 +312,7 @@ namespace CargarMarcas
         /// <returns>Imagen</returns>
         private System.Drawing.Image GetImage(byte[] imagen)
         {
-            if (imagen != null)
+            if (imagen is null)
                 return null;
 
             System.IO.MemoryStream ms = new System.IO.MemoryStream(imagen);
@@ -263,8 +330,8 @@ namespace CargarMarcas
             if (picture.Image == null)
                 return;
 
-
             picFoto.Location = new Point(499, 12);
+
             //picFoto.Image = picture.Image;
             //picFoto.Size = new Size(429, 265);
             //picFoto.Visible = true;
@@ -277,12 +344,15 @@ namespace CargarMarcas
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            // Obtener imagen del picturebox
-            //
-            var ms = new System.IO.MemoryStream(); ;
-            picFoto.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-            var image = ms.ToArray();
-
+            byte[] image = { };
+            if (picFoto.Image != null)
+            {
+                // Obtener imagen del picturebox
+                //
+                var ms = new System.IO.MemoryStream(); ;
+                picFoto.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                image = ms.ToArray();
+            }
             var funcionario = new Funcionario();
 
             var aRut = txtRut.Text.Split("-");
@@ -301,8 +371,55 @@ namespace CargarMarcas
             bl.Funcionario.Current = funcionario;
             bl.Funcionario.Update();
 
+            var funcionarioTipoContrato = 
+                new FuncionarioTipoContrato
+                {
+                    IdEmpleado = IdEmpleado,
+                    TipoContrato = (int)cmbContratos.SelectedValue,
+                    IdCargo = (int)cmbCargos.SelectedValue,
+                };
+
+            bl.FuncionarioTipoContrato.Current = funcionarioTipoContrato;
+            bl.FuncionarioTipoContrato.Update();
+
+            using (new CenterWinDialog(this))
+            {
+                MessageBox.Show("Datos almacenados correctamente", "Diálogo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            InicializaForm();
 
         }
 
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            InicializaForm();
+        }
+
+        private void FrmFuncionario_Load(object sender, EventArgs e)
+        {
+
+            GetDataTipoCombos();
+
+        }
+
+        private void cmbContratos_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                cmbContratos.SelectedIndex = -1;
+            }
+
+        }
+
+        private void cmbCargos_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                cmbCargos.SelectedIndex = -1;
+            }
+
+        }
     }
 }

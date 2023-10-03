@@ -167,9 +167,6 @@ namespace CargarMarcas.Controls
 
         }
 
-
-
-
         private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(editBox.Text))

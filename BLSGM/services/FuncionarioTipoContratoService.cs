@@ -17,14 +17,25 @@ namespace BL
 	{
 		 readonly BaseDatos DB = new BaseDatos();
 
-		 #region Propiedades;
-		 string toxml;
-		 int count;
-		 public int Count
-		 {
-			 get { return count; }
-		 }
-		 #endregion
+		#region Propiedades;
+		string toxml;
+		int count;
+		private FuncionarioTipoContrato current;
+
+		public FuncionarioTipoContrato Current
+		{
+			get { return current; }
+			set { current = value; }
+		}
+
+
+		public int Count
+		{
+			get { return count; }
+		}
+
+
+		#endregion
 		 
 		 #region Tipo Datos
 		 #endregion
@@ -205,9 +216,9 @@ namespace BL
 				 DB.Conectar();
 				 DB.CrearComando("FuncionarioTipoContratoUpdProc @TipoContrato, @IdEmpleado, @IdCargo");
 
-				 DB.AsignarParametroEntero("@TipoContrato", TipoContrato);
-				 DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
-				 DB.AsignarParametroEntero("@IdCargo", IdCargo);
+				 DB.AsignarParametroEntero("@TipoContrato", current.TipoContrato);
+				 DB.AsignarParametroEntero("@IdEmpleado", current.IdEmpleado);
+				 DB.AsignarParametroEntero("@IdCargo", current.IdCargo);
 
 				 DB.EjecutarComando();
 				 lRet = true;

@@ -143,6 +143,7 @@ namespace MantFuncionarios
             txtNombres.Text = empleado.Nombres.Trim();
             txtApePaterno.Text = empleado.ApellidoPaterno.Trim();
             txtApeMaterno.Text = empleado.ApellidoMaterno.Trim();
+            
             InicializaEdicion(true);
 
         }

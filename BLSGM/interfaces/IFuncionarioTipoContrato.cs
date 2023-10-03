@@ -5,6 +5,7 @@ namespace BLSGM.interfaces
     public interface IFuncionarioTipoContrato
     {
         int Count { get; }  
+        FuncionarioTipoContrato Current { get; set; }
         //string Usuario { get; }
         string Host { get; set; }
         //string Mac { get; set; }

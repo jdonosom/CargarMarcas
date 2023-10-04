@@ -387,5 +387,11 @@ namespace CargarMarcas
             var frm = forms.Create<FrmFuncionario>();
             frm.ShowDialog();
         }
+
+        private void asignaciónDispositivosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = forms.Create<FrmFuncionarioDispositivo>();
+            frm.ShowDialog();
+        }
     }
 }

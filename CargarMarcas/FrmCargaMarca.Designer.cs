@@ -48,6 +48,8 @@
             toolStripMenuItem4 = new ToolStripSeparator();
             mantenciónDeHorariosToolStripMenuItem = new ToolStripMenuItem();
             mantenciónDeFuncionariosToolStripMenuItem = new ToolStripMenuItem();
+            asignaciónDispositivosToolStripMenuItem = new ToolStripMenuItem();
+            mantenciónDeDispositivosToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             MenuReports.SuspendLayout();
@@ -147,9 +149,9 @@
             // MenuReports
             // 
             MenuReports.ImageScalingSize = new Size(20, 20);
-            MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem, mantenciónDeFuncionariosToolStripMenuItem });
+            MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem, mantenciónDeFuncionariosToolStripMenuItem, mantenciónDeDispositivosToolStripMenuItem, asignaciónDispositivosToolStripMenuItem });
             MenuReports.Name = "contextMenuStrip1";
-            MenuReports.Size = new Size(241, 148);
+            MenuReports.Size = new Size(241, 170);
             MenuReports.Opening += contextMenuStrip1_Opening;
             // 
             // toolStripMenuItem1
@@ -194,6 +196,19 @@
             mantenciónDeFuncionariosToolStripMenuItem.Size = new Size(240, 22);
             mantenciónDeFuncionariosToolStripMenuItem.Text = "Mantención de Funcionarios";
             mantenciónDeFuncionariosToolStripMenuItem.Click += mantenciónDeFuncionariosToolStripMenuItem_Click;
+            // 
+            // asignaciónDispositivosToolStripMenuItem
+            // 
+            asignaciónDispositivosToolStripMenuItem.Name = "asignaciónDispositivosToolStripMenuItem";
+            asignaciónDispositivosToolStripMenuItem.Size = new Size(240, 22);
+            asignaciónDispositivosToolStripMenuItem.Text = "Asignación Dispositivos";
+            asignaciónDispositivosToolStripMenuItem.Click += asignaciónDispositivosToolStripMenuItem_Click;
+            // 
+            // mantenciónDeDispositivosToolStripMenuItem
+            // 
+            mantenciónDeDispositivosToolStripMenuItem.Name = "mantenciónDeDispositivosToolStripMenuItem";
+            mantenciónDeDispositivosToolStripMenuItem.Size = new Size(240, 22);
+            mantenciónDeDispositivosToolStripMenuItem.Text = "Mantención de dispositivos";
             // 
             // FrmCargaMarca
             // 
@@ -242,5 +257,7 @@
         private ToolStripSeparator toolStripMenuItem4;
         private ToolStripMenuItem mantenciónDeHorariosToolStripMenuItem;
         private ToolStripMenuItem mantenciónDeFuncionariosToolStripMenuItem;
+        private ToolStripMenuItem asignaciónDispositivosToolStripMenuItem;
+        private ToolStripMenuItem mantenciónDeDispositivosToolStripMenuItem;
     }
 }

@@ -10,6 +10,7 @@ namespace BLSGM.interfaces
         string Host { get; set; }
         //string Mac { get; set; }
         void Clear();
+        List<FuncionarioTipoContrato> Get(int IdEmpleado, int IdTipoContrato);
         FuncionarioTipoContrato Get(int TipoContrato, int IdEmpleado, int IdCargo);
         List<FuncionarioTipoContrato> GetAll(int TipoContrato);
         bool Delete(int TipoContrato, int IdEmpleado, int IdCargo);

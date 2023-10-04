@@ -189,7 +189,7 @@
             txtEmail.MaxLength = 60;
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(193, 23);
-            txtEmail.TabIndex = 3;
+            txtEmail.TabIndex = 5;
             // 
             // picFoto
             // 
@@ -206,7 +206,7 @@
             btnPhoto.Location = new Point(223, 215);
             btnPhoto.Name = "btnPhoto";
             btnPhoto.Size = new Size(26, 26);
-            btnPhoto.TabIndex = 12;
+            btnPhoto.TabIndex = 6;
             btnPhoto.UseVisualStyleBackColor = true;
             btnPhoto.Click += btnPhoto_Click;
             btnPhoto.MouseLeave += btnPhoto_MouseLeave;
@@ -244,7 +244,7 @@
             btnCancelar.Location = new Point(577, 362);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(75, 23);
-            btnCancelar.TabIndex = 17;
+            btnCancelar.TabIndex = 10;
             btnCancelar.Text = "&Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             // 
@@ -253,7 +253,7 @@
             btnAceptar.Location = new Point(496, 362);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(75, 23);
-            btnAceptar.TabIndex = 18;
+            btnAceptar.TabIndex = 9;
             btnAceptar.Text = "&Aceptar";
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
@@ -302,7 +302,7 @@
             cmbContratos.Location = new Point(295, 216);
             cmbContratos.Name = "cmbContratos";
             cmbContratos.Size = new Size(171, 23);
-            cmbContratos.TabIndex = 22;
+            cmbContratos.TabIndex = 7;
             cmbContratos.KeyDown += cmbContratos_KeyDown;
             // 
             // cmbCargos
@@ -312,7 +312,7 @@
             cmbCargos.Location = new Point(477, 215);
             cmbCargos.Name = "cmbCargos";
             cmbCargos.Size = new Size(176, 23);
-            cmbCargos.TabIndex = 22;
+            cmbCargos.TabIndex = 8;
             cmbCargos.KeyDown += cmbCargos_KeyDown;
             // 
             // FrmFuncionario
@@ -320,11 +320,11 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(670, 397);
+            Controls.Add(picFoto);
             Controls.Add(cmbCargos);
             Controls.Add(cmbContratos);
             Controls.Add(btnMinus);
             Controls.Add(btnAdd);
-            Controls.Add(picFoto);
             Controls.Add(btnLimpiar);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);

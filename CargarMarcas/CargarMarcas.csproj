@@ -13,6 +13,7 @@
     <Compile Remove="BaseDatos.cs" />
     <Compile Remove="BaseDatosExcepcion.cs" />
     <Compile Remove="Encriptacion.cs" />
+    <Compile Remove="ImageExt.cs" />
   </ItemGroup>
 
   <ItemGroup>

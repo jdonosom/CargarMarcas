@@ -1,5 +1,6 @@
 using BLSGM.infraestructura;
 using BLSGM.interfaces;
+using Global;
 using Models;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -93,9 +94,10 @@ namespace CargarMarcas
 
         private void InicializaEdicion(bool lflag)
         {
+            btnPhoto.Image = imageList1.Images[0];
+            btnPhoto.Enabled = lflag;
 
             txtRut.Enabled = !lflag;
-
             txtNombres.Enabled = lflag;
             txtApePaterno.Enabled = lflag;
             txtApeMaterno.Enabled = lflag;
@@ -106,6 +108,7 @@ namespace CargarMarcas
             cmbContratos.Enabled = lflag;
             // cmbCargos.Items.Clear();
             cmbCargos.Enabled = lflag;
+
 
         }
 
@@ -133,7 +136,62 @@ namespace CargarMarcas
                     // la mostramos en el PictureBox de la inferfaz
                     if (result == DialogResult.OK)
                     {
+
+                        MemoryStream ms = new MemoryStream();
+
+                        FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        System.Drawing.Image LaFoto;
+
+                        // LaFoto.Save(ms, ImageFormat.Png);
+
+                        LaFoto = System.Drawing.Image.FromStream(fs);
+
+                        int ancho, alto;
+                        ancho = 1200;
+
+                        // Para mantener la proporcionalidad de la imagen
+                        alto = (int) Math.Floor( (decimal) (1200D/LaFoto.Width) * LaFoto.Height );
+
+                        Bitmap nuevoBitMap = new Bitmap(ancho, alto);
+                        nuevoBitMap.SetResolution(96, 96);
+
+                        Graphics graphics = Graphics.FromImage(nuevoBitMap);
+
+                        graphics.CompositingQuality = CompositingQuality.HighQuality;
+                        graphics.SmoothingMode      = SmoothingMode.HighQuality;
+                        graphics.InterpolationMode  = InterpolationMode.HighQualityBicubic;
+
+                        Rectangle rectangulo = new Rectangle(0,0,ancho, alto);
+                        graphics.DrawImage(LaFoto, rectangulo);
+
+
+                        ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+                        System.Drawing.Imaging.Encoder myEncoder =
+                            System.Drawing.Imaging.Encoder.Compression;
+
+                        // Create an EncoderParameters object.  
+                        // An EncoderParameters object has an array of EncoderParameter  
+                        // objects. In this case, there is only one  
+                        // EncoderParameter object in the array.  
+                        EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 0L);
+                        myEncoderParameters.Param[0] = myEncoderParameter;
+
+
+                        nuevoBitMap.Save(@"c:\borrame\thumb24.jpg", jpgEncoder, myEncoderParameters);
+                        nuevoBitMap.Save(@"c:\borrame\thumb.jpg", nuevoBitMap.RawFormat);
+                        nuevoBitMap.Save(@"c:\borrame\thumb.png", ImageFormat.Png );
+                        
+                        fs.Close();
+                        fs = null;
+
+
+
                         // ResizeImage(GetImage(empleado.Foto), 154, 231);
+                        picFoto.Height = 150;
+                        picFoto.Width = 100;
 
                         picFoto.BackgroundImage = null;
                         picFoto.Image = ResizeImage(System.Drawing.Image.FromFile(dialog.FileName), 154, 231);
@@ -168,6 +226,20 @@ namespace CargarMarcas
 
 
         }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+
 
         private void SetarToolTip()
         {
@@ -226,19 +298,26 @@ namespace CargarMarcas
             // 
             if (txtRut.Text.Length == 0)
             {
+                txtRut.Focus();
                 return;
             }
-            InicializaEdicion(true);
 
             var aRut = txtRut.Text.Split("-");
             int nRut = int.Parse(aRut[0]);
             char Dv = char.Parse(aRut[1]);
-
             if (!Global.GlobalVar.ValidaRut(nRut, Dv))
             {
                 MessageBox.Show("El rut ingresado es erroneo", "Diálogo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtRut.Focus();
                 return;
             }
+
+
+            InicializaEdicion(true);
+
+
+
+
 
             var empleado = bl.Funcionario.Get(nRut);
             if (empleado is null)
@@ -257,17 +336,17 @@ namespace CargarMarcas
             if (picFoto.Image != null)
                 btnPhoto.Image = imageList1.Images[1];
 
-            // Mostrar tipo de contrato
+            // Traer todos los tipo de contrato
             //
-            var tipoContrato = 
-                bl.FuncionarioTipoContrato.Get(nRut);
+            var tipoContrato =
+                bl.FuncionarioTipoContrato.Get(nRut, 0);
 
             cmbCargos.SelectedIndex = -1;
             cmbContratos.SelectedIndex = -1;
-            if (tipoContrato is not null)
+            if (tipoContrato.Count == 1)
             {
-                cmbCargos.SelectedValue = tipoContrato.IdCargo;
-                cmbContratos.SelectedValue = tipoContrato.TipoContrato;
+                cmbCargos.SelectedValue = tipoContrato[0].IdCargo;
+                cmbContratos.SelectedValue = tipoContrato[0].TipoContrato;
             }
 
         }
@@ -371,7 +450,7 @@ namespace CargarMarcas
             bl.Funcionario.Current = funcionario;
             bl.Funcionario.Update();
 
-            var funcionarioTipoContrato = 
+            var funcionarioTipoContrato =
                 new FuncionarioTipoContrato
                 {
                     IdEmpleado = IdEmpleado,

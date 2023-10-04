@@ -118,6 +118,62 @@ namespace BL
             }
         }
 
+		public List<FuncionarioTipoContrato> Get( int IdEmpleado, int IdTipoContrato )
+		{
+            var oLst = new List<FuncionarioTipoContrato>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("FuncionarioTipoContratoSelProcByEmpleado @IdEmpleado, @IdTipoContrato");
+                DB.AsignarParametroEntero("@IdEmpleado", IdEmpleado);
+                DB.AsignarParametroEntero("@IdTipoContrato", IdTipoContrato);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+                    FuncionarioTipoContrato e = new FuncionarioTipoContrato()
+                    {
+                        TipoContrato = reader.IsDBNull(reader.GetOrdinal("TipoContrato")) ? 0 : reader.GetInt32(reader.GetOrdinal("TipoContrato")),
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                        IdCargo = reader.IsDBNull(reader.GetOrdinal("IdCargo")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdCargo")),
+                    };
+                    oLst.Add(e);
+
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
         public List<FuncionarioTipoContrato> GetAll(System.Int32 TipoContrato)
 		 {
 			 var oLst = new List<FuncionarioTipoContrato>();

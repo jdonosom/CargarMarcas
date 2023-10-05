@@ -178,6 +178,73 @@ namespace BL
             }
         }
 
+        public List<FuncionarioSinMarca> GetEmpleadosSinMarca( string Fecha, int IdUnidad )
+        {
+            var oLst = new List<FuncionarioSinMarca>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("FuncionarioSinMarcaEntrada @Fecha, @IdUnidad");
+                DB.AsignarParametroCadena("@Fecha", Fecha);
+                DB.AsignarParametroEntero("@IdUnidad", IdUnidad);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+                    FuncionarioSinMarca e = new FuncionarioSinMarca()
+                    {
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                        Rut = reader.IsDBNull(reader.GetOrdinal("Rut")) ? "" : reader.GetString(reader.GetOrdinal("Rut")),
+                        NombreCompleto = reader.IsDBNull(reader.GetOrdinal("NombreCompleto")) ? "" : reader.GetString(reader.GetOrdinal("NombreCompleto")),
+                        CorreoFuncionario = reader.IsDBNull(reader.GetOrdinal("CorreoFuncionario")) ? "" : reader.GetString(reader.GetOrdinal("CorreoFuncionario")),
+                        Foto = reader.IsDBNull(reader.GetOrdinal("Foto")) ? new byte[0] { } : reader.GetValue(reader.GetOrdinal("Foto")) as byte[],
+                        IdUnidad = reader.IsDBNull(reader.GetOrdinal("IdUnidad")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdUnidad")),
+                        Unidad = reader.IsDBNull(reader.GetOrdinal("Unidad")) ? "" : reader.GetString(reader.GetOrdinal("Unidad")),
+                        CorreoUnidad = reader.IsDBNull(reader.GetOrdinal("CorreoUnidad")) ? "" : reader.GetString(reader.GetOrdinal("CorreoUnidad")),
+                        Permiso = reader.IsDBNull(reader.GetOrdinal("Permiso")) ? "" : reader.GetString(reader.GetOrdinal("Permiso")),
+                        FechaInicio = reader.IsDBNull(reader.GetOrdinal("FechaInicio")) ? null: reader.GetDateTime(reader.GetOrdinal("FechaInicio")),
+                        FechaTermino = reader.IsDBNull(reader.GetOrdinal("FechaTermino")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaTermino")),
+                        HoraMarca = reader.IsDBNull(reader.GetOrdinal("HoraMarca")) ? "" : reader.GetString(reader.GetOrdinal("HoraMarca")),
+                        FechaMarca = reader.IsDBNull(reader.GetOrdinal("FechaMarca")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaMarca")),
+                        IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdHorario")),
+                        Horario = reader.IsDBNull(reader.GetOrdinal("Horario")) ? "" : reader.GetString(reader.GetOrdinal("Horario")),
+                    };
+                    oLst.Add(e);
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
         public Boolean Delete(System.Int32 IdEmpleado)
         {
             Boolean lRet = false;

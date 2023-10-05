@@ -137,64 +137,64 @@ namespace CargarMarcas
                     if (result == DialogResult.OK)
                     {
 
-                        MemoryStream ms = new MemoryStream();
-
-                        FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        System.Drawing.Image LaFoto;
-
-                        // LaFoto.Save(ms, ImageFormat.Png);
-
-                        LaFoto = System.Drawing.Image.FromStream(fs);
-
-                        int ancho, alto;
-                        ancho = 1200;
-
-                        // Para mantener la proporcionalidad de la imagen
-                        alto = (int) Math.Floor( (decimal) (1200D/LaFoto.Width) * LaFoto.Height );
-
-                        Bitmap nuevoBitMap = new Bitmap(ancho, alto);
-                        nuevoBitMap.SetResolution(96, 96);
-
-                        Graphics graphics = Graphics.FromImage(nuevoBitMap);
-
-                        graphics.CompositingQuality = CompositingQuality.HighQuality;
-                        graphics.SmoothingMode      = SmoothingMode.HighQuality;
-                        graphics.InterpolationMode  = InterpolationMode.HighQualityBicubic;
-
-                        Rectangle rectangulo = new Rectangle(0,0,ancho, alto);
-                        graphics.DrawImage(LaFoto, rectangulo);
-
-
-                        ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
-
-                        System.Drawing.Imaging.Encoder myEncoder =
-                            System.Drawing.Imaging.Encoder.Compression;
-
-                        // Create an EncoderParameters object.  
-                        // An EncoderParameters object has an array of EncoderParameter  
-                        // objects. In this case, there is only one  
-                        // EncoderParameter object in the array.  
-                        EncoderParameters myEncoderParameters = new EncoderParameters(1);
-
-                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 0L);
-                        myEncoderParameters.Param[0] = myEncoderParameter;
-
-
-                        nuevoBitMap.Save(@"c:\borrame\thumb24.jpg", jpgEncoder, myEncoderParameters);
-                        nuevoBitMap.Save(@"c:\borrame\thumb.jpg", nuevoBitMap.RawFormat);
-                        nuevoBitMap.Save(@"c:\borrame\thumb.png", ImageFormat.Png );
-                        
-                        fs.Close();
-                        fs = null;
-
-
+                        // MemoryStream ms = new MemoryStream();
+                        // 
+                        // FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        // System.Drawing.Image LaFoto;
+                        // 
+                        // // LaFoto.Save(ms, ImageFormat.Png);
+                        // 
+                        // LaFoto = System.Drawing.Image.FromStream(fs);
+                        // 
+                        // 
+                        // int ancho, alto;
+                        // 
+                        // ancho = 100;
+                        // 
+                        // // Para mantener la proporcionalidad de la imagen
+                        // alto = (int) Math.Floor( (decimal) (100/LaFoto.Width) * LaFoto.Height );
+                        // 
+                        // Bitmap nuevoBitMap = new Bitmap(ancho, alto);
+                        // nuevoBitMap.SetResolution(96, 96);
+                        // 
+                        // Graphics graphics = Graphics.FromImage(nuevoBitMap);
+                        // 
+                        // graphics.CompositingQuality = CompositingQuality.HighQuality;
+                        // graphics.SmoothingMode      = SmoothingMode.HighQuality;
+                        // graphics.InterpolationMode  = InterpolationMode.HighQualityBicubic;
+                        // 
+                        // Rectangle rectangulo = new Rectangle(0,0,ancho, alto);
+                        // graphics.DrawImage(LaFoto, rectangulo);
+                        // 
+                        // 
+                        // ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+                        // 
+                        // System.Drawing.Imaging.Encoder myEncoder =
+                        //     System.Drawing.Imaging.Encoder.Compression;
+                        // 
+                        // // Create an EncoderParameters object.  
+                        // // An EncoderParameters object has an array of EncoderParameter  
+                        // // objects. In this case, there is only one  
+                        // // EncoderParameter object in the array.  
+                        // EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                        // EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 0L);
+                        // myEncoderParameters.Param[0] = myEncoderParameter;
+                        // 
+                        // nuevoBitMap.Save(@"c:\borrame\thumb24.jpg", jpgEncoder, myEncoderParameters);
+                        // nuevoBitMap.Save(@"c:\borrame\thumb.jpg", nuevoBitMap.RawFormat);
+                        // nuevoBitMap.Save(@"c:\borrame\thumb.png", ImageFormat.Png );
+                        // 
+                        // fs.Close();
+                        // fs = null;
 
                         // ResizeImage(GetImage(empleado.Foto), 154, 231);
+
                         picFoto.Height = 150;
                         picFoto.Width = 100;
 
                         picFoto.BackgroundImage = null;
-                        picFoto.Image = ResizeImage(System.Drawing.Image.FromFile(dialog.FileName), 154, 231);
+                        //picFoto.Image = ResizeImage(System.Drawing.Image.FromFile(dialog.FileName), 154, 231);
+                        picFoto.Image = ResizeImageProportional(System.Drawing.Image.FromFile(dialog.FileName), picFoto.Width);
 
                         // pbCancelCedPost.Location = new Point(picCedPos.Location.X + picCedPos.Size.Width - pbCancelCedPost.Size.Width / 2, picCedPos.Location.Y + picCedPos.Size.Height - pbCancelCedPost.Size.Height / 2);
                         // pbCancelCedPost.Visible = true;
@@ -227,7 +227,45 @@ namespace CargarMarcas
 
         }
 
-        private ImageCodecInfo GetEncoder(ImageFormat format)
+        public static Bitmap ResizeImageProportional(Image image, int nWidth = 100)
+        {
+            int nHeight;
+
+            // Para mantener la proporcionalidad de la imagen
+            nHeight = (int)Math.Floor((decimal)(100D / image.Width) * image.Height);
+
+            var destImage = new Bitmap(nWidth, nHeight);
+
+            var destRect = new Rectangle(0, 0, nWidth, nHeight);
+            destImage.SetResolution(96, 96);
+
+            // ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+            //System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Compression;
+
+            // destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                // graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect);
+                }
+            }
+
+            return destImage;
+
+        }
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
         {
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
             foreach (ImageCodecInfo codec in codecs)

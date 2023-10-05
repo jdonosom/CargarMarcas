@@ -18,6 +18,7 @@ namespace CargarMarcas
         private DateTime? Fecha;
         private string Time = null;
         private int Tipo = -1;
+        private string Serie = null;
 
         public FrmCargaMarca(
               IFormFactory frm
@@ -173,6 +174,7 @@ namespace CargarMarcas
                         Fecha = Convert.ToDateTime(datos[1]);
                         Time = Convert.ToDateTime(datos[2]).ToString("HHmm");
                         Tipo = datos[3].Contains("Salida") ? 0 : 1;
+                        Serie = "322800121011";
 
                         if (!ExisteFuncionario(Id))
                         {
@@ -200,14 +202,22 @@ namespace CargarMarcas
                     //
                     nodes.Add(new Node
                     {
-                        Id = Id,
-                        Fecha = ((DateTime)Fecha).ToString("yyyyMMdd"),
-                        Hora = Time,
-                        TipoMarca = Tipo
+                        Id        = Id,
+                        Fecha     = ((DateTime)Fecha).ToString("yyyyMMdd"),
+                        Hora      = Time,
+                        TipoMarca = Tipo,
+                        Serie     = string.Empty,
                     });
 
+                    var Sql = "RegistroMarcaInsProc @IdEmpleado, @Fecha, @Hora, @Tipo, @Serie";
+
                     DB.Conectar();
-                    DB.CrearComando($"INSERT INTO SGM..Registro(Id, Fecha, Hora, TipoMarca) VALUES({Id}, '{((DateTime)Fecha).ToString("yyyyMMdd")}', {Time}, {Tipo})");
+                    DB.CrearComando(Sql);
+                    DB.AsignarParametroEntero("@IdEmpleado", Id);
+                    DB.AsignarParametroCadena("@Fecha", ((DateTime)Fecha).ToString("yyyyMMdd"));
+                    DB.AsignarParametroCadena("@Hora",       Time);
+                    DB.AsignarParametroEntero("@Tipo",       Tipo);
+                    DB.AsignarParametroCadena("@Serie",      Serie);
                     DB.EjecutarComando();
 
                 }
@@ -296,10 +306,10 @@ namespace CargarMarcas
                     {
                         DiaSemana = AbDia,
                         Fecha = fecha,
-                        HoraEntradaMañana = reader.IsDBNull(reader.GetOrdinal(EMañana)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(EMañana))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
-                        HoraSalidaMañana = reader.IsDBNull(reader.GetOrdinal(SMañana)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(SMañana))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
-                        HoraEntradaTarde = reader.IsDBNull(reader.GetOrdinal(ETarde)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(ETarde))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
-                        HoraSalidaTarde = reader.IsDBNull(reader.GetOrdinal(STarde)) ? null : DateTime.ParseExact((fecha + " " + ((TimeSpan)reader.GetValue(reader.GetOrdinal(STarde))).ToString(@"hh\:mm\:ss")), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraEntradaMañana = reader.IsDBNull(reader.GetOrdinal(EMañana)) ? null : DateTime.ParseExact(fecha + " " + reader.GetDateTime(reader.GetOrdinal(EMañana)).ToString(@"HH\:mm\:ss"), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraSalidaMañana = reader.IsDBNull(reader.GetOrdinal(SMañana)) ? null : DateTime.ParseExact(fecha + " " + reader.GetDateTime(reader.GetOrdinal(SMañana)).ToString(@"HH\:mm\:ss"), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraEntradaTarde = reader.IsDBNull(reader.GetOrdinal(ETarde)) ? null : DateTime.ParseExact(fecha + " " + reader.GetDateTime(reader.GetOrdinal(ETarde)).ToString(@"HH\:mm\:ss"), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
+                        HoraSalidaTarde = reader.IsDBNull(reader.GetOrdinal(STarde)) ? null : DateTime.ParseExact(fecha + " " + reader.GetDateTime(reader.GetOrdinal(STarde)).ToString(@"HH\:mm\:ss"), "yyyyMMdd HH:mm:ss", CultureInfo.InvariantCulture),
                         ToleranciaEntradaMañana = reader.IsDBNull(reader.GetOrdinal(TEntrada)) ? 0 : reader.GetInt32(reader.GetOrdinal(TEntrada)),
                         ToleranciaSalidaMañana = reader.IsDBNull(reader.GetOrdinal(TSalida)) ? 0 : reader.GetInt32(reader.GetOrdinal(TSalida)),
                         TotalHorasSemanales = reader.IsDBNull(reader.GetOrdinal($"TotalHorasSemanales")) ? 0 : reader.GetInt32(reader.GetOrdinal($"TotalHorasSemanales")),
@@ -368,30 +378,38 @@ namespace CargarMarcas
 
             var frm = forms.Create<FrmHorarioFuncionario>();
             frm.ShowDialog();
-
-            //FormFactory frm = new FormFactory();
-            //frm.Create<FrmHorario>().ShowDialog();
-
-            //FrmHorario frm = new();
-            //frm.ShowDialog();
         }
 
         private void mantenciónDeHorariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             var frm = forms.Create<FrmMantHorarios>();
             frm.ShowDialog();
+
         }
 
         private void mantenciónDeFuncionariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             var frm = forms.Create<FrmFuncionario>();
             frm.ShowDialog();
+
         }
 
         private void asignaciónDispositivosToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             var frm = forms.Create<FrmFuncionarioDispositivo>();
             frm.ShowDialog();
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            var frm = forms.Create<FrmFuncionarioSinMarca>();
+            frm.ShowDialog();
+
         }
     }
 }

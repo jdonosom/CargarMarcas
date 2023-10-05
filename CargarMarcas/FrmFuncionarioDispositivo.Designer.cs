@@ -42,6 +42,8 @@
             colEmpleado = new ColumnHeader();
             colDispositivo = new ColumnHeader();
             colIdDispositivo = new ColumnHeader();
+            btnCancelar = new Button();
+            btnAceptar = new Button();
             SuspendLayout();
             // 
             // lstEmpleado
@@ -152,11 +154,32 @@
             colIdDispositivo.Text = "IdDevice";
             colIdDispositivo.Width = 0;
             // 
+            // btnCancelar
+            // 
+            btnCancelar.Location = new Point(507, 725);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.TabIndex = 12;
+            btnCancelar.Text = "&Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
+            // 
+            // btnAceptar
+            // 
+            btnAceptar.Location = new Point(426, 725);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(75, 23);
+            btnAceptar.TabIndex = 11;
+            btnAceptar.Text = "&Aceptar";
+            btnAceptar.UseVisualStyleBackColor = true;
+            btnAceptar.Click += btnAceptar_Click;
+            // 
             // FrmFuncionarioDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(813, 726);
+            ClientSize = new Size(596, 755);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnAceptar);
             Controls.Add(lstAsignacion);
             Controls.Add(btnMinus);
             Controls.Add(btnAdd);
@@ -188,5 +211,7 @@
         private ColumnHeader colEmpleado;
         private ColumnHeader colDispositivo;
         private ColumnHeader colIdDispositivo;
+        private Button btnCancelar;
+        private Button btnAceptar;
     }
 }

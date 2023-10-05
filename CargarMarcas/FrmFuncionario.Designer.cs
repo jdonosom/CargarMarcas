@@ -241,7 +241,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(577, 362);
+            btnCancelar.Location = new Point(578, 259);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(75, 23);
             btnCancelar.TabIndex = 10;
@@ -250,7 +250,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.Location = new Point(496, 362);
+            btnAceptar.Location = new Point(497, 259);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(75, 23);
             btnAceptar.TabIndex = 9;
@@ -319,7 +319,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(670, 397);
+            ClientSize = new Size(670, 297);
             Controls.Add(picFoto);
             Controls.Add(cmbCargos);
             Controls.Add(cmbContratos);

@@ -12,5 +12,6 @@ namespace CargarMarcas
         public String Fecha;
         public String Hora;
         public int TipoMarca;
+        public string Serie;
     }
 }

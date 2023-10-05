@@ -104,7 +104,42 @@ namespace CargarMarcas
 
         private void lstEmpleado_Click(object sender, EventArgs e)
         {
-            if (lstEmpleado.SelectedItem)
+            if (((Funcionario)lstEmpleado.SelectedItem) is not null)
+            {
+                var sRut = ((Funcionario)lstEmpleado.SelectedItem).Rut;
+                var aRut = sRut.Split('-');
+
+                int nRut = int.Parse(aRut[0]);
+
+                var dispositivoAsignado =
+                    bl.DispositivosFuncionario.Get(0, nRut);
+
+
+
+
+
+            }
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (lstEmpleado.SelectedItems.Count == 0)
+            {
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show(
+                        "De seleccionar un funcionario antes de grabar la asignación de dispositivos",
+                        "Diálogo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                }
+                return;
+            }
+
+
+            //foreach(var)
+            //bl.DispositivosFuncionario.
+
         }
     }
 }

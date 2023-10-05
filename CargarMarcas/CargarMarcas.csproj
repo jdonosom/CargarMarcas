@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <Folder Include="infraestructura\" />
+    <Folder Include="store procedures\" />
   </ItemGroup>
 
   <ItemGroup>

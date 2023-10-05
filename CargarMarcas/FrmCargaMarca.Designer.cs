@@ -48,8 +48,8 @@
             toolStripMenuItem4 = new ToolStripSeparator();
             mantenciónDeHorariosToolStripMenuItem = new ToolStripMenuItem();
             mantenciónDeFuncionariosToolStripMenuItem = new ToolStripMenuItem();
-            asignaciónDispositivosToolStripMenuItem = new ToolStripMenuItem();
             mantenciónDeDispositivosToolStripMenuItem = new ToolStripMenuItem();
+            asignaciónDispositivosToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             MenuReports.SuspendLayout();
@@ -151,7 +151,7 @@
             MenuReports.ImageScalingSize = new Size(20, 20);
             MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem, mantenciónDeFuncionariosToolStripMenuItem, mantenciónDeDispositivosToolStripMenuItem, asignaciónDispositivosToolStripMenuItem });
             MenuReports.Name = "contextMenuStrip1";
-            MenuReports.Size = new Size(241, 170);
+            MenuReports.Size = new Size(241, 192);
             MenuReports.Opening += contextMenuStrip1_Opening;
             // 
             // toolStripMenuItem1
@@ -159,6 +159,7 @@
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(240, 22);
             toolStripMenuItem1.Text = "Funcionario sin marca entrada";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // toolStripMenuItem2
             // 
@@ -197,18 +198,18 @@
             mantenciónDeFuncionariosToolStripMenuItem.Text = "Mantención de Funcionarios";
             mantenciónDeFuncionariosToolStripMenuItem.Click += mantenciónDeFuncionariosToolStripMenuItem_Click;
             // 
+            // mantenciónDeDispositivosToolStripMenuItem
+            // 
+            mantenciónDeDispositivosToolStripMenuItem.Name = "mantenciónDeDispositivosToolStripMenuItem";
+            mantenciónDeDispositivosToolStripMenuItem.Size = new Size(240, 22);
+            mantenciónDeDispositivosToolStripMenuItem.Text = "Mantención de dispositivos";
+            // 
             // asignaciónDispositivosToolStripMenuItem
             // 
             asignaciónDispositivosToolStripMenuItem.Name = "asignaciónDispositivosToolStripMenuItem";
             asignaciónDispositivosToolStripMenuItem.Size = new Size(240, 22);
             asignaciónDispositivosToolStripMenuItem.Text = "Asignación Dispositivos";
             asignaciónDispositivosToolStripMenuItem.Click += asignaciónDispositivosToolStripMenuItem_Click;
-            // 
-            // mantenciónDeDispositivosToolStripMenuItem
-            // 
-            mantenciónDeDispositivosToolStripMenuItem.Name = "mantenciónDeDispositivosToolStripMenuItem";
-            mantenciónDeDispositivosToolStripMenuItem.Size = new Size(240, 22);
-            mantenciónDeDispositivosToolStripMenuItem.Text = "Mantención de dispositivos";
             // 
             // FrmCargaMarca
             // 

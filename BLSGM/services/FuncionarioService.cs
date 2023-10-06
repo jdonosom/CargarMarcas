@@ -178,7 +178,7 @@ namespace BL
             }
         }
 
-        public List<FuncionarioSinMarca> GetEmpleadosSinMarca( string Fecha, int IdUnidad )
+        public List<FuncionarioSinMarca> GetEmpleadosSinMarca(string Fecha, int IdUnidad)
         {
             var oLst = new List<FuncionarioSinMarca>();
             DB.Conectar();
@@ -222,12 +222,13 @@ namespace BL
                         Unidad = reader.IsDBNull(reader.GetOrdinal("Unidad")) ? "" : reader.GetString(reader.GetOrdinal("Unidad")),
                         CorreoUnidad = reader.IsDBNull(reader.GetOrdinal("CorreoUnidad")) ? "" : reader.GetString(reader.GetOrdinal("CorreoUnidad")),
                         Permiso = reader.IsDBNull(reader.GetOrdinal("Permiso")) ? "" : reader.GetString(reader.GetOrdinal("Permiso")),
-                        FechaInicio = reader.IsDBNull(reader.GetOrdinal("FechaInicio")) ? null: reader.GetDateTime(reader.GetOrdinal("FechaInicio")),
+                        FechaInicio = reader.IsDBNull(reader.GetOrdinal("FechaInicio")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaInicio")),
                         FechaTermino = reader.IsDBNull(reader.GetOrdinal("FechaTermino")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaTermino")),
                         HoraMarca = reader.IsDBNull(reader.GetOrdinal("HoraMarca")) ? "" : reader.GetString(reader.GetOrdinal("HoraMarca")),
                         FechaMarca = reader.IsDBNull(reader.GetOrdinal("FechaMarca")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaMarca")),
                         IdHorario = reader.IsDBNull(reader.GetOrdinal("IdHorario")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdHorario")),
                         Horario = reader.IsDBNull(reader.GetOrdinal("Horario")) ? "" : reader.GetString(reader.GetOrdinal("Horario")),
+                        Atraso = reader.IsDBNull(reader.GetOrdinal("Atraso")) ? 0 : reader.GetInt32(reader.GetOrdinal("Atraso")),
                     };
                     oLst.Add(e);
                 }

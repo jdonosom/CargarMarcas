@@ -17,12 +17,13 @@ namespace Models
         public string Unidad { get; set; }
         public string CorreoUnidad { get; set; }
         public string Permiso { get; set; }
-        public DateTime? FechaInicio { get; set; }   
+        public DateTime? FechaInicio { get; set; }
         public DateTime? FechaTermino { get; set; }
         public string HoraMarca { get; set; }
         public DateTime? FechaMarca { get; set; }
         public int IdHorario { get; set; }
         public string Horario { get; set; }
+        public int Atraso { get; set; }
 
     }
 }

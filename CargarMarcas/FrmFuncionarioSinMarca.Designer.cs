@@ -133,7 +133,7 @@
             // 
             // btnGenerar
             // 
-            btnGenerar.Location = new Point(126, 288);
+            btnGenerar.Location = new Point(121, 284);
             btnGenerar.Name = "btnGenerar";
             btnGenerar.Size = new Size(136, 23);
             btnGenerar.TabIndex = 9;
@@ -155,7 +155,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(390, 330);
+            ClientSize = new Size(390, 321);
             Controls.Add(btnGenerar);
             Controls.Add(dtpFecha);
             Controls.Add(label3);

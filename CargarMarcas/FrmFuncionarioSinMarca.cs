@@ -32,15 +32,13 @@ namespace CargarMarcas
 
             dtpFecha.MaxDate = DateTime.Now;
             CargarDatos();
+
         }
 
         private void CargarDatos()
         {
             var unidades =
                 bl.Unidad.GetAll();
-
-            if (unidades != null)
-                unidades = unidades.OrderBy(x => x.Descripcion).ToList();
 
             unidades.Insert(0, new Models.Unidad
             {

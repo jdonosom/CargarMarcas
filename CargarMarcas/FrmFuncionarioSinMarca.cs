@@ -1,5 +1,6 @@
 ﻿using BLSGM.infraestructura;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Web.WebView2.Wpf;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -71,13 +72,29 @@ namespace CargarMarcas
                 return;
             }
 
+            //  
+            //
             var datosEnvioCorreo = GeneraDetalles(funcionarios);
-            // Enviar correo a las unidades
+
+            //  Enviar correo a las unidades
             //
             foreach (var envio in datosEnvioCorreo)
             {
                 EnviarCorreoHtml(envio.correoUnidad, envio.html);
             }
+
+            var correo = datosEnvioCorreo[0].correoUnidad;
+            var html = datosEnvioCorreo[0].html;
+
+            WebBrowser web = new WebBrowser();
+            web.DocumentText = html;
+            web.Location = new Point(0, 0);
+            web.Visible = true;
+            web.Width = 800;
+            web.Height = 600;
+            web.Show();
+
+
 
         }
 
@@ -97,6 +114,7 @@ namespace CargarMarcas
             //
             foreach (var funcionario in funcionarios)
             {
+
                 var IdUnidad = funcionario.IdUnidad;
                 var CorreoUnidad = funcionario.CorreoUnidad;
                 var Unidad = funcionarios.Where(x => x.IdUnidad == IdUnidad).ToList();
@@ -116,7 +134,8 @@ namespace CargarMarcas
                 //
                 funcionarios.RemoveAll(x => Unidad.All(i => i.IdUnidad == x.IdUnidad));
 
-                if (funcionarios.Count == 0) break;
+                if (funcionarios.Count == 0)
+                    break;
 
             }
             return datos;
@@ -163,8 +182,5 @@ namespace CargarMarcas
 
             return txtCuerpo;
         }
-
-
-
     }
 }

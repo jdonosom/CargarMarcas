@@ -50,6 +50,8 @@
             mantenciónDeFuncionariosToolStripMenuItem = new ToolStripMenuItem();
             mantenciónDeDispositivosToolStripMenuItem = new ToolStripMenuItem();
             asignaciónDispositivosToolStripMenuItem = new ToolStripMenuItem();
+            progressBar1 = new ProgressBar();
+            lblPorc = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             MenuReports.SuspendLayout();
@@ -151,7 +153,7 @@
             MenuReports.ImageScalingSize = new Size(20, 20);
             MenuReports.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, adignaciónHorariosToolStripMenuItem, toolStripMenuItem4, mantenciónDeHorariosToolStripMenuItem, mantenciónDeFuncionariosToolStripMenuItem, mantenciónDeDispositivosToolStripMenuItem, asignaciónDispositivosToolStripMenuItem });
             MenuReports.Name = "contextMenuStrip1";
-            MenuReports.Size = new Size(241, 192);
+            MenuReports.Size = new Size(241, 170);
             MenuReports.Opening += contextMenuStrip1_Opening;
             // 
             // toolStripMenuItem1
@@ -211,12 +213,31 @@
             asignaciónDispositivosToolStripMenuItem.Text = "Asignación Dispositivos";
             asignaciónDispositivosToolStripMenuItem.Click += asignaciónDispositivosToolStripMenuItem_Click;
             // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(47, 79);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(192, 18);
+            progressBar1.TabIndex = 10;
+            // 
+            // lblPorc
+            // 
+            lblPorc.BackColor = Color.Transparent;
+            lblPorc.Location = new Point(126, 80);
+            lblPorc.Name = "lblPorc";
+            lblPorc.Size = new Size(30, 16);
+            lblPorc.TabIndex = 11;
+            lblPorc.Text = "0%";
+            lblPorc.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // FrmCargaMarca
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 560);
+            Controls.Add(lblPorc);
+            Controls.Add(progressBar1);
             Controls.Add(button1);
             Controls.Add(txtBuffer);
             Controls.Add(btnCargar);
@@ -227,6 +248,7 @@
             MinimizeBox = false;
             Name = "FrmCargaMarca";
             ShowIcon = false;
+            Load += FrmCargaMarca_Load;
             DragDrop += FrmCargaMarca_DragDrop;
             DragEnter += FrmCargaMarca_DragEnter;
             panel1.ResumeLayout(false);
@@ -260,5 +282,7 @@
         private ToolStripMenuItem mantenciónDeFuncionariosToolStripMenuItem;
         private ToolStripMenuItem asignaciónDispositivosToolStripMenuItem;
         private ToolStripMenuItem mantenciónDeDispositivosToolStripMenuItem;
+        private ProgressBar progressBar1;
+        private Label lblPorc;
     }
 }

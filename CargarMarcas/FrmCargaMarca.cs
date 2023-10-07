@@ -1,5 +1,4 @@
 ﻿using BLSGM.infraestructura;
-using Microsoft.Extensions.DependencyInjection;
 using SGFDataLayer;
 using System.Data;
 using System.Data.Common;
@@ -91,6 +90,11 @@ namespace CargarMarcas
                 DateTimeStyles.None, out fecha))
                 throw new Exception("La fecha del archivo no es valida");
 
+            // Borrar las marcas de la fecha a cargar
+            //
+            Bl.Registro.Delete(fecha);
+
+
             // Agregar al list View
             //
             item.SubItems.Add(NroRegistros.ToString());
@@ -131,6 +135,22 @@ namespace CargarMarcas
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+
+            LimpiarForm();
+
+        }
+
+        private void LimpiarForm()
+        {
+
+
+            progressBar1.Maximum = 100;
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            progressBar1.Visible = false;
+            lblPorc.Visible = false;
+            lblPorc.Text = "";
+
             txtBuffer.Text = "";
             lstArchivos.Items.Clear();
         }
@@ -160,9 +180,32 @@ namespace CargarMarcas
                 IEnumerable<string> lines =
                     File.ReadAllLines(filecsv);
 
+                var eFechas = FechasCarga(lines);
+                foreach (DateTime fecha in eFechas)
+                {
+                    Bl
+                    .Registro
+                    .Delete(fecha);
+                }
+
+                lblPorc.Visible = true;
+                progressBar1.Visible = true;
+                progressBar1.Minimum = 1;
+                progressBar1.Maximum = (int)lines.Count();
+
+                var nElement = 0;
+
                 txtBuffer.Text = txtBuffer.Text + $"{Environment.NewLine}Procesando archivo {item.Text}{Environment.NewLine}";
                 foreach (string line in lines)
                 {
+
+                    progressBar1.Value = ++nElement;
+                    var porc = Math.Round(((float)nElement / progressBar1.Maximum * 100), 0);
+
+                    lblPorc.Text = $"{porc.ToString()} %";
+                    lblPorc.BackColor = Color.Transparent;
+                    lblPorc.Refresh();
+                    lblPorc.BringToFront();
 
                     // Limpiar Datos
                     //
@@ -202,11 +245,11 @@ namespace CargarMarcas
                     //
                     nodes.Add(new Node
                     {
-                        Id        = Id,
-                        Fecha     = ((DateTime)Fecha).ToString("yyyyMMdd"),
-                        Hora      = Time,
+                        Id = Id,
+                        Fecha = ((DateTime)Fecha).ToString("yyyyMMdd"),
+                        Hora = Time,
                         TipoMarca = Tipo,
-                        Serie     = string.Empty,
+                        Serie = string.Empty,
                     });
 
                     var Sql = "RegistroMarcaInsProc @IdEmpleado, @Fecha, @Hora, @Tipo, @Serie";
@@ -215,13 +258,39 @@ namespace CargarMarcas
                     DB.CrearComando(Sql);
                     DB.AsignarParametroEntero("@IdEmpleado", Id);
                     DB.AsignarParametroCadena("@Fecha", ((DateTime)Fecha).ToString("yyyyMMdd"));
-                    DB.AsignarParametroCadena("@Hora",       Time);
-                    DB.AsignarParametroEntero("@Tipo",       Tipo);
-                    DB.AsignarParametroCadena("@Serie",      Serie);
+                    DB.AsignarParametroCadena("@Hora", Time);
+                    DB.AsignarParametroEntero("@Tipo", Tipo);
+                    DB.AsignarParametroCadena("@Serie", Serie);
                     DB.EjecutarComando();
 
                 }
             }
+        }
+
+        private List<DateTime> FechasCarga(IEnumerable<string> lines)
+        {
+            var fechas = new List<DateTime>();
+
+            foreach (string line in lines)
+            {
+                var datos = line.Split(',');
+                try
+                {
+
+                    Id = int.Parse(datos[0]);
+                    Fecha = Convert.ToDateTime(datos[1]);
+                    Time = Convert.ToDateTime(datos[2]).ToString("HHmm");
+                    Tipo = datos[3].Contains("Salida") ? 0 : 1;
+                    Serie = "322800121011";
+
+                    if (!fechas.Exists(x => x == Fecha))
+                        fechas.Add((DateTime)Fecha);
+
+                }
+                catch { continue; }
+
+            }
+            return fechas;
         }
 
         private bool ExisteFuncionario(int id)
@@ -410,6 +479,11 @@ namespace CargarMarcas
             var frm = forms.Create<FrmFuncionarioSinMarca>();
             frm.ShowDialog();
 
+        }
+
+        private void FrmCargaMarca_Load(object sender, EventArgs e)
+        {
+            LimpiarForm();
         }
     }
 }

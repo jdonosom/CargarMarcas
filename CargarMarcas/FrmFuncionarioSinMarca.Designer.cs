@@ -52,7 +52,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(390, 66);
+            panel1.Size = new Size(385, 66);
             panel1.TabIndex = 4;
             // 
             // label1
@@ -155,7 +155,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(390, 321);
+            ClientSize = new Size(385, 319);
             Controls.Add(btnGenerar);
             Controls.Add(dtpFecha);
             Controls.Add(label3);

@@ -45,7 +45,19 @@ namespace CargarMarcas
         private void FrmCargaMarca_DragDrop(object sender, DragEventArgs e)
         {
             // recuperar los datos del archivo que fue arrastrado
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            //
+            string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+
+            ProcesarArchivos(files);
+
+            // Thread newThread = new Thread(ProcesarArchivos);
+            // newThread.Start(files);
+
+        }
+
+        private void ProcesarArchivos( object args )
+        {
+            string[] files = args as string[];
 
             files = files.OrderBy(x => x).ToArray();
             foreach (var file in files)
@@ -55,6 +67,7 @@ namespace CargarMarcas
                     // MessageBox.Show(file);
                     //
                     PreProcesar(file);
+
                 }
                 catch (Exception ex)
                 {
@@ -64,6 +77,7 @@ namespace CargarMarcas
                     }
                 }
             }
+
         }
 
         private void PreProcesar(string file)
@@ -73,10 +87,10 @@ namespace CargarMarcas
             ListViewItem item = new ListViewItem();
             item.Text = Path.GetFileName(file);
 
-            //
             // Validar estructura del archivo
             //
             var nombrearchivo = item.Text.Split('_');
+
             // Validar el nombre del archivo
             //
             DateTime fecha;
@@ -94,7 +108,6 @@ namespace CargarMarcas
             //
             Bl.Registro.Delete(fecha);
 
-
             // Agregar al list View
             //
             item.SubItems.Add(NroRegistros.ToString());
@@ -107,6 +120,7 @@ namespace CargarMarcas
             btnCargar.Enabled = lstArchivos.Items.Count > 0 ? true : false;
 
         }
+
 
         private int CuentaNroRegistros(string file)
         {
@@ -133,6 +147,7 @@ namespace CargarMarcas
             return (nRegistros == NroRegistros ? NroRegistros : nRegistros);
         }
 
+
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
 
@@ -140,9 +155,9 @@ namespace CargarMarcas
 
         }
 
+
         private void LimpiarForm()
         {
-
 
             progressBar1.Maximum = 100;
             progressBar1.Minimum = 0;
@@ -155,10 +170,14 @@ namespace CargarMarcas
             lstArchivos.Items.Clear();
         }
 
+
         private void btnCargar_Click(object sender, EventArgs e)
         {
+            //Thread newThread = new Thread(GrabarMarcas);
+            //newThread.Start();
             GrabarMarcas();
         }
+
 
         private void GrabarMarcas()
         {
@@ -169,10 +188,13 @@ namespace CargarMarcas
             txtBuffer.Text = "";
             foreach (ListViewItem item in lstArchivos.Items)
             {
+
                 string filecsv = (string)item.Tag;
-                string path = Path.GetDirectoryName(filecsv);
+                string path = Path.GetDirectoryName( filecsv );
+
                 string pathFileFuncionarioInexistente = path + @"\FuncionarioInexistente.txt";
                 string pathFileFuncionarioSinHorario = path + @"\FuncionarioSinHorario.txt";
+
 
                 File.Delete(pathFileFuncionarioInexistente);
                 File.Delete(pathFileFuncionarioSinHorario);
@@ -188,24 +210,28 @@ namespace CargarMarcas
                     .Delete(fecha);
                 }
 
-                lblPorc.Visible = true;
+
+                lblPorc.Visible      = true;
                 progressBar1.Visible = true;
                 progressBar1.Minimum = 1;
                 progressBar1.Maximum = (int)lines.Count();
 
-                var nElement = 0;
 
+                var nElement = 0;
                 txtBuffer.Text = txtBuffer.Text + $"{Environment.NewLine}Procesando archivo {item.Text}{Environment.NewLine}";
                 foreach (string line in lines)
                 {
+                    
+                    //this.progressBar1.Invoke(() =>
+                        progressBar1.Value = ++nElement;
+                        var porc = Math.Round(((float)nElement / progressBar1.Maximum * 100), 0);
 
-                    progressBar1.Value = ++nElement;
-                    var porc = Math.Round(((float)nElement / progressBar1.Maximum * 100), 0);
+                        lblPorc.Text = $"{porc.ToString()} %";
+                        lblPorc.BackColor = Color.Transparent;
+                        lblPorc.Refresh();
+                        lblPorc.BringToFront();
 
-                    lblPorc.Text = $"{porc.ToString()} %";
-                    lblPorc.BackColor = Color.Transparent;
-                    lblPorc.Refresh();
-                    lblPorc.BringToFront();
+                    //});
 
                     // Limpiar Datos
                     //
@@ -267,6 +293,7 @@ namespace CargarMarcas
             }
         }
 
+
         private List<DateTime> FechasCarga(IEnumerable<string> lines)
         {
             var fechas = new List<DateTime>();
@@ -293,6 +320,7 @@ namespace CargarMarcas
             return fechas;
         }
 
+
         private bool ExisteFuncionario(int id)
         {
             bool lRet = false;
@@ -318,6 +346,7 @@ namespace CargarMarcas
             }
             return lRet;
         }
+
 
         private static HorarioDia ObtenerHorario(int Id, string fecha, DayOfWeek dayOfWeek)
         {
@@ -393,6 +422,11 @@ namespace CargarMarcas
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dayOfWeek"></param>
+        /// <returns></returns>
         private static (string, string) GetAbrebiacionDia(DayOfWeek dayOfWeek)
         {
             switch (dayOfWeek)
@@ -422,18 +456,12 @@ namespace CargarMarcas
             return (null, null);
         }
 
-
         void Limpiar()
         {
             Id = 0;
             Fecha = null;
             Time = null;
             Tipo = -1;
-        }
-
-        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -485,5 +513,6 @@ namespace CargarMarcas
         {
             LimpiarForm();
         }
+
     }
 }

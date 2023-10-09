@@ -1,16 +1,9 @@
 ﻿using BLSGM.infraestructura;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Web.WebView2.Wpf;
+using Microsoft.Win32.TaskScheduler;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Net;
+using System.Net.Mail;
 
 namespace CargarMarcas
 {
@@ -51,9 +44,34 @@ namespace CargarMarcas
 
         }
 
-        private void btnGenerar_Click(object sender, EventArgs e)
+        private void CrearTareaProgramada()
         {
 
+            // Get the service on the local machine
+            using ( TaskService ts = new TaskService() )
+            {
+                // Create a new task definition and assign properties
+                TaskDefinition td = ts.NewTask();
+                td.RegistrationInfo.Description = "Does something";
+
+                // Create a trigger that will fire the task at this time every other day
+                td.Triggers.Add(new DailyTrigger { DaysInterval = 2 });
+
+                // Create an action that will launch Notepad whenever the trigger fires
+                td.Actions.Add(new ExecAction("notepad.exe", "c:\\test.log", null));
+
+                // Register the task in the root folder
+                ts.RootFolder.RegisterTaskDefinition(@"Test", td);
+
+                // Remove the task we just created
+                ts.RootFolder.DeleteTask("Test");
+            }
+
+        }
+
+        private void btnGenerar_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
             var funcionarios =
                 bl.Funcionario.GetEmpleadosSinMarca(
                     dtpFecha.Value.ToString("yyyyMMdd"),
@@ -67,7 +85,9 @@ namespace CargarMarcas
                     MessageBox.Show("No se encontraron funcionarios con alguna falta", "Diálogo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                Cursor.Current = Cursors.Default;
                 return;
+
             }
 
             //  
@@ -81,24 +101,83 @@ namespace CargarMarcas
                 EnviarCorreoHtml(envio.correoUnidad, envio.html);
             }
 
-            var correo = datosEnvioCorreo[0].correoUnidad;
-            var html = datosEnvioCorreo[0].html;
-
-            WebBrowser web = new WebBrowser();
-            web.DocumentText = html;
-            web.Location = new Point(0, 0);
-            web.Visible = true;
-            web.Width = 800;
-            web.Height = 600;
-            web.Show();
-
+            using(new CenterWinDialog(this))
+            {
+                MessageBox.Show("Reporte enviado correctamente!"
+                    , "Diálogo"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Information);
+            }
+            Cursor.Current = Cursors.Default;
 
 
         }
 
         private void EnviarCorreoHtml(string correoUnidad, string html)
         {
-            Console.WriteLine(correoUnidad);
+            //Console.WriteLine(correoUnidad);
+            //
+            SendMsg("jpdonosom@gmail.com", html, EnumTypeMails.INFO);
+
+        }
+
+        private void SendMsg(string emailTo, string message, EnumTypeMails type)
+        {
+            // Parte 1
+            //
+            MailMessage msg = new MailMessage();
+
+            msg.From = new MailAddress("sinergyalertas@gmail.com");
+            msg.Sender = new MailAddress("sinergyalertas@gmail.com");
+
+            // Prepara la lista de distribucion como CCO
+            string[] aMails = "pepeluna27@hotmail.com".Split(";");
+            MailAddressCollection addrColl = new MailAddressCollection();
+            foreach (var email in aMails)
+                msg.Bcc.Add(email);
+
+            //
+            //
+
+            msg.To.Add(emailTo);
+            msg.IsBodyHtml = true;
+            msg.Subject = "Registro de marcaciones diarias";
+
+            if (type.Equals(EnumTypeMails.ERROR))
+                msg.Body = "<h1>Se ha generado errores:</h1>";
+            else if (type.Equals(EnumTypeMails.WARNING))
+                msg.Body = "<h1>Se ha generado una alerta:</h1>";
+            else if (type.Equals(EnumTypeMails.INFO))
+                msg.Body = "<h1>Sistema de gestión de marcas</h1><br>" +
+                    "<h3>Se ha enviado información de las marcaciones de sus subordinados</h3><br>" +
+                    "Por favor tome las medidas necesarias para que los empleados cumplan con sus horarios.";
+
+            msg.Body += string.Format("<p>{0}</p>", message);
+            msg.Body += "<br>";
+            msg.Body += "Atentamente,<br>";
+            msg.Body += "Departamento Personal de Salud<br>";
+
+            using (SmtpClient client = new SmtpClient())
+            {
+
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("sinergyalertas@gmail.com", "yoqtviccrvakrsnm");
+                client.Host = "smtp.gmail.com";
+                client.Port = 587;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Timeout = 30000;
+
+                client.Send(msg);
+
+            }
+        }
+
+        private enum EnumTypeMails
+        {
+            ERROR,
+            WARNING,
+            INFO
         }
 
         /// <summary>
@@ -115,7 +194,7 @@ namespace CargarMarcas
 
                 var IdUnidad = funcionario.IdUnidad;
                 var CorreoUnidad = funcionario.CorreoUnidad;
-                var Unidad = funcionarios.Where(x => x.IdUnidad == IdUnidad).ToList();
+                var Unidad = funcionarios.Where(x => x.IdUnidad == IdUnidad).OrderBy(x => x.NombreCompleto).ToList();
 
                 // Crear Lista de funcionarios
                 //
@@ -142,33 +221,36 @@ namespace CargarMarcas
 
         private string CrearDetalleHtml(List<FuncionarioSinMarca> unidad)
         {
-            string txtCuerpo = "<table style='border: 1px #000000 solid; width: 50%' align='center' border='1'>";
+
+            string txtCuerpo = "<style>table{border-width:1px;border-style:solid;border-color:#000000;}</style> " +
+                
+                "<table style='border: 1px #000000 solid; width: 100%' cellpadding = '0' cellspacing = '1' align='center' border='1'> ";
             txtCuerpo += "<thead>";
             txtCuerpo += "  <tr>";
-            txtCuerpo += "    <th scope='col'>Unidad</th>";
-            txtCuerpo += "    <th scope='col'>Id Empleado</th>";
-            txtCuerpo += "    <th scope='col'>Rut</th>";
-            txtCuerpo += "    <th scope='col'>Nombre</th>";
-            txtCuerpo += "    <th scope='col'>Fecha</th>";
-            txtCuerpo += "    <th scope='col'>Hora</th>";
-            txtCuerpo += "    <th scope='col'>Estado</th>";
-            txtCuerpo += "    <th scope='col'>Permiso</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Unidad</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Id Empleado</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Rut</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Nombre</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Fecha</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Hora</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Tiempo Atraso</th>";
+            txtCuerpo += "    <th scope='col' align='left'>Permiso</th>";
             txtCuerpo += "  </tr>";
             txtCuerpo += "</thead>";
 
             txtCuerpo += "<tbody>";
             foreach (Models.FuncionarioSinMarca f in unidad)
             {
-                var permiso = string.IsNullOrWhiteSpace(f.HoraMarca) ? f.Permiso : (f.Atraso > 0 ? "Atrasado" : "&nbsp");
+                var permiso = string.IsNullOrWhiteSpace(f.HoraMarca) ? f.Permiso : (f.Atraso > 0 ? "Atrasado" : "");
                 // var linea = $"{f.Unidad}\t{f.IdEmpleado}\t{f.NombreCompleto}\t{f.FechaMarca}\t{f.HoraMarca}\t{f.Atraso}\t{permiso}\r\n";
                 txtCuerpo += "<tr>";
                 txtCuerpo += $"<td>{f.Unidad}</td>";
                 txtCuerpo += $"<td>{f.IdEmpleado}</td>";
                 txtCuerpo += $"<td>{f.Rut}</td>";
                 txtCuerpo += $"<td>{f.NombreCompleto}</td>";
-                txtCuerpo += $"<td>{f.FechaMarca}</td>";
-                txtCuerpo += $"<td>{f.HoraMarca}</td>";
-                txtCuerpo += $"<td>{f.Atraso}</td>";
+                txtCuerpo += $"<td>{(IsNull(f.FechaMarca) ? "": f.FechaMarca.Value.ToString("dd/MM/yyyy")) }</td>";
+                txtCuerpo += $"<td>{(IsNull(f.HoraMarca) ? "": f.HoraMarca)}</td>";
+                txtCuerpo += $"<td>{(f.Atraso == 0 ? "" : f.Atraso.ToString() + " Minutos")}</td>";
                 txtCuerpo += $"<td>{permiso}</td>";
                 txtCuerpo += "</tr>";
 
@@ -179,6 +261,11 @@ namespace CargarMarcas
             txtCuerpo += "</table>";
 
             return txtCuerpo;
+        }
+
+        private bool IsNull(object o)
+        {
+            return o == null;
         }
     }
 }

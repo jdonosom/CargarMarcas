@@ -48,7 +48,7 @@ namespace CargarMarcas
         {
 
             // Get the service on the local machine
-            using ( TaskService ts = new TaskService() )
+            using (TaskService ts = new TaskService())
             {
                 // Create a new task definition and assign properties
                 TaskDefinition td = ts.NewTask();
@@ -90,24 +90,35 @@ namespace CargarMarcas
 
             }
 
-            //  
+
+            //  Generar detalles por unidad
             //
             var datosEnvioCorreo = GeneraDetalles(funcionarios);
 
-            //  Enviar correo a las unidades
+
+            // Enviar correo
             //
-            foreach (var envio in datosEnvioCorreo)
+            if (chkEnvioCorreo.Checked)
             {
-                EnviarCorreoHtml(envio.correoUnidad, envio.html);
+
+                //  Enviar correo a las unidades
+                //
+                foreach (var envio in datosEnvioCorreo)
+                {
+                    EnviarCorreoHtml(envio.correoUnidad, envio.html);
+                }
+
+                using (new CenterWinDialog(this))
+                {
+                    MessageBox.Show("Reporte enviado correctamente!"
+                        , "Diálogo"
+                        , MessageBoxButtons.OK
+                        , MessageBoxIcon.Information);
+                }
+
             }
 
-            using(new CenterWinDialog(this))
-            {
-                MessageBox.Show("Reporte enviado correctamente!"
-                    , "Diálogo"
-                    , MessageBoxButtons.OK
-                    , MessageBoxIcon.Information);
-            }
+
             Cursor.Current = Cursors.Default;
 
 
@@ -127,8 +138,8 @@ namespace CargarMarcas
             //
             MailMessage msg = new MailMessage();
 
-            msg.From = new MailAddress("sinergyalertas@gmail.com");
-            msg.Sender = new MailAddress("sinergyalertas@gmail.com");
+            msg.From = new MailAddress("Sistema Gestión de Marcaciones (SGM) <sinergyalertas@gmail.com>");
+            msg.Sender = new MailAddress("Sistema Gestión de Marcaciones (SGM) <sinergyalertas@gmail.com>");
 
             // Prepara la lista de distribucion como CCO
             string[] aMails = "pepeluna27@hotmail.com".Split(";");
@@ -148,9 +159,10 @@ namespace CargarMarcas
             else if (type.Equals(EnumTypeMails.WARNING))
                 msg.Body = "<h1>Se ha generado una alerta:</h1>";
             else if (type.Equals(EnumTypeMails.INFO))
-                msg.Body = "<h1>Sistema de gestión de marcas</h1><br>" +
-                    "<h3>Se ha enviado información de las marcaciones de sus subordinados</h3><br>" +
-                    "Por favor tome las medidas necesarias para que los empleados cumplan con sus horarios.";
+                msg.Body = // "<h3>Sistema de gestión de marcas (SGM)</h3><br>" +
+                           // "<h3>Se ha enviado información de las marcaciones de sus subordinados</h3><br>" +
+                           "Estimada Jefatura, <br>" +
+                    "Por favor, revice el cumplimiento de los empleados y sus horarios laborales, tome las medidas necesarias para que se cumplan.";
 
             msg.Body += string.Format("<p>{0}</p>", message);
             msg.Body += "<br>";
@@ -223,7 +235,7 @@ namespace CargarMarcas
         {
 
             string txtCuerpo = "<style>table{border-width:1px;border-style:solid;border-color:#000000;}</style> " +
-                
+
                 "<table style='border: 1px #000000 solid; width: 100%' cellpadding = '0' cellspacing = '1' align='center' border='1'> ";
             txtCuerpo += "<thead>";
             txtCuerpo += "  <tr>";
@@ -248,8 +260,8 @@ namespace CargarMarcas
                 txtCuerpo += $"<td>{f.IdEmpleado}</td>";
                 txtCuerpo += $"<td>{f.Rut}</td>";
                 txtCuerpo += $"<td>{f.NombreCompleto}</td>";
-                txtCuerpo += $"<td>{(IsNull(f.FechaMarca) ? "": f.FechaMarca.Value.ToString("dd/MM/yyyy")) }</td>";
-                txtCuerpo += $"<td>{(IsNull(f.HoraMarca) ? "": f.HoraMarca)}</td>";
+                txtCuerpo += $"<td>{(IsNull(f.FechaMarca) ? "" : f.FechaMarca.Value.ToString("dd/MM/yyyy"))}</td>";
+                txtCuerpo += $"<td>{(IsNull(f.HoraMarca) ? "" : f.HoraMarca)}</td>";
                 txtCuerpo += $"<td>{(f.Atraso == 0 ? "" : f.Atraso.ToString() + " Minutos")}</td>";
                 txtCuerpo += $"<td>{permiso}</td>";
                 txtCuerpo += "</tr>";

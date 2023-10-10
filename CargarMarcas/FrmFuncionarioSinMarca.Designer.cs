@@ -39,7 +39,7 @@
             dtpFecha = new DateTimePicker();
             label3 = new Label();
             btnGenerar = new Button();
-            checkBox3 = new CheckBox();
+            chkEnvioCorreo = new CheckBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -141,15 +141,15 @@
             btnGenerar.UseVisualStyleBackColor = true;
             btnGenerar.Click += btnGenerar_Click;
             // 
-            // checkBox3
+            // chkEnvioCorreo
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(12, 135);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(127, 19);
-            checkBox3.TabIndex = 5;
-            checkBox3.Text = "Enviar correo alerta";
-            checkBox3.UseVisualStyleBackColor = true;
+            chkEnvioCorreo.AutoSize = true;
+            chkEnvioCorreo.Location = new Point(12, 135);
+            chkEnvioCorreo.Name = "chkEnvioCorreo";
+            chkEnvioCorreo.Size = new Size(127, 19);
+            chkEnvioCorreo.TabIndex = 5;
+            chkEnvioCorreo.Text = "Enviar correo alerta";
+            chkEnvioCorreo.UseVisualStyleBackColor = true;
             // 
             // FrmFuncionarioSinMarca
             // 
@@ -161,7 +161,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(cmbDepartamento);
-            Controls.Add(checkBox3);
+            Controls.Add(chkEnvioCorreo);
             Controls.Add(checkBox2);
             Controls.Add(checkBox1);
             Controls.Add(panel1);
@@ -190,6 +190,6 @@
         private DateTimePicker dtpFecha;
         private Label label3;
         private Button btnGenerar;
-        private CheckBox checkBox3;
+        private CheckBox chkEnvioCorreo;
     }
 }

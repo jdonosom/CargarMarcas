@@ -46,7 +46,7 @@ namespace CargarMarcas
         {
             // recuperar los datos del archivo que fue arrastrado
             //
-            string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             ProcesarArchivos(files);
 
@@ -55,7 +55,7 @@ namespace CargarMarcas
 
         }
 
-        private void ProcesarArchivos( object args )
+        private void ProcesarArchivos(object args)
         {
             string[] files = args as string[];
 
@@ -190,7 +190,7 @@ namespace CargarMarcas
             {
 
                 string filecsv = (string)item.Tag;
-                string path = Path.GetDirectoryName( filecsv );
+                string path = Path.GetDirectoryName(filecsv);
 
                 string pathFileFuncionarioInexistente = path + @"\FuncionarioInexistente.txt";
                 string pathFileFuncionarioSinHorario = path + @"\FuncionarioSinHorario.txt";
@@ -211,7 +211,7 @@ namespace CargarMarcas
                 }
 
 
-                lblPorc.Visible      = true;
+                lblPorc.Visible = true;
                 progressBar1.Visible = true;
                 progressBar1.Minimum = 1;
                 progressBar1.Maximum = (int)lines.Count();
@@ -221,15 +221,15 @@ namespace CargarMarcas
                 txtBuffer.Text = txtBuffer.Text + $"{Environment.NewLine}Procesando archivo {item.Text}{Environment.NewLine}";
                 foreach (string line in lines)
                 {
-                    
-                    //this.progressBar1.Invoke(() =>
-                        progressBar1.Value = ++nElement;
-                        var porc = Math.Round(((float)nElement / progressBar1.Maximum * 100), 0);
 
-                        lblPorc.Text = $"{porc.ToString()} %";
-                        lblPorc.BackColor = Color.Transparent;
-                        lblPorc.Refresh();
-                        lblPorc.BringToFront();
+                    //this.progressBar1.Invoke(() =>
+                    progressBar1.Value = ++nElement;
+                    var porc = Math.Round(((float)nElement / progressBar1.Maximum * 100), 0);
+
+                    lblPorc.Text = $"{porc.ToString()} %";
+                    lblPorc.BackColor = Color.Transparent;
+                    lblPorc.Refresh();
+                    lblPorc.BringToFront();
 
                     //});
 
@@ -514,5 +514,10 @@ namespace CargarMarcas
             LimpiarForm();
         }
 
+        private void envioDeTicketDeMarcaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = forms.Create<FrmEnvioTicket>();
+            frm.ShowDialog();
+        }
     }
 }

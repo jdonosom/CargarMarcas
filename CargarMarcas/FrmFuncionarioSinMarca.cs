@@ -2,8 +2,10 @@
 using Microsoft.Win32.TaskScheduler;
 using Models;
 using System.Data;
+using System.Globalization;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace CargarMarcas
 {
@@ -89,8 +91,6 @@ namespace CargarMarcas
                 return;
 
             }
-
-
             //  Generar detalles por unidad
             //
             var datosEnvioCorreo = GeneraDetalles(funcionarios);
@@ -126,14 +126,21 @@ namespace CargarMarcas
 
         private void EnviarCorreoHtml(string correoUnidad, string html)
         {
-            //Console.WriteLine(correoUnidad);
+            string emailCCTo = "pepeluna27@hotmail.com;donosohome@gmail.com";
+
+            // 
             //
-            SendMsg("jpdonosom@gmail.com", html, EnumTypeMails.INFO);
+            // SendMsg("jpdonosom@gmail.com", emailCCTo, html, EnumTypeMails.INFO);
+            SendMsg("jpdonosom@gmail.com", emailCCTo, html, EnumTypeMails.INFO);
 
         }
 
-        private void SendMsg(string emailTo, string message, EnumTypeMails type)
+        private void SendMsg(string emailTo, string emailCCTo, string message, EnumTypeMails type)
         {
+
+            if (!RegexUtilities.IsValidEmail(emailTo))
+                return;
+
             // Parte 1
             //
             MailMessage msg = new MailMessage();
@@ -142,11 +149,14 @@ namespace CargarMarcas
             msg.Sender = new MailAddress("Sistema Gestión de Marcaciones (SGM) <sinergyalertas@gmail.com>");
 
             // Prepara la lista de distribucion como CCO
-            string[] aMails = "pepeluna27@hotmail.com".Split(";");
+            string[] aMails = emailCCTo.Split(";");
+
             MailAddressCollection addrColl = new MailAddressCollection();
             foreach (var email in aMails)
-                msg.Bcc.Add(email);
-
+            {
+                if (RegexUtilities.IsValidEmail(email))
+                    msg.Bcc.Add(email);
+            }
             //
             //
 
@@ -191,6 +201,9 @@ namespace CargarMarcas
             WARNING,
             INFO
         }
+
+
+
 
         /// <summary>
         /// Genera los detalles de empleados en html
@@ -280,4 +293,52 @@ namespace CargarMarcas
             return o == null;
         }
     }
+
+    class RegexUtilities
+    {
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                // Normalize the domain
+                email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
+                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
+
+                // Examines the domain part of the email and normalizes it.
+                string DomainMapper(Match match)
+                {
+                    // Use IdnMapping class to convert Unicode domain names.
+                    var idn = new IdnMapping();
+
+                    // Pull out and process domain name (throws ArgumentException on invalid)
+                    string domainName = idn.GetAscii(match.Groups[2].Value);
+
+                    return match.Groups[1].Value + domainName;
+                }
+            }
+            catch (RegexMatchTimeoutException e)
+            {
+                return false;
+            }
+            catch (ArgumentException e)
+            {
+                return false;
+            }
+
+            try
+            {
+                return Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+    }
+
 }

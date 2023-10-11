@@ -33,7 +33,7 @@ namespace CargarMarcas
 
         private void FrmHorario_Load(object sender, EventArgs e)
         {
-            ClearDataGridViewRows(dgHorario);
+            // ClearDataGridViewRows(dgHorario);
 
             HabilitaFormulario(false);
         }
@@ -112,19 +112,23 @@ namespace CargarMarcas
 
         private void DespliegaHorario(Horario horario)
         {
-            lblHorario.Text = horario.Descripcion.TrimEnd().TrimStart();
+            ucCtrlHorario1.Horario = horario;
+            ucCtrlHorario1.Descripcion = horario.Descripcion;
+            lblHrsSemanales.Text = ucCtrlHorario1.HorasSemanales.ToString();
 
+            // lblHorario.Text = horario.Descripcion.TrimEnd().TrimStart();
             // 
-            // ClearDataGridViewRows(dgHorario);
-            this.dgHorario.Rows.Clear();
-
-            dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana, horario.L_SalidaMañana, horario.L_ToleranciaEntrada, horario.L_EntradaTarde, horario.L_SalidaTarde);
-            dgHorario.Rows.Add("Martes", horario.M_EntradaMañana, horario.M_SalidaMañana, horario.M_ToleranciaEntrada, horario.M_EntradaTarde, horario.M_SalidaTarde);
-            dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana, horario.X_SalidaMañana, horario.X_ToleranciaEntrada, horario.X_EntradaTarde, horario.X_SalidaTarde);
-            dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana, horario.J_SalidaMañana, horario.J_ToleranciaEntrada, horario.J_EntradaTarde, horario.J_SalidaTarde);
-            dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana, horario.V_SalidaMañana, horario.V_ToleranciaEntrada, horario.V_EntradaTarde, horario.V_SalidaTarde);
-            dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana, horario.S_SalidaMañana, horario.S_ToleranciaEntrada, horario.S_EntradaTarde, horario.S_SalidaTarde);
-            dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana, horario.D_SalidaMañana, horario.D_ToleranciaEntrada, horario.D_EntradaTarde, horario.D_SalidaTarde);
+            // // 
+            // // ClearDataGridViewRows(dgHorario);
+            // this.dgHorario.Rows.Clear();
+            // 
+            // dgHorario.Rows.Add("Lunes", horario.L_EntradaMañana, horario.L_SalidaMañana, horario.L_ToleranciaEntrada, horario.L_EntradaTarde, horario.L_SalidaTarde);
+            // dgHorario.Rows.Add("Martes", horario.M_EntradaMañana, horario.M_SalidaMañana, horario.M_ToleranciaEntrada, horario.M_EntradaTarde, horario.M_SalidaTarde);
+            // dgHorario.Rows.Add("Miércoles", horario.X_EntradaMañana, horario.X_SalidaMañana, horario.X_ToleranciaEntrada, horario.X_EntradaTarde, horario.X_SalidaTarde);
+            // dgHorario.Rows.Add("Jueves", horario.J_EntradaMañana, horario.J_SalidaMañana, horario.J_ToleranciaEntrada, horario.J_EntradaTarde, horario.J_SalidaTarde);
+            // dgHorario.Rows.Add("Viernes", horario.V_EntradaMañana, horario.V_SalidaMañana, horario.V_ToleranciaEntrada, horario.V_EntradaTarde, horario.V_SalidaTarde);
+            // dgHorario.Rows.Add("Sábado", horario.S_EntradaMañana, horario.S_SalidaMañana, horario.S_ToleranciaEntrada, horario.S_EntradaTarde, horario.S_SalidaTarde);
+            // dgHorario.Rows.Add("Domingo", horario.D_EntradaMañana, horario.D_SalidaMañana, horario.D_ToleranciaEntrada, horario.D_EntradaTarde, horario.D_SalidaTarde);
         }
 
         public static void ClearDataGridViewRows(DataGridView dataGridView)
@@ -139,7 +143,7 @@ namespace CargarMarcas
         private void HabilitaFormulario(bool flag)
         {
             txtRut.Enabled = !flag;
-            dgHorario.Enabled = flag;
+            // dgHorario.Enabled = flag;
         }
 
         private void dgHorario_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -180,61 +184,61 @@ namespace CargarMarcas
             return value.All(char.IsNumber);
         }
 
-        private void dgHorario_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (e.Control is TextBox)
-                editBox = e.Control as TextBox;
+        //private void dgHorario_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        //{
+        //    if (e.Control is TextBox)
+        //        editBox = e.Control as TextBox;
+        //
+        //    editBox.MaxLength = 4;
+        //    editBox.KeyPress += EditBox_KeyPress;
+        //    editBox.Leave += EditBox_Leave;
+        //
+        //}
 
-            editBox.MaxLength = 4;
-            editBox.KeyPress += EditBox_KeyPress;
-            editBox.Leave += EditBox_Leave;
+        //private void EditBox_Leave(object? sender, EventArgs e)
+        //{
+        //    DateTime Hora = default;
+        //    var cell = dgHorario.SelectedCells[0];
+        //    try
+        //    {
+        //        // var cell = dgHorario.SelectedCells[0];
+        //        Hora = DateTime.ParseExact(((TextBox)sender).Text, "HHmm", CultureInfo.InvariantCulture);
+        //        dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = Hora.ToString("HH:mm");
+        //    }
+        //    catch
+        //    {
+        //        dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = "00:00";
+        //    }
+        //}
+        //
+        //private void EditBox_KeyPress(object? sender, KeyPressEventArgs e)
+        //{
+        //    // Permite solo numeros y dos puntos
+        //    if (!(char.IsNumber(e.KeyChar) || (char)Keys.Back == e.KeyChar || (char)':' == e.KeyChar))
+        //    {
+        //        e.Handled = true;
+        //        return;
+        //    }
+        //}
 
-        }
-
-        private void EditBox_Leave(object? sender, EventArgs e)
-        {
-            DateTime Hora = default;
-            var cell = dgHorario.SelectedCells[0];
-            try
-            {
-                // var cell = dgHorario.SelectedCells[0];
-                Hora = DateTime.ParseExact(((TextBox)sender).Text, "HHmm", CultureInfo.InvariantCulture);
-                dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = Hora.ToString("HH:mm");
-            }
-            catch
-            {
-                dgHorario.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = "00:00";
-            }
-        }
-
-        private void EditBox_KeyPress(object? sender, KeyPressEventArgs e)
-        {
-            // Permite solo numeros y dos puntos
-            if (!(char.IsNumber(e.KeyChar) || (char)Keys.Back == e.KeyChar || (char)':' == e.KeyChar))
-            {
-                e.Handled = true;
-                return;
-            }
-        }
-
-        private void dgHorario_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            lChange = false;
-        }
-
-        private void dgHorario_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            lChange = true;
-            var cell = dgHorario.SelectedCells[0];
-            ValorEdit = dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-        }
-
-        private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (!lChange)
-                dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = ValorEdit;
-
-        }
+        //private void dgHorario_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    lChange = false;
+        //}
+        //
+        //private void dgHorario_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        //{
+        //    lChange = true;
+        //    var cell = dgHorario.SelectedCells[0];
+        //    ValorEdit = dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+        //}
+        //
+        //private void dgHorario_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (!lChange)
+        //        dgHorario.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = ValorEdit;
+        //
+        //}
 
         private void txtRut_KeyDown(object sender, KeyEventArgs e)
         {

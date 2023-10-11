@@ -55,6 +55,69 @@ namespace BL
             this.Serie = "";
         }
 
+        public List<RegistroMarca> GetByFecha(string fecha, int IdDepartamento )
+        {
+            var oLst = new List<RegistroMarca>();
+            DB.Conectar();
+            try
+            {
+                DB.CrearComando("RegistroSelProcByFecha @Fecha, @IdDepartamento");
+                DB.AsignarParametroCadena("@Fecha", fecha);
+                DB.AsignarParametroEntero("@IdDepartamento", IdDepartamento);
+
+                DbDataReader dr = DB.EjecutarConsulta();
+
+                DataTable dt = new DataTable();
+                dt.TableName = MethodBase.GetCurrentMethod().DeclaringType.Name;
+                dt.Load(dr);
+                this.count = dt.Rows.Count;
+
+                if (this.count > 0)
+                {
+                    System.IO.StringWriter writer = new System.IO.StringWriter();
+                    dt.WriteXml(writer, XmlWriteMode.WriteSchema);
+                    this.toxml = writer.ToString();
+                }
+
+                DataTableReader reader = new DataTableReader(dt);
+
+                if (reader == null)
+                {
+                    this.count = 0;
+                    return null;
+                }
+                while (reader.Read())
+                {
+                    var data = new RegistroMarca()
+                    {
+                        IdEmpleado = reader.IsDBNull(reader.GetOrdinal("IdEmpleado")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdEmpleado")),
+                        Fecha = reader.IsDBNull(reader.GetOrdinal("Fecha")) ? Convert.ToDateTime("01/01/2000") : reader.GetDateTime(reader.GetOrdinal("Fecha")),
+                        Hora = reader.IsDBNull(reader.GetOrdinal("Hora")) ? "" : reader.GetString(reader.GetOrdinal("Hora")),
+                        TipoMarca = reader.IsDBNull(reader.GetOrdinal("TipoMarca")) ? 0 : reader.GetInt32(reader.GetOrdinal("TipoMarca")),
+                        Serie = reader.IsDBNull(reader.GetOrdinal("Serie")) ? "" : reader.GetString(reader.GetOrdinal("Serie")),
+                        Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "" : reader.GetString(reader.GetOrdinal("Email")),
+
+                    };
+                    oLst.Add(data);
+                    return oLst;
+
+                }
+                reader.Close();
+                return oLst;
+            }
+            catch (BaseDatosException ex)
+            {
+                throw new ReglasNegocioException(ex.Message.ToString());
+            }
+            finally
+            {
+                DB.Desconectar();
+            }
+        }
+
+
+
+
         public List<Registro> GetAll(int IdEmpleado, DateTime Fecha)
         {
             var oLst = new List<Registro>();

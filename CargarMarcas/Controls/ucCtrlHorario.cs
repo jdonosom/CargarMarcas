@@ -48,13 +48,23 @@ namespace CargarMarcas.Controls
         private Horario horario;
         private string descripcion;
         private int horasSemanales;
+        private bool readOnly;
+
+        public bool ReadOnly
+        {
+            get { return readOnly; }
+            set 
+            {
+                dgHorario.ReadOnly = value;
+                readOnly = value; 
+            }
+        }
 
         public int HorasSemanales
         {
             get { return horasSemanales; }
             private set { horasSemanales = value; }
         }
-
 
         public string Descripcion
         {
@@ -150,6 +160,8 @@ namespace CargarMarcas.Controls
 
         private void dgHorario_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+            
+            if (!readOnly) return;
 
             lEdit = true;
             var cell = dgHorario.SelectedCells[0];
@@ -467,6 +479,8 @@ namespace CargarMarcas.Controls
 
         private void dgHorario_Leave(object sender, EventArgs e)
         {
+            if (dgHorario.Rows.Count == 0) return;
+
             DateTime Hora = default;
             string Tolerancia = "";
             var cell = dgHorario.SelectedCells[0];

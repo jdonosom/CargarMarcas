@@ -104,11 +104,11 @@ namespace CargarMarcas
 
             //
             //
-#if DEBUG
-            msg.To.Add("jpdonosom@gmail.com");
-#else
+//#if DEBUG
+//            msg.To.Add("jpdonosom@gmail.com");
+//#else
             msg.To.Add(funcionario.Email);
-#endif
+//#endif
             msg.IsBodyHtml = true;
             msg.Subject = "Registro de marcas personales";
 
@@ -180,7 +180,7 @@ namespace CargarMarcas
             txtCuerpo += $"<td>Fecha         </td><td>{r.Fecha.ToString("dd/MM/yyyy")}</td>";
             txtCuerpo += "</tr>";
             txtCuerpo += "<tr>";
-            txtCuerpo += $"<td>Hora          </td><td>{r.Hora}</td>";
+            txtCuerpo += $"<td>Hora          </td><td>{r.Hora.Insert(2,":")}</td>";
             txtCuerpo += "</tr>";
             txtCuerpo += "<tr>";
             txtCuerpo += $"<td>Rejoj         </td><td>{r.Serie}</td>";

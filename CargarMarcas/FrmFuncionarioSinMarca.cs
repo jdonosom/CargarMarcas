@@ -125,8 +125,6 @@ namespace CargarMarcas
                 }
 
             }
-
-
             Cursor.Current = Cursors.Default;
 
 

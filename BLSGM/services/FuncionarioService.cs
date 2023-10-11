@@ -221,6 +221,7 @@ namespace BL
                         IdUnidad = reader.IsDBNull(reader.GetOrdinal("IdUnidad")) ? 0 : reader.GetInt32(reader.GetOrdinal("IdUnidad")),
                         Unidad = reader.IsDBNull(reader.GetOrdinal("Unidad")) ? "" : reader.GetString(reader.GetOrdinal("Unidad")),
                         CorreoUnidad = reader.IsDBNull(reader.GetOrdinal("CorreoUnidad")) ? "" : reader.GetString(reader.GetOrdinal("CorreoUnidad")),
+                        CorreosBCC = reader.IsDBNull(reader.GetOrdinal("CorreosBCC")) ? "" : reader.GetString(reader.GetOrdinal("CorreosBCC")),
                         Permiso = reader.IsDBNull(reader.GetOrdinal("Permiso")) ? "" : reader.GetString(reader.GetOrdinal("Permiso")),
                         FechaInicio = reader.IsDBNull(reader.GetOrdinal("FechaInicio")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaInicio")),
                         FechaTermino = reader.IsDBNull(reader.GetOrdinal("FechaTermino")) ? null : reader.GetDateTime(reader.GetOrdinal("FechaTermino")),

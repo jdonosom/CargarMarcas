@@ -16,6 +16,7 @@ namespace Models
         public int IdUnidad { get; set; }
         public string Unidad { get; set; }
         public string CorreoUnidad { get; set; }
+        public string CorreosBCC { get; set; }
         public string Permiso { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaTermino { get; set; }

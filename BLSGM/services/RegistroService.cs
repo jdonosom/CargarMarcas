@@ -55,7 +55,7 @@ namespace BL
             this.Serie = "";
         }
 
-        public List<RegistroMarca> GetByFecha(string fecha, int IdDepartamento )
+        public List<RegistroMarca> GetByFecha(string fecha, int IdDepartamento)
         {
             var oLst = new List<RegistroMarca>();
             DB.Conectar();
@@ -99,7 +99,6 @@ namespace BL
 
                     };
                     oLst.Add(data);
-                    return oLst;
 
                 }
                 reader.Close();

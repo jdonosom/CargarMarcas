@@ -131,9 +131,9 @@
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(63, 32);
             label1.Name = "label1";
-            label1.Size = new Size(206, 25);
+            label1.Size = new Size(119, 25);
             label1.TabIndex = 1;
-            label1.Text = "Carga de marcaciones";
+            label1.Text = "Envio Ticket";
             // 
             // pictureBox1
             // 

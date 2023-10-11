@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLSGM", "BLSGM\BLSGM.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGFDataLayer", "SGFDataLayer\SGFDataLayer.csproj", "{97B60078-5E6A-43CB-AE53-B5A8A430A783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MantFuncionarios", "MantFuncionarios\MantFuncionarios.csproj", "{F9522C3D-76B7-4CCD-972F-316DF611D254}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MantFuncionarios", "MantFuncionarios\MantFuncionarios.csproj", "{F9522C3D-76B7-4CCD-972F-316DF611D254}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

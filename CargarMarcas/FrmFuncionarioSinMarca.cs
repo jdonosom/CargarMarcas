@@ -105,7 +105,15 @@ namespace CargarMarcas
                 //
                 foreach (var envio in datosEnvioCorreo)
                 {
-                    EnviarCorreoHtml(envio.correoUnidad, envio.html);
+                    string emailCCTo = envio.correoBcc;
+
+                    ExtensionsEmail.ToEmailAsistenciaPersonal(
+                        envio.correoUnidad,
+                        emailCCTo,
+                        envio.html,
+                        ExtensionsEmail.EnumTypeMails.INFO);
+
+                    // EnviarCorreoHtml(envio.correoUnidad, envio.html);
                 }
 
                 using (new CenterWinDialog(this))
@@ -216,7 +224,7 @@ namespace CargarMarcas
             //
             foreach (var funcionario in funcionarios)
             {
-
+                var correosBCC = funcionario.CorreosBCC;
                 var IdUnidad = funcionario.IdUnidad;
                 var CorreoUnidad = funcionario.CorreoUnidad;
                 var Unidad = funcionarios.Where(x => x.IdUnidad == IdUnidad).OrderBy(x => x.NombreCompleto).ToList();
@@ -228,6 +236,7 @@ namespace CargarMarcas
                 datos.Add(
                     new Envio()
                     {
+                        correoBcc = correosBCC,
                         html = html,
                         correoUnidad = CorreoUnidad
                     });

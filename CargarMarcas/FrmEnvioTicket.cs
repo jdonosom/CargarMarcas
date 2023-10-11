@@ -15,8 +15,6 @@ namespace CargarMarcas
         {
             InitializeComponent();
 
-            //
-            //
             this.bl = bl;
             this.forms = forms;
 
@@ -44,15 +42,27 @@ namespace CargarMarcas
 
         private void btnGenerar_Click(object sender, EventArgs e)
         {
-            var registros = bl.Registro.GetByFecha(
-                dtpFecha.Value.ToString("yyyyMMdd"), (int)cmbDepartamento.SelectedValue
+
+            var registros =
+                bl.Registro.GetByFecha(
+                    dtpFecha.Value.ToString("yyyyMMdd"), (int)cmbDepartamento.SelectedValue
                 );
 
-            foreach( Models.RegistroMarca registro in registros )
+            foreach (Models.RegistroMarca registro in registros)
             {
+                var empleado =
+                    bl.Funcionario.Get(registro.IdEmpleado);
 
-                Console.WriteLine( registro.ToString() );
+                ExtensionsEmail.ToMailTicket(empleado, registro);
+
+
             }
+
+            using (new CenterWinDialog(this))
+            {
+                MessageBox.Show("Ticket enviados correctamente", "Diálogo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
 
         }
     }
